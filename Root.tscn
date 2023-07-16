@@ -1,9 +1,24 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://assets/all layers tiled.png" type="Texture" id=1]
 [ext_resource path="res://assets/ship.png" type="Texture" id=2]
 [ext_resource path="res://Player.gd" type="Script" id=3]
 [ext_resource path="res://Root.gd" type="Script" id=4]
+
+[sub_resource type="ConvexPolygonShape2D" id=2]
+points = PoolVector2Array( 32, 32, 0, 32, 0, 0, 32, 0 )
+
+[sub_resource type="ConvexPolygonShape2D" id=3]
+points = PoolVector2Array( 32, 32, 0, 32, 0, 0, 32, 0 )
+
+[sub_resource type="ConvexPolygonShape2D" id=4]
+points = PoolVector2Array( 32, 32, 0, 32, 0, 0, 32, 0 )
+
+[sub_resource type="ConvexPolygonShape2D" id=5]
+points = PoolVector2Array( 32, 32, 0, 32, 0, 0, 32, 0 )
+
+[sub_resource type="ConvexPolygonShape2D" id=6]
+points = PoolVector2Array( 32, 32, 0, 32, 0, 0, 32, 0 )
 
 [sub_resource type="TileSet" id=1]
 0/name = "v left"
@@ -16,9 +31,16 @@
 0/navigation_offset = Vector2( 0, 0 )
 0/shape_offset = Vector2( 0, 0 )
 0/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+0/shape = SubResource( 2 )
 0/shape_one_way = false
-0/shape_one_way_margin = 0.0
-0/shapes = [  ]
+0/shape_one_way_margin = 1.0
+0/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 2 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+} ]
 0/z_index = 0
 1/name = "h top"
 1/texture = ExtResource( 1 )
@@ -30,9 +52,16 @@
 1/navigation_offset = Vector2( 0, 0 )
 1/shape_offset = Vector2( 0, 0 )
 1/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+1/shape = SubResource( 3 )
 1/shape_one_way = false
-1/shape_one_way_margin = 0.0
-1/shapes = [  ]
+1/shape_one_way_margin = 1.0
+1/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 3 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+} ]
 1/z_index = 0
 3/name = "v right"
 3/texture = ExtResource( 1 )
@@ -44,9 +73,16 @@
 3/navigation_offset = Vector2( 0, 0 )
 3/shape_offset = Vector2( 0, 0 )
 3/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+3/shape = SubResource( 4 )
 3/shape_one_way = false
-3/shape_one_way_margin = 0.0
-3/shapes = [  ]
+3/shape_one_way_margin = 1.0
+3/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 4 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+} ]
 3/z_index = 0
 4/name = "h bottom"
 4/texture = ExtResource( 1 )
@@ -58,9 +94,16 @@
 4/navigation_offset = Vector2( 0, 0 )
 4/shape_offset = Vector2( 0, 0 )
 4/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+4/shape = SubResource( 5 )
 4/shape_one_way = false
-4/shape_one_way_margin = 0.0
-4/shapes = [  ]
+4/shape_one_way_margin = 1.0
+4/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 5 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+} ]
 4/z_index = 0
 5/name = "c bottom right"
 5/texture = ExtResource( 1 )
@@ -128,9 +171,16 @@
 9/navigation_offset = Vector2( 0, 0 )
 9/shape_offset = Vector2( 0, 0 )
 9/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+9/shape = SubResource( 6 )
 9/shape_one_way = false
-9/shape_one_way_margin = 0.0
-9/shapes = [  ]
+9/shape_one_way_margin = 1.0
+9/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 6 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+} ]
 9/z_index = 0
 
 [node name="Node2D" type="Node2D"]
@@ -142,7 +192,7 @@ cell_size = Vector2( 32, 32 )
 format = 1
 tile_data = PoolIntArray( 0, 9, 0, 1, 9, 0, 2, 1, 0, 3, 1, 0, 4, 1, 0, 5, 1, 0, 6, 1, 0, 7, 1, 0, 8, 1, 0, 9, 1, 0, 10, 1, 0, 11, 1, 0, 12, 1, 0, 13, 1, 0, 14, 9, 0, 15, 9, 0, 16, 9, 0, 17, 9, 0, 18, 9, 0, 65536, 9, 0, 65537, 6, 0, 65550, 8, 0, 65551, 9, 0, 65552, 9, 0, 65553, 9, 0, 65554, 9, 0, 131072, 3, 0, 131087, 8, 0, 131088, 9, 0, 131089, 9, 0, 131090, 9, 0, 196608, 3, 0, 196624, 8, 0, 196625, 9, 0, 196626, 9, 0, 262144, 3, 0, 262161, 8, 0, 262162, 9, 0, 327680, 3, 0, 327698, 8, 0, 393216, 3, 0, 393221, 5, 0, 393222, 4, 0, 393223, 7, 0, 458752, 3, 0, 458757, 0, 0, 458758, 9, 0, 458759, 3, 0, 524288, 3, 0, 524293, 8, 0, 524294, 1, 0, 524295, 6, 0, 589824, 3, 0, 655360, 3, 0, 720896, 3, 0, 786432, 3, 0, 786435, 5, 0, 786436, 4, 0, 786437, 4, 0, 786438, 4, 0, 786439, 4, 0, 786440, 4, 0, 786441, 4, 0, 786442, 4, 0, 786443, 4, 0, 786444, 7, 0, 851968, 3, 0, 851971, 0, 0, 851972, 9, 0, 851973, 9, 0, 851974, 9, 0, 851975, 9, 0, 851976, 9, 0, 851977, 9, 0, 851978, 9, 0, 851979, 9, 0, 851980, 3, 0, 917504, 3, 0, 917507, 0, 0, 917508, 9, 0, 917509, 9, 0, 917510, 9, 0, 917511, 9, 0, 917512, 9, 0, 917513, 9, 0, 917514, 9, 0, 917515, 9, 0, 917516, 3, 0, 983040, 3, 0, 983043, 8, 0, 983044, 1, 0, 983045, 1, 0, 983046, 1, 0, 983047, 1, 0, 983048, 1, 0, 983049, 1, 0, 983050, 1, 0, 983051, 1, 0, 983052, 6, 0, 1048576, 3, 0, 1114112, 3, 0, 1179648, 9, 0, 1179649, 4, 0, 1179650, 4, 0, 1179651, 4, 0, 1179652, 4, 0, 1179653, 4, 0, 1179654, 4, 0, 1179655, 4, 0, 1179656, 4, 0, 1179657, 4, 0, 1179658, 4, 0, 1179659, 4, 0, 1179660, 4, 0, 1179661, 4, 0, 1179662, 7, 0, 1245184, 9, 0, 1245185, 9, 0, 1245186, 9, 0, 1245187, 9, 0, 1245188, 9, 0, 1245189, 9, 0, 1245190, 9, 0, 1245191, 9, 0, 1245192, 9, 0, 1245193, 9, 0, 1245194, 9, 0, 1245195, 9, 0, 1245196, 9, 0, 1245197, 9, 0, 1245198, 9, 0, 1245199, 7, 0, 1310720, 9, 0, 1310721, 9, 0, 1310722, 9, 0, 1310723, 9, 0, 1310724, 9, 0, 1310725, 9, 0, 1310726, 9, 0, 1310727, 9, 0, 1310728, 9, 0, 1310729, 9, 0, 1310730, 9, 0, 1310731, 9, 0, 1310732, 9, 0, 1310733, 9, 0, 1310734, 9, 0, 1310735, 9, 0, 1310736, 7, 0, 1376256, 9, 0, 1376257, 9, 0, 1376258, 9, 0, 1376259, 9, 0, 1376260, 9, 0, 1376261, 9, 0, 1376262, 9, 0, 1376263, 9, 0, 1376264, 9, 0, 1376265, 9, 0, 1376266, 9, 0, 1376267, 9, 0, 1376268, 9, 0, 1376269, 9, 0, 1376270, 9, 0, 1376271, 9, 0, 1376272, 9, 0, 1376273, 7, 0, 1441792, 9, 0, 1441793, 9, 0, 1441794, 9, 0, 1441795, 9, 0, 1441796, 9, 0, 1441797, 9, 0, 1441798, 9, 0, 1441799, 9, 0, 1441800, 9, 0, 1441801, 9, 0, 1441802, 9, 0, 1441803, 9, 0, 1441804, 9, 0, 1441805, 9, 0, 1441806, 9, 0, 1441807, 9, 0, 1441808, 9, 0, 1441809, 9, 0, 1441810, 7, 0, 1507328, 9, 0, 1507329, 9, 0, 1507330, 9, 0, 1507331, 9, 0, 1507332, 9, 0, 1507333, 9, 0, 1507334, 9, 0, 1507335, 9, 0, 1507336, 9, 0, 1507337, 9, 0, 1507338, 9, 0, 1507339, 9, 0, 1507340, 9, 0, 1507341, 9, 0, 1507342, 9, 0, 1507343, 9, 0, 1507344, 9, 0, 1507345, 9, 0, 1507346, 9, 0, 1507347, 7, 0 )
 
-[node name="Player" type="Area2D" parent="."]
+[node name="Player" type="KinematicBody2D" parent="."]
 position = Vector2( -51.9053, 27.6472 )
 script = ExtResource( 3 )
 

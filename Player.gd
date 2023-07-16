@@ -1,4 +1,4 @@
-extends Area2D
+extends KinematicBody2D
 
 const THRUST : float = 10.0
 const MAX_SPEED : float = 400.0
@@ -36,5 +36,6 @@ func _physics_process(delta) -> void:
 		velocity = velocity.normalized() * MAX_SPEED
 		# velocity vector is added to position in BaseObject.gd
 
-	position += velocity * delta
+	#position += velocity * delta
+	velocity = move_and_slide(velocity)
 
