@@ -36,6 +36,5 @@ func _physics_process(delta) -> void:
 		velocity = velocity.normalized() * MAX_SPEED
 		# velocity vector is added to position in BaseObject.gd
 
-	#position += velocity * delta
 	velocity = move_and_slide(velocity)
 
