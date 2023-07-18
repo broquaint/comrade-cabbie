@@ -38,3 +38,8 @@ func _physics_process(delta) -> void:
 
 	velocity = move_and_slide(velocity)
 
+func pickup_point_entered(node):
+	print('entered pickup', node)
+
+func dropoff_point_entered(node):
+	print('entered dropoff', node)
