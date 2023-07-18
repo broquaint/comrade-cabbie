@@ -4,8 +4,12 @@ const THRUST : float = 10.0
 const MAX_SPEED : float = 400.0
 const ROTATION_SPEED : float = 5.0 * 60
 
+signal new_pickup(current_dropoff)
+signal new_dropoff()
+
 var dead : bool
 var velocity : Vector2
+var current_dropoff : Node
 
 func _physics_process(delta) -> void:
 	if dead == true:
@@ -38,8 +42,14 @@ func _physics_process(delta) -> void:
 
 	velocity = move_and_slide(velocity)
 
-func pickup_point_entered(node):
-	print('entered pickup', node)
+func pickup_point_entered(_node, point):
+	print('entered pickup', point)
+	var dropoffs = get_parent().dropoffs
+	current_dropoff = dropoffs[randi() % dropoffs.size()]
+	emit_signal('new_pickup', current_dropoff)
 
-func dropoff_point_entered(node):
-	print('entered dropoff', node)
+func dropoff_point_entered(_node, point):
+	print('entered dropoff', point, ' current dropoff is ', current_dropoff)
+	if point == current_dropoff:
+		emit_signal('new_dropoff')
+		current_dropoff = null
