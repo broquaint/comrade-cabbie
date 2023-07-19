@@ -5,7 +5,7 @@ var dropoffs : Array = []
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	$Player.position = Vector2(96, 96)
+	$Player.position = Vector2(750, 450)
 	_build_points()
 	$Player.connect('new_pickup', $HUD/Control, 'on_new_pickup')
 	$Player.connect('new_dropoff', $HUD/Control, 'on_new_dropoff')
