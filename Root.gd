@@ -18,3 +18,10 @@ func _build_points():
 		elif point.is_in_group('dropoff points'):
 			dropoffs.append(point)
 			point.connect('body_entered', $Player, 'dropoff_point_entered', [point])
+	for point in get_children():
+		if point.is_in_group('pickup points'):
+			pickups.append(point)
+			point.connect('body_entered', $Player, 'pickup_point_entered', [point])
+		elif point.is_in_group('dropoff points'):
+			dropoffs.append(point)
+			point.connect('body_entered', $Player, 'dropoff_point_entered', [point])

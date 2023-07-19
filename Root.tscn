@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://assets/all layers tiled.png" type="Texture" id=1]
 [ext_resource path="res://assets/ship.png" type="Texture" id=2]
@@ -7,6 +7,8 @@
 [ext_resource path="res://assets/pickup point.png" type="Texture" id=5]
 [ext_resource path="res://assets/dropoff point.png" type="Texture" id=6]
 [ext_resource path="res://HUD.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Pickup Point.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Dropoff Point.tscn" type="PackedScene" id=9]
 
 [sub_resource type="ConvexPolygonShape2D" id=2]
 points = PoolVector2Array( 32, 32, 0, 32, 0, 0, 32, 0 )
@@ -307,26 +309,6 @@ polygon = PoolVector2Array( -8.3215, -29.6314, -21.3127, -22.8679, -29.5495, -8.
 [node name="Sprite" type="Sprite" parent="TileMap/Dropoff Point 2"]
 texture = ExtResource( 6 )
 
-[node name="Player" type="KinematicBody2D" parent="."]
-position = Vector2( -51.9053, 27.6472 )
-script = ExtResource( 3 )
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Sprite2" type="Sprite" parent="Player"]
-position = Vector2( -0.175596, -0.300093 )
-texture = ExtResource( 2 )
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Player"]
-position = Vector2( 1.2513, 1.30518 )
-polygon = PoolVector2Array( -0.296246, -15.8429, -15.9104, 15.0762, -0.141651, 7.60407, 15.5756, 15.2823 )
-
-[node name="Camera2D" type="Camera2D" parent="Player"]
-current = true
-
-[node name="HUD" parent="." instance=ExtResource( 7 )]
-
 [node name="RichTextLabel" type="RichTextLabel" parent="."]
 margin_left = 693.0
 margin_top = 809.0
@@ -350,3 +332,35 @@ margin_right = 1609.54
 margin_bottom = 773.589
 bbcode_text = "Dropoff 3"
 text = "Dropoff 3"
+
+[node name="Pickup Point" parent="." instance=ExtResource( 8 )]
+position = Vector2( 99.8316, 246.267 )
+point_name = "Cool Place"
+
+[node name="Dropoff Point" parent="." instance=ExtResource( 9 )]
+position = Vector2( 387.775, 256.02 )
+point_name = "Fun Times"
+
+[node name="Dropoff Point2" parent="." instance=ExtResource( 9 )]
+position = Vector2( 542.444, 557.866 )
+point_name = "Living Place"
+
+[node name="HUD" parent="." instance=ExtResource( 7 )]
+
+[node name="Player" type="KinematicBody2D" parent="."]
+position = Vector2( -51.9053, 27.6472 )
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Sprite2" type="Sprite" parent="Player"]
+position = Vector2( -0.175596, -0.300093 )
+texture = ExtResource( 2 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Player"]
+position = Vector2( 1.2513, 1.30518 )
+polygon = PoolVector2Array( -0.296246, -15.8429, -15.9104, 15.0762, -0.141651, 7.60407, 15.5756, 15.2823 )
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+current = true
