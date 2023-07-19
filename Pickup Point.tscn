@@ -14,3 +14,10 @@ polygon = PoolVector2Array( -8.3215, -29.6314, -21.3127, -22.8679, -29.5495, -8.
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 2 )
+
+[node name="Label" type="Label" parent="."]
+margin_left = -33.0473
+margin_top = -48.1214
+margin_right = 51.9527
+margin_bottom = -34.1214
+text = "Lorem ipsum"
