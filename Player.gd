@@ -1,8 +1,8 @@
 extends KinematicBody2D
 
-const THRUST : float = 10.0
-const MAX_SPEED : float = 400.0
-const ROTATION_SPEED : float = 5.0 * 60
+const THRUST : float = 12.0
+const MAX_SPEED : float = 600.0
+const ROTATION_SPEED : float = 6.0 * 60
 
 signal new_pickup(current_dropoff)
 signal new_dropoff()
@@ -45,8 +45,9 @@ func _physics_process(delta) -> void:
 func pickup_point_entered(_node, point):
 	print('entered pickup', point)
 	var dropoffs = get_parent().dropoffs
-	current_dropoff = dropoffs[randi() % dropoffs.size()]
-	emit_signal('new_pickup', current_dropoff)
+	if current_dropoff == null:
+		current_dropoff = dropoffs[randi() % dropoffs.size()]
+		emit_signal('new_pickup', current_dropoff)
 
 func dropoff_point_entered(_node, point):
 	print('entered dropoff', point, ' current dropoff is ', current_dropoff)

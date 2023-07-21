@@ -5,13 +5,13 @@ var dropoffs : Array = []
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	$Player.position = Vector2(750, 450)
+	$Player.position = Vector2(2000, 1000)
 	_build_points()
 	$Player.connect('new_pickup', $HUD/Control, 'on_new_pickup')
 	$Player.connect('new_dropoff', $HUD/Control, 'on_new_dropoff')
 
 func _build_points():
-	for point in $HomeAsteroid.get_children():
+	for point in $"Home Asteroid".get_children():
 		if point.is_in_group('pickup points'):
 			pickups.append(point)
 			point.connect('body_entered', $Player, 'pickup_point_entered', [point])
