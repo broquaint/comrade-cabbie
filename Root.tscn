@@ -1,8 +1,7 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Home Asteroid.tscn" type="PackedScene" id=1]
-[ext_resource path="res://assets/ship.png" type="Texture" id=2]
-[ext_resource path="res://Player.gd" type="Script" id=3]
+[ext_resource path="res://Player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Root.gd" type="Script" id=4]
 [ext_resource path="res://HUD.tscn" type="PackedScene" id=7]
 
@@ -13,20 +12,4 @@ script = ExtResource( 4 )
 
 [node name="HUD" parent="." instance=ExtResource( 7 )]
 
-[node name="Player" type="KinematicBody2D" parent="."]
-position = Vector2( -51.9053, 27.6472 )
-script = ExtResource( 3 )
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Sprite2" type="Sprite" parent="Player"]
-position = Vector2( -0.175596, -0.300093 )
-texture = ExtResource( 2 )
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Player"]
-position = Vector2( 1.2513, 1.30518 )
-polygon = PoolVector2Array( -0.296246, -15.8429, -15.9104, 15.0762, -0.141651, 7.60407, 15.5756, 15.2823 )
-
-[node name="Camera2D" type="Camera2D" parent="Player"]
-current = true
+[node name="Player" parent="." instance=ExtResource( 2 )]

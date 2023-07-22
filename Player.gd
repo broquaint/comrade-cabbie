@@ -6,15 +6,16 @@ const ROTATION_SPEED : float = 6.0 * 60
 
 signal new_pickup(current_dropoff)
 signal new_dropoff()
+signal compass_update(direction)
 
-var dead : bool
 var velocity : Vector2
-var current_dropoff : Node
+var current_dropoff : Area2D
+
+func _process(_delta):
+	if current_dropoff != null:
+		emit_signal('compass_update', calc_compass())
 
 func _physics_process(delta) -> void:
-	if dead == true:
-		return
-
 	if Input.is_action_pressed("move_left"):
 		rotation_degrees -= delta * ROTATION_SPEED
 	elif Input.is_action_pressed("move_right"):
@@ -42,15 +43,25 @@ func _physics_process(delta) -> void:
 
 	velocity = move_and_slide(velocity)
 
+func calc_compass():
+	var diff = self.position - current_dropoff.position
+	var is_v = abs(diff.y) > abs(diff.x)
+	if is_v:
+		return 'north' if diff.y > 0 else 'south' 
+	else	:
+		return 'west' if diff.x > 0 else 'east'
+
 func pickup_point_entered(_node, point):
 	print('entered pickup', point)
 	var dropoffs = get_parent().dropoffs
 	if current_dropoff == null:
 		current_dropoff = dropoffs[randi() % dropoffs.size()]
 		emit_signal('new_pickup', current_dropoff)
+		emit_signal('compass_update', calc_compass())
 
 func dropoff_point_entered(_node, point):
 	print('entered dropoff', point, ' current dropoff is ', current_dropoff)
 	if point == current_dropoff:
 		emit_signal('new_dropoff')
 		current_dropoff = null
+		emit_signal('compass_update', 'none')
