@@ -4,16 +4,18 @@ const THRUST : float = 12.0
 const MAX_SPEED : float = 600.0
 const ROTATION_SPEED : float = 6.0 * 60
 
+signal picking_up(current_pickup)
 signal new_pickup(current_dropoff)
 signal new_dropoff()
-signal compass_update(direction)
+signal compass_update(direction, type)
 
 var velocity : Vector2
+var current_pickup : Area2D
 var current_dropoff : Area2D
 
 func _process(_delta):
-	if current_dropoff != null:
-		emit_signal('compass_update', calc_compass())
+	var compass_type = 'dropoff' if current_dropoff != null else 'pickup'
+	emit_signal('compass_update', calc_compass(), compass_type)
 
 func _physics_process(delta) -> void:
 	if Input.is_action_pressed("move_left"):
@@ -43,8 +45,22 @@ func _physics_process(delta) -> void:
 
 	velocity = move_and_slide(velocity)
 
+func set_next_pickup():
+	current_pickup = find_nearest_pickup()
+	emit_signal("picking_up", current_pickup)
+
+func find_nearest_pickup() -> Area2D:
+	var pickups = get_parent().pickups
+	var closest = pickups[0]
+	for pickup in pickups:
+		var dist = self.position.distance_to(pickup.position)
+		if dist < self.position.distance_to(closest.position):
+			closest = pickup
+	return closest
+
 func calc_compass():
-	var diff = self.position - current_dropoff.position
+	var point = current_dropoff if current_dropoff != null else current_pickup
+	var diff = self.position - point.position
 	var is_v = abs(diff.y) > abs(diff.x)
 	if is_v:
 		return 'north' if diff.y > 0 else 'south' 
@@ -52,16 +68,18 @@ func calc_compass():
 		return 'west' if diff.x > 0 else 'east'
 
 func pickup_point_entered(_node, point):
-	print('entered pickup', point)
+	# print('entered pickup', point)
 	var dropoffs = get_parent().dropoffs
 	if current_dropoff == null:
 		current_dropoff = dropoffs[randi() % dropoffs.size()]
+		current_pickup  = null
 		emit_signal('new_pickup', current_dropoff)
-		emit_signal('compass_update', calc_compass())
 
 func dropoff_point_entered(_node, point):
-	print('entered dropoff', point, ' current dropoff is ', current_dropoff)
+	# print('entered dropoff', point, ' current dropoff is ', current_dropoff)
 	if point == current_dropoff:
+		# Not in use at the moment.
 		emit_signal('new_dropoff')
 		current_dropoff = null
-		emit_signal('compass_update', 'none')
+		# This maybe doesn't want to be instant?
+		set_next_pickup()

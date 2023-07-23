@@ -1,12 +1,16 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://HUD.gd" type="Script" id=1]
 [ext_resource path="res://assets/compass.png" type="Texture" id=2]
-[ext_resource path="res://assets/compass west.png" type="Texture" id=3]
-[ext_resource path="res://assets/compass south.png" type="Texture" id=4]
-[ext_resource path="res://assets/compass east.png" type="Texture" id=5]
-[ext_resource path="res://assets/compass north.png" type="Texture" id=6]
+[ext_resource path="res://assets/compass dropoff west.png" type="Texture" id=3]
+[ext_resource path="res://assets/compass dropoff south.png" type="Texture" id=4]
+[ext_resource path="res://assets/compass dropoff north.png" type="Texture" id=5]
+[ext_resource path="res://assets/compass pickup east.png" type="Texture" id=6]
 [ext_resource path="res://Compass.gd" type="Script" id=7]
+[ext_resource path="res://assets/compass pickup west.png" type="Texture" id=8]
+[ext_resource path="res://assets/compass pickup north.png" type="Texture" id=9]
+[ext_resource path="res://assets/compass dropoff east.png" type="Texture" id=10]
+[ext_resource path="res://assets/compass pickup south.png" type="Texture" id=11]
 
 [node name="HUD" type="CanvasLayer"]
 
@@ -36,15 +40,19 @@ text = "Destination: "
 [node name="Destination" type="Label" parent="Control/Container"]
 margin_left = 86.0
 margin_top = 4.0
-margin_right = 98.0
+margin_right = 86.0
 margin_bottom = 18.0
-text = "..."
+text = "…"
 
 [node name="Compass" type="Sprite" parent="."]
 position = Vector2( 44.4506, 555.618 )
 texture = ExtResource( 2 )
 script = ExtResource( 7 )
-north_tex = ExtResource( 6 )
-south_tex = ExtResource( 4 )
-east_tex = ExtResource( 5 )
-west_tex = ExtResource( 3 )
+north_pickup_tex = ExtResource( 9 )
+south_pickup_tex = ExtResource( 11 )
+east_pickup_tex = ExtResource( 6 )
+west_pickup_tex = ExtResource( 8 )
+north_dropoff_tex = ExtResource( 5 )
+south_dropoff_tex = ExtResource( 4 )
+east_dropoff_tex = ExtResource( 10 )
+west_dropoff_tex = ExtResource( 3 )
