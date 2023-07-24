@@ -17,7 +17,7 @@ func _process(_delta):
 	var compass_type = 'dropoff' if current_dropoff != null else 'pickup'
 	emit_signal('compass_update', calc_compass(), compass_type)
 
-func _physics_process(delta) -> void:
+func _physics_process(delta):
 	if Input.is_action_pressed("move_left"):
 		rotation_degrees -= delta * ROTATION_SPEED
 	elif Input.is_action_pressed("move_right"):
@@ -47,7 +47,18 @@ func _physics_process(delta) -> void:
 
 func set_next_pickup():
 	current_pickup = find_nearest_pickup()
+	current_pickup.get_node('AnimationPlayer').play('Pulse')
+	current_pickup.get_node('Point Pulse').visible = true
 	emit_signal("picking_up", current_pickup)
+
+func set_next_dropoff():
+	current_pickup.get_node('AnimationPlayer').stop()
+	current_pickup.get_node('Point Pulse').visible = false
+	var dropoffs = get_parent().dropoffs
+	current_dropoff = dropoffs[randi() % dropoffs.size()]
+	current_dropoff.get_node('AnimationPlayer').play('Pulse')
+	current_dropoff.get_node('Point Pulse').visible = true
+	emit_signal('new_pickup', current_dropoff)
 
 func find_nearest_pickup() -> Area2D:
 	var pickups = get_parent().pickups
@@ -68,18 +79,17 @@ func calc_compass():
 		return 'west' if diff.x > 0 else 'east'
 
 func pickup_point_entered(_node, point):
-	# print('entered pickup', point)
-	var dropoffs = get_parent().dropoffs
 	if current_dropoff == null:
-		current_dropoff = dropoffs[randi() % dropoffs.size()]
-		current_pickup  = null
-		emit_signal('new_pickup', current_dropoff)
+		set_next_dropoff()
+		current_pickup = null
 
 func dropoff_point_entered(_node, point):
 	# print('entered dropoff', point, ' current dropoff is ', current_dropoff)
 	if point == current_dropoff:
 		# Not in use at the moment.
 		emit_signal('new_dropoff')
+		current_dropoff.get_node('AnimationPlayer').stop()
+		current_dropoff.get_node('Point Pulse').visible = false
 		current_dropoff = null
 		# This maybe doesn't want to be instant?
 		set_next_pickup()

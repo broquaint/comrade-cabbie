@@ -8,6 +8,22 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "Area2D",
+"class": "DropoffPoint",
+"language": "GDScript",
+"path": "res://DropoffPoint.gd"
+}, {
+"base": "Area2D",
+"class": "PickupPoint",
+"language": "GDScript",
+"path": "res://PickupPoint.gd"
+} ]
+_global_script_class_icons={
+"DropoffPoint": "",
+"PickupPoint": ""
+}
+
 [application]
 
 config/name="Eggjam 19"

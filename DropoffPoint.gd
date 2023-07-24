@@ -1,3 +1,5 @@
+class_name DropoffPoint
+
 extends Area2D
 
 export var point_name : String
