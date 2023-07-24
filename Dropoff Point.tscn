@@ -73,7 +73,6 @@ anims/RESET = SubResource( 2 )
 polygon = PoolVector2Array( -8.3215, -29.6314, -21.3127, -22.8679, -29.5495, -8.33643, -29.7747, 7.64565, -21.2239, 22.2533, -3.83713, 30.5192, 3.28857, 30.7329, 19.749, 22.6809, 29.7962, 7.14684, 30.0812, -7.95966, 20.6753, -22.8524, 7.35022, -29.8356 )
 
 [node name="Point Pulse" type="Sprite" parent="."]
-modulate = Color( 1, 1, 1, 0.445782 )
 texture = ExtResource( 1 )
 
 [node name="Point Target" type="Sprite" parent="."]

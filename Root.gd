@@ -13,6 +13,7 @@ func _ready():
 
 	$Player.connect('picking_up', $HUD/Control, 'on_picking_up')
 	$Player.connect('new_pickup', $HUD/Control, 'on_new_pickup')
+	$Player.connect('new_pickup', $HUD/DestFlashControl, 'on_new_pickup')
 	$Player.connect('new_dropoff', $HUD/Control, 'on_new_dropoff')
 	$Player.connect('compass_update', $HUD/Compass, 'on_compass_update')
 	$Player.set_next_pickup()
