@@ -1,10 +1,11 @@
 extends Control
 
 func on_picking_up(pickup: Node):
-	$Container/Destination.text = 'Picking up from - ' + pickup.point_name
+	#$Container/Destination.text = 'Picking up from [b]' + pickup.point_name + '[/b]'
+	$Container/Destination.bbcode_text = 'Picking up from [b]' + pickup.point_name + '[/b]'
 
 func on_new_pickup(dropoff: Node):
-	$Container/Destination.text = 'Dropping off at - ' + dropoff.point_name
+	$Container/Destination.bbcode_text = 'Dropping off at [b]' + dropoff.point_name + '[/b]'
 
 func on_new_dropoff():
 	pass
