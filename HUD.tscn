@@ -58,6 +58,10 @@ tracks/0/keys = {
 }
 
 [node name="HUD" type="CanvasLayer"]
+__meta__ = {
+"_edit_horizontal_guides_": [ 591.858 ],
+"_edit_vertical_guides_": [ 510.992, 7.59884 ]
+}
 
 [node name="Control" type="Control" parent="."]
 margin_right = 1025.0
@@ -98,7 +102,7 @@ scroll_active = false
 deselect_on_focus_loss_enabled = false
 
 [node name="Compass" type="Sprite" parent="."]
-position = Vector2( 44.4506, 555.618 )
+position = Vector2( 71.8056, 527.232 )
 texture = ExtResource( 2 )
 script = ExtResource( 7 )
 north_pickup_tex = ExtResource( 9 )
