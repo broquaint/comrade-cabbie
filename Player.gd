@@ -8,6 +8,7 @@ signal picking_up(current_pickup)
 signal new_pickup(current_dropoff)
 signal new_dropoff()
 signal compass_update(direction, type)
+signal distance_update(distance)
 
 var velocity : Vector2
 var current_pickup : Area2D
@@ -16,6 +17,7 @@ var current_dropoff : Area2D
 func _process(_delta):
 	var compass_type = 'dropoff' if current_dropoff != null else 'pickup'
 	emit_signal('compass_update', calc_compass(), compass_type)
+	emit_signal('distance_update', calc_point_distance())
 
 func _physics_process(delta):
 	if Input.is_action_pressed("move_left"):
@@ -68,6 +70,11 @@ func find_nearest_pickup() -> Area2D:
 		if dist < self.position.distance_to(closest.position):
 			closest = pickup
 	return closest
+
+func calc_point_distance():
+	var point = current_dropoff if current_dropoff != null else current_pickup
+	var dist = self.position.distance_to(point.position)
+	return int(dist / 8)
 
 func calc_compass():
 	var point = current_dropoff if current_dropoff != null else current_pickup

@@ -58,10 +58,6 @@ tracks/0/keys = {
 }
 
 [node name="HUD" type="CanvasLayer"]
-__meta__ = {
-"_edit_horizontal_guides_": [ 591.858 ],
-"_edit_vertical_guides_": [ 510.992, 7.59884 ]
-}
 
 [node name="Control" type="Control" parent="."]
 margin_right = 1025.0
@@ -79,8 +75,7 @@ anchor_right = 1.0
 margin_bottom = 32.0
 
 [node name="Label" type="RichTextLabel" parent="Control/Container"]
-margin_left = 4.0
-margin_right = 108.0
+margin_right = 100.0
 margin_bottom = 32.0
 rect_min_size = Vector2( 100, 32 )
 rect_pivot_offset = Vector2( 319.884, 109.663 )
@@ -100,6 +95,26 @@ text = "Picking up from Foo Bar"
 fit_content_height = true
 scroll_active = false
 deselect_on_focus_loss_enabled = false
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Control/Container"]
+margin_left = 458.0
+margin_right = 538.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 80, 0 )
+bbcode_enabled = true
+bbcode_text = "Distance[b]:[/b]"
+text = "Distance:"
+scroll_active = false
+
+[node name="Distance" type="RichTextLabel" parent="Control/Container"]
+margin_left = 542.0
+margin_right = 692.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 150, 0 )
+bbcode_enabled = true
+bbcode_text = "[b]123[/b]m"
+text = "123m"
+scroll_active = false
 
 [node name="Compass" type="Sprite" parent="."]
 position = Vector2( 71.8056, 527.232 )
