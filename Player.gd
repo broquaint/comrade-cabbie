@@ -115,7 +115,7 @@ func pickup_point_entered(_node, _point):
 
 func dropoff_point_entered(_node, point):
 	# print('entered dropoff', point, ' current dropoff is ', current_dropoff)
-	if point == current_dropoff:
+	if point == current_dropoff and dropping_off():
 		# Not in use at the moment.
 		emit_signal('new_dropoff', point, calc_travel_time(), calc_travel_estimate(current_pickup, current_dropoff))
 		current_dropoff.get_node('AnimationPlayer').stop()

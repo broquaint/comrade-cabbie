@@ -4,6 +4,9 @@ extends Area2D
 
 export var point_name : String
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	$Label.text = point_name
+	# Cribbed from: https://ask.godotengine.org/149058/changing-the-background-color-of-a-label
+	var sb = StyleBoxFlat.new()
+	sb.bg_color = Color("#c8595652")
+	$Label.add_stylebox_override("normal", sb)
