@@ -36,3 +36,6 @@ func _ready():
 
 func on_compass_update(direction : String, type: String):
 	self.texture = type_tex_map[type][direction]
+
+func on_distance_update(distance: int):
+	$Distance.bbcode_text = '[b]%s[/b]m' % distance
