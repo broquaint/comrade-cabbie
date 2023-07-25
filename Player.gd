@@ -9,15 +9,19 @@ signal new_pickup(current_dropoff)
 signal new_dropoff()
 signal compass_update(direction, type)
 signal distance_update(distance)
+signal travel_time_update(travel_time)
 
 var velocity : Vector2
 var current_pickup : Area2D
 var current_dropoff : Area2D
+var travel_time : int
 
 func _process(_delta):
 	var compass_type = 'dropoff' if current_dropoff != null else 'pickup'
 	emit_signal('compass_update', calc_compass(), compass_type)
 	emit_signal('distance_update', calc_point_distance())
+	if compass_type == 'dropoff':
+		emit_signal('travel_time_update', float(Time.get_ticks_msec() - travel_time) / 1000)
 
 func _physics_process(delta):
 	if Input.is_action_pressed("move_left"):
@@ -85,9 +89,10 @@ func calc_compass():
 	else	:
 		return 'west' if diff.x > 0 else 'east'
 
-func pickup_point_entered(_node, point):
+func pickup_point_entered(_node, _point):
 	if current_dropoff == null:
 		set_next_dropoff()
+		travel_time = Time.get_ticks_msec()
 		current_pickup = null
 
 func dropoff_point_entered(_node, point):
@@ -98,5 +103,6 @@ func dropoff_point_entered(_node, point):
 		current_dropoff.get_node('AnimationPlayer').stop()
 		current_dropoff.get_node('Point Pulse').visible = false
 		current_dropoff = null
+		travel_time = 0
 		# This maybe doesn't want to be instant?
 		set_next_pickup()

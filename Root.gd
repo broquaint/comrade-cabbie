@@ -16,6 +16,7 @@ func _ready():
 	$Player.connect('new_pickup', $HUD/DestFlashControl, 'on_new_pickup')
 	$Player.connect('new_dropoff', $HUD/Control, 'on_new_dropoff')
 	$Player.connect('distance_update', $HUD/Control, 'on_distance_update')
+	$Player.connect('travel_time_update', $HUD/Control, 'on_travel_time_update')
 	$Player.connect('compass_update', $HUD/Compass, 'on_compass_update')
 	$Player.set_next_pickup()
 
