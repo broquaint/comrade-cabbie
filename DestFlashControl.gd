@@ -21,11 +21,31 @@ func on_new_pickup(point: DropoffPoint, travel_distance: int):
 	$ColorRect.rect_size.x = orig_rect_size
 	$ColorRect2.rect_size.x = orig_rec2_size
 	$DestFlashText.rect_size.x = orig_text_size
-	set_text('Drop me off at [b]' + point.point_name + '[/b] in [b]%d[/b] seconds' % travel_distance)
+	set_text('Drop me off at [b]' + point.point_name + '[/b] in [b]%d[/b] seconds please!' % travel_distance)
 
+const good_time_text = [
+	'that was fast!',
+	'thank you so much!',
+	'quick as you like!'
+]
+const exact_time_text = [
+	'right on time!',
+	'perfect timing!'
+]
+const sub_time_text = [
+	'got there in the end',
+	'better late than never',
+]
 func on_new_dropoff(dropoff, travel_time, travel_estimate):
 	flash()
-	var timeliness = 'that was fast!' if travel_time <= travel_estimate else 'got there in the end'
+	var text_choice : Array
+	if travel_time < travel_estimate:
+		text_choice = good_time_text
+	elif int(travel_time) == int(travel_estimate):
+		text_choice = exact_time_text
+	else:
+		text_choice = sub_time_text
+	var timeliness = text_choice[randi() % text_choice.size()]
 	$ColorRect.rect_size.x += 150
 	$ColorRect2.rect_size.x += 150
 	$DestFlashText.rect_size.x += 150
