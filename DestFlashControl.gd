@@ -23,28 +23,45 @@ func on_new_pickup(point: DropoffPoint, travel_distance: int):
 	$DestFlashText.rect_size.x = orig_text_size
 	set_text('Drop me off at [b]' + point.point_name + '[/b] in [b]%d[/b] seconds please!' % travel_distance)
 
-const good_time_text = [
+const speedy_time_text = [
+	'so fast!!',
+	'that took no time!!'
+]
+const fast_time_text = [
 	'that was fast!',
 	'thank you so much!',
 	'quick as you like!'
 ]
-const exact_time_text = [
+const timely_time_text = [
 	'right on time!',
 	'perfect timing!'
 ]
-const sub_time_text = [
+const tardy_time_text = [
 	'got there in the end',
 	'better late than never',
 ]
-func on_new_dropoff(dropoff, travel_time, travel_estimate):
+const sluggish_time_text = [
+	'that took a while',
+	'I have aged significantly',
+	'where am I? what year is it?'
+]
+
+func on_new_dropoff(dropoff, travel_time, travel_score):
 	flash()
 	var text_choice : Array
-	if travel_time < travel_estimate:
-		text_choice = good_time_text
-	elif int(travel_time) == int(travel_estimate):
-		text_choice = exact_time_text
-	else:
-		text_choice = sub_time_text
+	
+	match travel_score:
+		GameState.JourneyScore.SPEEDY:
+			text_choice = speedy_time_text
+		GameState.JourneyScore.FAST:
+			text_choice = fast_time_text
+		GameState.JourneyScore.TIMELY:
+			text_choice = timely_time_text
+		GameState.JourneyScore.TARDY:
+			text_choice = tardy_time_text
+		_:
+			text_choice = sluggish_time_text
+
 	var timeliness = text_choice[randi() % text_choice.size()]
 	$ColorRect.rect_size.x += 150
 	$ColorRect2.rect_size.x += 150

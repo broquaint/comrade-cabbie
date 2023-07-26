@@ -102,13 +102,30 @@ func calc_compass():
 func calc_travel_estimate(a, b):
 	var dist = int(a.position.distance_to(b.position) / 8)
 	# Add 25% for buffer.
-	return 1.25 * (dist / 20)
+	return clamp(1.25 * (dist / 20), 5, 600)
 
 func calc_travel_time():
 	return float(Time.get_ticks_msec() - travel_time) / 1000
 
-func pickup_point_entered(_node, _point):
+func calc_journey_score():
+	var travel_time = calc_travel_time()
+	var travel_estimate =  calc_travel_estimate(current_pickup, current_dropoff)
+	var score = travel_time / travel_estimate
+	if score <= 0.6:
+		return GameState.JourneyScore.SPEEDY
+	elif score <= 0.80:
+		return GameState.JourneyScore.FAST
+	elif score <= 1.2:
+		return GameState.JourneyScore.TIMELY
+	elif score <= 1.4:
+		return GameState.JourneyScore.TARDY
+	else:
+		return GameState.JourneyScore.SLUGGISH
+
+func pickup_point_entered(_node, point):
 	if picking_up():
+		# It's possible to go to alternative pickups.
+		current_pickup = point
 		set_next_dropoff()
 		travel_time = Time.get_ticks_msec()
 		current_state = CabState.DROPPING_OFF
@@ -117,7 +134,7 @@ func dropoff_point_entered(_node, point):
 	# print('entered dropoff', point, ' current dropoff is ', current_dropoff)
 	if point == current_dropoff and dropping_off():
 		# Not in use at the moment.
-		emit_signal('new_dropoff', point, calc_travel_time(), calc_travel_estimate(current_pickup, current_dropoff))
+		emit_signal('new_dropoff', point, calc_travel_time(), calc_journey_score())
 		current_dropoff.get_node('AnimationPlayer').stop()
 		current_dropoff.get_node('Point Pulse').visible = false
 		current_state = CabState.PICKING_UP

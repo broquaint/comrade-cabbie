@@ -3,6 +3,8 @@ extends Node2D
 var pickups : Array = []
 var dropoffs : Array = []
 
+var community_satisfaction = 75
+
 func _ready():
 	randomize()
 
@@ -10,6 +12,10 @@ func _ready():
 
 	_build_points()
 
+	$Player.connect('picking_up',  $GameState, 'on_picking_up')
+	$Player.connect('new_pickup',  $GameState, 'on_new_pickup')
+	$Player.connect('new_dropoff', $GameState, 'on_new_dropoff')
+	
 	$Player.connect('picking_up', $HUD/Control, 'on_picking_up')
 	$Player.connect('new_pickup', $HUD/Control, 'on_new_pickup')
 	$Player.connect('new_pickup', $HUD/DestFlashControl, 'on_new_pickup')
@@ -27,3 +33,4 @@ func _build_points():
 		elif point.is_in_group('dropoff points'):
 			dropoffs.append(point)
 			point.connect('body_entered', $Player, 'dropoff_point_entered', [point])
+

@@ -30,6 +30,14 @@ config/name="Comrade Cabbie"
 run/main_scene="res://Root.tscn"
 config/icon="res://assets/godot icon.png"
 
+[autoload]
+
+GameState="*res://GameState.gd"
+
+[editor_plugins]
+
+enabled=PoolStringArray( "res://addons/repl/plugin.cfg" )
+
 [global]
 
 tab=false
