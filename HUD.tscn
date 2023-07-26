@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://HUD.gd" type="Script" id=1]
 [ext_resource path="res://assets/compass.png" type="Texture" id=2]
@@ -59,11 +59,14 @@ tracks/0/keys = {
 "values": [ Vector2( -470, 146 ), Vector2( 250, 146 ), Vector2( 250, 146 ), Vector2( 1025, 146 ) ]
 }
 
+[sub_resource type="DynamicFontData" id=12]
+font_path = "res://assets/robotocondensed-regular.ttf"
+
+[sub_resource type="DynamicFont" id=13]
+size = 18
+font_data = SubResource( 12 )
+
 [node name="HUD" type="CanvasLayer"]
-__meta__ = {
-"_edit_horizontal_guides_": [ 596.049 ],
-"_edit_vertical_guides_": [ 8.74681, 1020.03 ]
-}
 
 [node name="Control" type="Control" parent="."]
 margin_right = 1025.0
@@ -211,13 +214,36 @@ __meta__ = {
 "_editor_description_": ""
 }
 
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_left = 952.0
+margin_top = 400.0
+margin_right = 1026.0
+margin_bottom = 606.0
+color = Color( 0.517647, 0.494118, 0.529412, 0.784314 )
+
+[node name="MeterLabel" type="Label" parent="."]
+margin_left = 930.176
+margin_top = 561.331
+margin_right = 1068.18
+margin_bottom = 583.331
+rect_rotation = -90.2
+theme = ExtResource( 13 )
+custom_fonts/font = SubResource( 13 )
+text = "Overall Satisfaction"
+
+[node name="MeterValue" type="Label" parent="."]
+anchor_left = 2.837
+anchor_top = -0.457
+anchor_right = 2.837
+anchor_bottom = -0.457
+margin_left = -1947.07
+margin_top = 652.102
+margin_right = -1907.07
+margin_bottom = 676.102
+theme = ExtResource( 13 )
+text = "60%"
+
 [node name="SatisfactionMeter" type="Sprite" parent="."]
 position = Vector2( 987.611, 499.535 )
 texture = ExtResource( 14 )
 script = ExtResource( 15 )
-
-[node name="Label" type="Label" parent="SatisfactionMeter"]
-margin_left = -987.611
-margin_top = -499.535
-margin_right = -947.611
-margin_bottom = -485.535

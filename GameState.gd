@@ -39,4 +39,3 @@ func on_new_dropoff(_dropoff: DropoffPoint, travel_time: float, journey_score: i
 		JourneyScore.SLUGGISH:
 			ratio = 0.95
 	satisfaction = clamp(satisfaction * ratio, 0, 100)
-	print("On %s satisfaction was %.2f now %.2f based on ratio %.2f for score %s [%s]" % [self, satisfaction_before, satisfaction, ratio, JourneyScore.keys()[journey_score], journey_score])
