@@ -60,7 +60,7 @@ func on_new_dropoff(dropoff, travel_time, travel_score):
 			text_choice = timely_time_text
 		GameState.JourneyScore.TARDY:
 			text_choice = tardy_time_text
-		_:
+		GameState.JourneyScore.SLUGGISH:
 			text_choice = sluggish_time_text
 
 	var timeliness = text_choice[randi() % text_choice.size()]
@@ -68,4 +68,4 @@ func on_new_dropoff(dropoff, travel_time, travel_score):
 	$ColorRect2.rect_size.x += 180
 	$DestFlashText.rect_size.x += 180
 	$DestFlashText.scroll_active = false
-	set_text('Reached [b]%s[/b] in [b]%d[/b] seconds, %s' % [dropoff.point_name, travel_time, timeliness])
+	set_text('Reached [b]%s[/b] in [b]%d[/b]s, %s' % [dropoff.point_name, travel_time, timeliness])
