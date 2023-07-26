@@ -58,6 +58,9 @@ tracks/0/keys = {
 }
 
 [node name="HUD" type="CanvasLayer"]
+__meta__ = {
+"_edit_vertical_guides_": [ 8.74681 ]
+}
 
 [node name="Control" type="Control" parent="."]
 margin_right = 1025.0
@@ -128,11 +131,21 @@ south_dropoff_tex = ExtResource( 4 )
 east_dropoff_tex = ExtResource( 10 )
 west_dropoff_tex = ExtResource( 3 )
 
-[node name="RichTextLabel" type="RichTextLabel" parent="Compass"]
-margin_left = -63.1917
-margin_top = -104.484
-margin_right = 16.8083
-margin_bottom = -72.484
+[node name="Control" type="ColorRect" parent="Compass"]
+margin_left = -64.0
+margin_top = -98.0
+margin_right = 96.0
+margin_bottom = -67.0
+color = Color( 0.34902, 0.337255, 0.321569, 0.784314 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Compass/Control"]
+margin_left = 3.0
+margin_top = 1.0
+margin_right = 83.0
+margin_bottom = 27.0
 rect_min_size = Vector2( 80, 0 )
 theme = ExtResource( 13 )
 bbcode_enabled = true
@@ -140,12 +153,12 @@ bbcode_text = "Distance[b]:[/b]"
 text = "Distance:"
 scroll_active = false
 
-[node name="Distance" type="RichTextLabel" parent="Compass"]
-margin_left = 20.8083
-margin_top = -104.484
-margin_right = 170.808
-margin_bottom = -72.484
-rect_min_size = Vector2( 150, 0 )
+[node name="Distance" type="RichTextLabel" parent="Compass/Control"]
+margin_left = 86.8365
+margin_top = 1.0
+margin_right = 166.836
+margin_bottom = 27.0
+rect_min_size = Vector2( 80, 0 )
 theme = ExtResource( 13 )
 bbcode_enabled = true
 bbcode_text = "[b]123[/b]m"
@@ -155,7 +168,7 @@ scroll_active = false
 [node name="DestFlashControl" type="Control" parent="."]
 margin_left = -470.0
 margin_top = 146.0
-margin_right = -13.977
+margin_right = -2.0
 margin_bottom = 194.0
 script = ExtResource( 12 )
 
@@ -166,14 +179,14 @@ anchor_right = 0.00961202
 anchor_bottom = 0.102734
 margin_left = -5.3833
 margin_top = -4.93121
-margin_right = 450.617
+margin_right = 462.617
 margin_bottom = 38.0688
 color = Color( 0.517647, 0.494118, 0.529412, 0.784314 )
 
 [node name="ColorRect" type="ColorRect" parent="DestFlashControl"]
 margin_left = 1.0
 margin_top = 2.0
-margin_right = 453.0
+margin_right = 465.0
 margin_bottom = 41.0
 color = Color( 0.34902, 0.337255, 0.321569, 0.784314 )
 

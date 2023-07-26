@@ -21,6 +21,7 @@ func on_new_pickup(point: DropoffPoint, travel_distance: int):
 	$ColorRect.rect_size.x = orig_rect_size
 	$ColorRect2.rect_size.x = orig_rec2_size
 	$DestFlashText.rect_size.x = orig_text_size
+	$DestFlashText.scroll_active = false
 	set_text('Drop me off at [b]' + point.point_name + '[/b] in [b]%d[/b] seconds please!' % travel_distance)
 
 const speedy_time_text = [
@@ -63,7 +64,8 @@ func on_new_dropoff(dropoff, travel_time, travel_score):
 			text_choice = sluggish_time_text
 
 	var timeliness = text_choice[randi() % text_choice.size()]
-	$ColorRect.rect_size.x += 150
-	$ColorRect2.rect_size.x += 150
-	$DestFlashText.rect_size.x += 150
+	$ColorRect.rect_size.x += 180
+	$ColorRect2.rect_size.x += 180
+	$DestFlashText.rect_size.x += 180
+	$DestFlashText.scroll_active = false
 	set_text('Reached [b]%s[/b] in [b]%d[/b] seconds, %s' % [dropoff.point_name, travel_time, timeliness])
