@@ -24,6 +24,7 @@ func _ready():
 	$Player.connect('distance_update', $HUD/Compass, 'on_distance_update')
 	$Player.connect('travel_time_update', $HUD/Control, 'on_travel_time_update')
 	$Player.connect('compass_update', $HUD/Compass, 'on_compass_update')
+	$Player.connect('compass_update', $HUD/Compass/Needle, 'on_compass_update')
 	$Player.set_next_pickup()
 
 func _build_points():

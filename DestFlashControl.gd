@@ -11,7 +11,7 @@ func _ready():
 	orig_text_size = $DestFlashText.rect_size.x
 
 func flash():
-	get_parent().get_node('AnimationPlayer').play("DestFlash")
+	$'../FlashAnimationPlayer'.play("DestFlash")
 
 func set_text(text):
 	$DestFlashText.bbcode_text = text
