@@ -28,7 +28,7 @@ func _ready():
 	$Player.set_next_pickup()
 
 func _build_points():
-	for point in $"Home Asteroid".get_children():
+	for point in $HomeAsteroid.get_children():
 		if point.is_in_group('pickup points'):
 			pickups.append(point)
 			point.connect('body_entered', $Player, 'pickup_point_entered', [point])
