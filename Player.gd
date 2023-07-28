@@ -63,8 +63,8 @@ func find_nearest_pickup(asteroid) -> Area2D:
 	var pickups = get_parent().pickups[asteroid.name]
 	var closest = pickups[0]
 	for pickup in pickups:
-		var dist = self.position.distance_to(pickup.position)
-		if dist < self.position.distance_to(closest.position):
+		var dist = self.position.distance_to(pickup.real_pos)
+		if dist < self.position.distance_to(closest.real_pos):
 			closest = pickup
 	return closest
 
@@ -87,12 +87,12 @@ func set_next_dropoff(asteroid):
 
 func calc_point_distance():
 	var point = current_dropoff if current_state == CabState.DROPPING_OFF else current_pickup
-	var dist = self.position.distance_to(point.position)
+	var dist = self.position.distance_to(point.real_pos)
 	return int(dist / 8)
 
 func calc_compass():
 	var point = current_dropoff if current_state == CabState.DROPPING_OFF else current_pickup
-	var diff = self.position - point.position
+	var diff = self.position - point.real_pos
 	var is_v = abs(diff.y) > abs(diff.x)
 	if is_v:
 		return 'north' if diff.y > 0 else 'south' 
@@ -100,7 +100,7 @@ func calc_compass():
 		return 'west' if diff.x > 0 else 'east'
 
 func calc_travel_estimate(a, b):
-	var dist = int(a.position.distance_to(b.position) / 8)
+	var dist = int(a.real_pos.distance_to(b.real_pos) / 8)
 	# Add 25% for buffer.
 	return clamp(1.25 * (dist / 20), 5, 600)
 

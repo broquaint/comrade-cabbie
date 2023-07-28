@@ -38,7 +38,9 @@ func _build_points():
 		var v = asteroids[k]
 		for point in v.get_node('Pickups').get_children():
 			pickups[k].append(point)
+			point.real_pos = point.position + v.position
 			point.connect('body_entered', $Player, 'pickup_point_entered', [point, v])
 		for point in v.get_node('Dropoffs').get_children():
 			dropoffs[k].append(point)
+			point.real_pos = point.position + v.position
 			point.connect('body_entered', $Player, 'dropoff_point_entered', [point, v])
