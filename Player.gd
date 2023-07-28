@@ -59,31 +59,31 @@ func _physics_process(delta):
 
 	velocity = move_and_slide(velocity)
 
-func set_next_pickup():
-	current_state = CabState.PICKING_UP
-	current_pickup = find_nearest_pickup()
-	current_pickup.get_node('AnimationPlayer').play('Pulse')
-	current_pickup.get_node('Point Pulse').visible = true
-	emit_signal("picking_up", current_pickup)
-
-func set_next_dropoff():
-	current_state = CabState.DROPPING_OFF
-	current_pickup.get_node('AnimationPlayer').stop()
-	current_pickup.get_node('Point Pulse').visible = false
-	var dropoffs = get_parent().dropoffs
-	current_dropoff = dropoffs[randi() % dropoffs.size()]
-	current_dropoff.get_node('AnimationPlayer').play('Pulse')
-	current_dropoff.get_node('Point Pulse').visible = true
-	emit_signal('new_pickup', current_dropoff, calc_travel_estimate(current_pickup, current_dropoff))
-
-func find_nearest_pickup() -> Area2D:
-	var pickups = get_parent().pickups
+func find_nearest_pickup(asteroid) -> Area2D:
+	var pickups = get_parent().pickups[asteroid.name]
 	var closest = pickups[0]
 	for pickup in pickups:
 		var dist = self.position.distance_to(pickup.position)
 		if dist < self.position.distance_to(closest.position):
 			closest = pickup
 	return closest
+
+func set_next_pickup(asteroid):
+	current_state = CabState.PICKING_UP
+	current_pickup = find_nearest_pickup(asteroid)
+	current_pickup.get_node('AnimationPlayer').play('Pulse')
+	current_pickup.get_node('Point Pulse').visible = true
+	emit_signal("picking_up", current_pickup)
+
+func set_next_dropoff(asteroid):
+	current_state = CabState.DROPPING_OFF
+	current_pickup.get_node('AnimationPlayer').stop()
+	current_pickup.get_node('Point Pulse').visible = false
+	var dropoffs = get_parent().dropoffs[asteroid.name]
+	current_dropoff = dropoffs[randi() % dropoffs.size()]
+	current_dropoff.get_node('AnimationPlayer').play('Pulse')
+	current_dropoff.get_node('Point Pulse').visible = true
+	emit_signal('new_pickup', current_dropoff, calc_travel_estimate(current_pickup, current_dropoff))
 
 func calc_point_distance():
 	var point = current_dropoff if current_state == CabState.DROPPING_OFF else current_pickup
@@ -122,16 +122,15 @@ func calc_journey_score():
 	else:
 		return GameState.JourneyScore.SLUGGISH
 
-func pickup_point_entered(_node, point):
+func pickup_point_entered(_node, point, asteroid):
 	if picking_up():
 		# It's possible to go to alternative pickups.
 		current_pickup = point
-		set_next_dropoff()
+		set_next_dropoff(asteroid)
 		travel_time = Time.get_ticks_msec()
 		current_state = CabState.DROPPING_OFF
 
-func dropoff_point_entered(_node, point):
-	# print('entered dropoff', point, ' current dropoff is ', current_dropoff)
+func dropoff_point_entered(_node, point, asteroid):
 	if point == current_dropoff and dropping_off():
 		# Not in use at the moment.
 		emit_signal('new_dropoff', point, calc_travel_time(), calc_journey_score())
@@ -140,4 +139,4 @@ func dropoff_point_entered(_node, point):
 		current_state = CabState.PICKING_UP
 		travel_time = 0
 		# This maybe doesn't want to be instant?
-		set_next_pickup()
+		set_next_pickup(asteroid)

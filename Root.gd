@@ -1,7 +1,8 @@
 extends Node2D
 
-var pickups : Array = []
-var dropoffs : Array = []
+var asteroids = {}
+var pickups   = {}
+var dropoffs  = {}
 
 var community_satisfaction = 75
 
@@ -25,15 +26,19 @@ func _ready():
 	$Player.connect('travel_time_update', $HUD/Control, 'on_travel_time_update')
 	$Player.connect('compass_update', $HUD/Compass, 'on_compass_update')
 	$Player.connect('compass_update', $HUD/Compass/Needle, 'on_compass_update')
-	$Player.set_next_pickup()
+	$Player.set_next_pickup($HomeAsteroid)
 
 func _build_points():
 	for kid in get_children():
-		if not("Asteroid" in kid.name):
-			continue
-		for point in kid.get_node('Pickups').get_children():
-			pickups.append(point)
-			point.connect('body_entered', $Player, 'pickup_point_entered', [point])
-		for point in kid.get_node('Dropoffs').get_children():
-			dropoffs.append(point)
-			point.connect('body_entered', $Player, 'dropoff_point_entered', [point])
+		if "Asteroid" in kid.name:
+			pickups[kid.name] = []
+			dropoffs[kid.name] = []
+			asteroids[kid.name] = kid
+	for k in asteroids.keys():
+		var v = asteroids[k]
+		for point in v.get_node('Pickups').get_children():
+			pickups[k].append(point)
+			point.connect('body_entered', $Player, 'pickup_point_entered', [point, v])
+		for point in v.get_node('Dropoffs').get_children():
+			dropoffs[k].append(point)
+			point.connect('body_entered', $Player, 'dropoff_point_entered', [point, v])
