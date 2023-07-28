@@ -1,10 +1,11 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://assets/all layers tiled.png" type="Texture" id=1]
 [ext_resource path="res://Pickup Point.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Dropoff Point.tscn" type="PackedScene" id=3]
 [ext_resource path="res://assets/home asteroid map.png" type="Texture" id=4]
 [ext_resource path="res://assets/tunnel point.png" type="Texture" id=5]
+[ext_resource path="res://assets/major path line.png" type="Texture" id=6]
 
 [sub_resource type="ConvexPolygonShape2D" id=2]
 points = PoolVector2Array( 32, 32, 0, 32, 0, 0, 32, 0 )
@@ -322,91 +323,8 @@ position = Vector2( 5410.2, 2081.87 )
 scale = Vector2( 13.4905, 19.0623 )
 texture = ExtResource( 4 )
 
-[node name="Pickup Point" parent="." instance=ExtResource( 2 )]
-position = Vector2( 2310.14, 907.067 )
-point_name = "Cool Place"
-
-[node name="Dropoff Point" parent="." instance=ExtResource( 3 )]
-position = Vector2( 3497.22, 1391.22 )
-point_name = "Fun Times"
-
-[node name="Dropoff Point2" parent="." instance=ExtResource( 3 )]
-position = Vector2( 5392.75, 3474.48 )
-point_name = "Living Place"
-
-[node name="Pickup Point2" parent="." instance=ExtResource( 2 )]
-position = Vector2( 3074.26, 2155.88 )
-point_name = "Handy Nook"
-
-[node name="Dropoff Point3" parent="." instance=ExtResource( 3 )]
-position = Vector2( 4771.4, 1984.65 )
-point_name = "Mid Junction"
-
-[node name="Pickup Point3" parent="." instance=ExtResource( 2 )]
-position = Vector2( 3839.72, 940.311 )
-point_name = "Shallow Corner"
-
-[node name="Dropoff Point4" parent="." instance=ExtResource( 3 )]
-position = Vector2( 715.305, 1626.67 )
-point_name = "Home in a hole"
-
-[node name="Pickup Point4" parent="." instance=ExtResource( 2 )]
-position = Vector2( 3100.66, 2827.52 )
-point_name = "Rock Burbs"
-
-[node name="Dropoff Point5" parent="." instance=ExtResource( 3 )]
-position = Vector2( 1368.63, 2388.08 )
-point_name = "West Tunnel"
-
-[node name="Dropoff Point6" parent="." instance=ExtResource( 3 )]
-position = Vector2( 3940.34, 3231.99 )
-point_name = "Mid Lane"
-
-[node name="Dropoff Point7" parent="." instance=ExtResource( 3 )]
-position = Vector2( 7044.22, 3395.84 )
-point_name = "Barrel Bottom"
-
-[node name="Dropoff Point8" parent="." instance=ExtResource( 3 )]
-position = Vector2( 7027.37, 2783.56 )
-point_name = "Barrel Top"
-
-[node name="Dropoff Point9" parent="." instance=ExtResource( 3 )]
-position = Vector2( 9430.42, 2569.51 )
-point_name = "East Tunnel"
-
-[node name="Dropoff Point10" parent="." instance=ExtResource( 3 )]
-position = Vector2( 8478.13, 1998.31 )
-point_name = "Rock Nook"
-
-[node name="Dropoff Point11" parent="." instance=ExtResource( 3 )]
-position = Vector2( 7927.35, 1090.54 )
-point_name = "Tipping Top"
-
-[node name="Dropoff Point12" parent="." instance=ExtResource( 3 )]
-position = Vector2( 6671.32, 1470.35 )
-point_name = "Far Close"
-
-[node name="Dropoff Point13" parent="." instance=ExtResource( 3 )]
-position = Vector2( 5841.1, 1420.16 )
-point_name = "Alley End"
-
-[node name="Pickup Point5" parent="." instance=ExtResource( 2 )]
-position = Vector2( 5922.08, 3119.77 )
-point_name = "Happy Medium"
-
-[node name="Pickup Point6" parent="." instance=ExtResource( 2 )]
-position = Vector2( 5627.5, 876.344 )
-point_name = "Approaching Corner"
-
-[node name="Pickup Point7" parent="." instance=ExtResource( 2 )]
-position = Vector2( 7385.95, 3084.69 )
-point_name = "Barrel's Edge"
-
-[node name="Pickup Point8" parent="." instance=ExtResource( 2 )]
-position = Vector2( 7170.94, 1777.5 )
-point_name = "Onwards and outwards"
-
 [node name="Tunnel" type="Area2D" parent="."]
+visible = false
 position = Vector2( 1034.95, 3061.36 )
 __meta__ = {
 "_edit_group_": true
@@ -417,3 +335,103 @@ texture = ExtResource( 5 )
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Tunnel"]
 polygon = PoolVector2Array( 6.42157, -28.8767, -5.59802, -28.8767, -21.4811, -22.2231, -30.0665, -8.48633, -29.208, 6.32349, -21.2665, 21.7773, -3.88092, 31.0066, 8.78253, 29.7188, 21.8754, 23.4944, 29.8169, 9.11377, 30.8901, -3.12036, 24.451, -17.7158, 17.368, -24.584 )
+
+[node name="MajorPaths" type="Node2D" parent="."]
+
+[node name="Sprite2" type="Sprite" parent="MajorPaths"]
+position = Vector2( 2623.24, 947.613 )
+rotation = 1.5708
+texture = ExtResource( 6 )
+
+[node name="Sprite3" type="Sprite" parent="MajorPaths"]
+position = Vector2( 3312.54, 958.869 )
+rotation = 1.5708
+texture = ExtResource( 6 )
+
+[node name="Pickups" type="Node2D" parent="."]
+
+[node name="Pickup Point5" parent="Pickups" instance=ExtResource( 2 )]
+position = Vector2( 5922.08, 3119.77 )
+point_name = "Happy Medium"
+
+[node name="Pickup Point6" parent="Pickups" instance=ExtResource( 2 )]
+position = Vector2( 5627.5, 876.344 )
+point_name = "Approaching Corner"
+
+[node name="Pickup Point7" parent="Pickups" instance=ExtResource( 2 )]
+position = Vector2( 7385.95, 3084.69 )
+point_name = "Barrel's Edge"
+
+[node name="Pickup Point8" parent="Pickups" instance=ExtResource( 2 )]
+position = Vector2( 7170.94, 1777.5 )
+point_name = "Onwards and outwards"
+
+[node name="Pickup Point" parent="Pickups" instance=ExtResource( 2 )]
+position = Vector2( 2310.14, 907.067 )
+point_name = "Cool Place"
+
+[node name="Pickup Point2" parent="Pickups" instance=ExtResource( 2 )]
+position = Vector2( 3074.26, 2155.88 )
+point_name = "Handy Nook"
+
+[node name="Pickup Point3" parent="Pickups" instance=ExtResource( 2 )]
+position = Vector2( 3839.72, 940.311 )
+point_name = "Shallow Corner"
+
+[node name="Pickup Point4" parent="Pickups" instance=ExtResource( 2 )]
+position = Vector2( 3100.66, 2827.52 )
+point_name = "Rock Burbs"
+
+[node name="Dropoffs" type="Node2D" parent="."]
+
+[node name="Dropoff Point" parent="Dropoffs" instance=ExtResource( 3 )]
+position = Vector2( 3497.22, 1391.22 )
+point_name = "Fun Times"
+
+[node name="Dropoff Point2" parent="Dropoffs" instance=ExtResource( 3 )]
+position = Vector2( 5392.75, 3474.48 )
+point_name = "Living Place"
+
+[node name="Dropoff Point3" parent="Dropoffs" instance=ExtResource( 3 )]
+position = Vector2( 4771.4, 1984.65 )
+point_name = "Mid Junction"
+
+[node name="Dropoff Point4" parent="Dropoffs" instance=ExtResource( 3 )]
+position = Vector2( 715.305, 1626.67 )
+point_name = "Home in a hole"
+
+[node name="Dropoff Point5" parent="Dropoffs" instance=ExtResource( 3 )]
+position = Vector2( 1368.63, 2388.08 )
+point_name = "West Tunnel"
+
+[node name="Dropoff Point6" parent="Dropoffs" instance=ExtResource( 3 )]
+position = Vector2( 3940.34, 3231.99 )
+point_name = "Mid Lane"
+
+[node name="Dropoff Point7" parent="Dropoffs" instance=ExtResource( 3 )]
+position = Vector2( 7044.22, 3395.84 )
+point_name = "Barrel Bottom"
+
+[node name="Dropoff Point8" parent="Dropoffs" instance=ExtResource( 3 )]
+position = Vector2( 7027.37, 2783.56 )
+point_name = "Barrel Top"
+
+[node name="Dropoff Point9" parent="Dropoffs" instance=ExtResource( 3 )]
+position = Vector2( 9430.42, 2569.51 )
+point_name = "East Tunnel"
+
+[node name="Dropoff Point10" parent="Dropoffs" instance=ExtResource( 3 )]
+position = Vector2( 8478.13, 1998.31 )
+point_name = "Rock Nook"
+
+[node name="Dropoff Point11" parent="Dropoffs" instance=ExtResource( 3 )]
+position = Vector2( 7927.35, 1090.54 )
+point_name = "Tipping Top"
+
+[node name="Dropoff Point12" parent="Dropoffs" instance=ExtResource( 3 )]
+position = Vector2( 6671.32, 1470.35 )
+point_name = "Far Close"
+
+[node name="Dropoff Point13" parent="Dropoffs" instance=ExtResource( 3 )]
+position = Vector2( 5841.1, 1420.16 )
+point_name = "Alley End"

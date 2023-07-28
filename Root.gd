@@ -28,11 +28,12 @@ func _ready():
 	$Player.set_next_pickup()
 
 func _build_points():
-	for point in $HomeAsteroid.get_children():
-		if point.is_in_group('pickup points'):
+	for kid in get_children():
+		if not("Asteroid" in kid.name):
+			continue
+		for point in kid.get_node('Pickups').get_children():
 			pickups.append(point)
 			point.connect('body_entered', $Player, 'pickup_point_entered', [point])
-		elif point.is_in_group('dropoff points'):
+		for point in kid.get_node('Dropoffs').get_children():
 			dropoffs.append(point)
 			point.connect('body_entered', $Player, 'dropoff_point_entered', [point])
-

@@ -325,10 +325,14 @@ position = Vector2( 1466.23, 6404.43 )
 scale = Vector2( 13.4905, 19.0623 )
 texture = ExtResource( 4 )
 
-[node name="Pickup Point" parent="." instance=ExtResource( 2 )]
-position = Vector2( 1881.57, 2654.7 )
-point_name = "Cool Place"
+[node name="Pickups" type="Node2D" parent="."]
 
-[node name="Dropoff Point" parent="." instance=ExtResource( 3 )]
-position = Vector2( 1516.25, 2191.23 )
-point_name = "Fun Times"
+[node name="Pickup Point" parent="Pickups" instance=ExtResource( 2 )]
+position = Vector2( 546.308, 2698.76 )
+point_name = "Services Pickup"
+
+[node name="Dropoffs" type="Node2D" parent="."]
+
+[node name="Dropoff Point" parent="Dropoffs" instance=ExtResource( 3 )]
+position = Vector2( 1241.74, 1743.88 )
+point_name = "Services Dropoff"
