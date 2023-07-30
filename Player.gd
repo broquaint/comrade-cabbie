@@ -1,7 +1,5 @@
 extends KinematicBody2D
 
-const THRUST : float = 12.0
-const MAX_SPEED : float = 600.0
 const ROTATION_SPEED : float = 6.0 * 60
 
 signal picking_up(current_pickup)
@@ -11,7 +9,34 @@ signal compass_update(direction, type)
 signal distance_update(distance)
 signal travel_time_update(travel_time)
 
-enum CabState { CRUISING, PICKING_UP, DROPPING_OFF }
+enum CabState {
+	CRUISING, # Not implemented yet
+	PICKING_UP,
+	DROPPING_OFF
+}
+
+enum BoostLevel {
+	NONE,
+	SOME,
+	SPEEDY,
+	LUDICROUS
+}
+
+const THRUSTS = [
+	12.0, # NONE
+	15.0, # SOME
+	20.0, # SPEEDY
+	30.0, # LUDICROUS
+]
+
+const MAX_SPEEDS = [
+	600.0, # NONE
+	630.0, # SOME
+	700.0, # SPEEDY
+	790.0, # LUDICROUS
+]
+
+var boost_level = BoostLevel.NONE
 
 var velocity : Vector2
 var current_pickup : Area2D
@@ -28,8 +53,11 @@ func _process(_delta):
 	var compass_type = 'dropoff' if dropping_off() else 'pickup'
 	emit_signal('compass_update', calc_compass(), compass_type)
 	emit_signal('distance_update', calc_point_distance())
-	if compass_type == 'dropoff':
+	if dropping_off():
 		emit_signal('travel_time_update', calc_travel_time())
+
+	# Hack!
+	get_node("../HUD/Control/Container/Speed").bbcode_text = "[b]%.2f[/b]m/s" % velocity.length()
 
 func _physics_process(delta):
 	if Input.is_action_pressed("move_left"):
@@ -44,7 +72,8 @@ func _physics_process(delta):
 		# -THRUST because vector pointing up = y value of -1, and
 		# rotated() method of Vector2 needs a radian, not degrees,
 		# so convert that using deg2rad
-		acceleration = Vector2(0, -THRUST).rotated(deg2rad(rotation_degrees))
+		var thrust = THRUSTS[boost_level]
+		acceleration = Vector2(0, -thrust).rotated(deg2rad(rotation_degrees))
 
 		# add acceleration to current speed
 		velocity += acceleration
@@ -53,11 +82,38 @@ func _physics_process(delta):
 	velocity *= 0.98
 
 	# cap speed
-	if velocity.length() > MAX_SPEED:
-		velocity = velocity.normalized() * MAX_SPEED
-		# velocity vector is added to position in BaseObject.gd
+	var max_speed = MAX_SPEEDS[boost_level]
+	if velocity.length() > max_speed:
+		velocity = velocity.normalized() * max_speed
 
 	velocity = move_and_slide(velocity)
+
+func _ready():
+	$Decelerating.connect('timeout', self, 'now_decelerating')
+
+func now_decelerating():
+	match boost_level:
+		BoostLevel.LUDICROUS:
+			boost_level = BoostLevel.SPEEDY
+		BoostLevel.SPEEDY:
+			boost_level = BoostLevel.SOME
+		BoostLevel.SOME:
+			boost_level = BoostLevel.NONE
+	print("boost speed down to ", BoostLevel.keys()[boost_level])
+	if boost_level != BoostLevel.NONE:
+		$Decelerating.start(0.5)
+
+func boost_entered(_node):
+	# Doesn't need to be a match but this makes it easy for me to reckon with.
+	match boost_level:
+		BoostLevel.NONE:
+			boost_level = BoostLevel.SOME
+		BoostLevel.SOME:
+			boost_level = BoostLevel.SPEEDY
+		BoostLevel.SPEEDY:
+			boost_level = BoostLevel.LUDICROUS
+	print("boost speed up to ", BoostLevel.keys()[boost_level])
+	$Decelerating.start(1.0)
 
 func find_nearest_pickup(asteroid) -> Area2D:
 	var pickups = get_parent().pickups[asteroid.name]
@@ -108,9 +164,9 @@ func calc_travel_time():
 	return float(Time.get_ticks_msec() - travel_time) / 1000
 
 func calc_journey_score():
-	var travel_time = calc_travel_time()
+	var tt = calc_travel_time()
 	var travel_estimate =  calc_travel_estimate(current_pickup, current_dropoff)
-	var score = travel_time / travel_estimate
+	var score = tt / travel_estimate
 	if score <= 0.6:
 		return GameState.JourneyScore.SPEEDY
 	elif score <= 0.80:

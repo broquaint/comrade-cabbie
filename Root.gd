@@ -27,6 +27,11 @@ func _ready():
 	$Player.connect('compass_update', $HUD/Compass, 'on_compass_update')
 	$Player.connect('compass_update', $HUD/Compass/Needle, 'on_compass_update')
 	$Player.set_next_pickup($HomeAsteroid)
+	
+	$HomeAsteroid/MajorPaths/Sprite2/Boost1.connect('body_entered', $Player, 'boost_entered')
+	$HomeAsteroid/MajorPaths/Sprite2/Boost2.connect('body_entered', $Player, 'boost_entered')
+	$HomeAsteroid/MajorPaths/Sprite2/Boost3.connect('body_entered', $Player, 'boost_entered')
+	$HomeAsteroid/MajorPaths/Sprite2/Boost4.connect('body_entered', $Player, 'boost_entered')
 
 func _build_points():
 	for kid in get_children():

@@ -343,6 +343,33 @@ position = Vector2( 2623.24, 947.613 )
 rotation = 1.5708
 texture = ExtResource( 6 )
 
+[node name="Boost1" type="Area2D" parent="MajorPaths/Sprite2"]
+position = Vector2( -0.0299683, 96.0847 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="MajorPaths/Sprite2/Boost1"]
+polygon = PoolVector2Array( -11.6456, 0.177979, -0.299194, 5.85107, 11.7911, 0.177979, 0.630798, -5.58838 )
+
+[node name="Boost2" type="Area2D" parent="MajorPaths/Sprite2"]
+position = Vector2( -0.0299683, 96.0847 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="MajorPaths/Sprite2/Boost2"]
+position = Vector2( -0.350281, -64.0566 )
+polygon = PoolVector2Array( -11.6456, 0.177979, -0.299194, 5.85107, 11.7911, 0.177979, 0.630798, -5.58838 )
+
+[node name="Boost3" type="Area2D" parent="MajorPaths/Sprite2"]
+position = Vector2( -0.0299683, 96.0847 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="MajorPaths/Sprite2/Boost3"]
+position = Vector2( -0.350464, -128.288 )
+polygon = PoolVector2Array( -11.6456, 0.177979, -0.299194, 5.85107, 11.7911, 0.177979, 0.630798, -5.58838 )
+
+[node name="Boost4" type="Area2D" parent="MajorPaths/Sprite2"]
+position = Vector2( -0.0299683, 96.0847 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="MajorPaths/Sprite2/Boost4"]
+position = Vector2( -0.000671387, -192.17 )
+polygon = PoolVector2Array( -11.6456, 0.177979, -0.299194, 5.85107, 11.7911, 0.177979, 0.630798, -5.58838 )
+
 [node name="Sprite3" type="Sprite" parent="MajorPaths"]
 position = Vector2( 3312.54, 958.869 )
 rotation = 1.5708

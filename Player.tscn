@@ -20,3 +20,10 @@ polygon = PoolVector2Array( -0.296246, -15.8429, -15.9104, 15.0762, -0.141651, 7
 
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
+
+[node name="Particles2D" type="CPUParticles2D" parent="."]
+visible = false
+emitting = false
+
+[node name="Decelerating" type="Timer" parent="."]
+one_shot = true
