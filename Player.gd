@@ -1,13 +1,13 @@
 extends KinematicBody2D
 
-const ROTATION_SPEED : float = 6.0 * 60
-
 signal picking_up(current_pickup)
 signal new_pickup(current_dropoff, travel_distance)
 signal new_dropoff(dropoff, travel_time, travel_estimate)
 signal compass_update(direction, type)
 signal distance_update(distance)
 signal travel_time_update(travel_time)
+
+const ROTATION_SPEED : float = 6.0 * 60
 
 enum CabState {
 	CRUISING, # Not implemented yet
@@ -56,8 +56,21 @@ func _process(_delta):
 	if dropping_off():
 		emit_signal('travel_time_update', calc_travel_time())
 
+	if floor(velocity.length()) > 0:
+		if boost_level == BoostLevel.NONE:
+			$Exhaust.emitting  = true
+			$Exhaust.gravity.y = (velocity.length() / MAX_SPEEDS[boost_level]) * 100
+			$BoostExhaust.emitting = false
+		else:
+			$BoostExhaust.emitting  = true
+			$BoostExhaust.gravity.y = (velocity.length() / MAX_SPEEDS[boost_level]) * 100
+			$Exhaust.emitting = false
+	else:
+		$Exhaust.emitting = false
+		$BoostExhaust.emitting = false
+
 	# Hack!
-	get_node("../HUD/Control/Container/Speed").bbcode_text = "[b]%.2f[/b]m/s" % velocity.length()
+	get_node("../HUD/Control/Container/Speed").bbcode_text = "[b]%.2f[/b]m/s (%.2f)" % [velocity.length(), $Exhaust.gravity.y]
 
 func _physics_process(delta):
 	if Input.is_action_pressed("move_left"):
@@ -99,7 +112,6 @@ func now_decelerating():
 			boost_level = BoostLevel.SOME
 		BoostLevel.SOME:
 			boost_level = BoostLevel.NONE
-	print("boost speed down to ", BoostLevel.keys()[boost_level])
 	if boost_level != BoostLevel.NONE:
 		$Decelerating.start(0.5)
 
@@ -112,7 +124,6 @@ func boost_entered(_node):
 			boost_level = BoostLevel.SPEEDY
 		BoostLevel.SPEEDY:
 			boost_level = BoostLevel.LUDICROUS
-	print("boost speed up to ", BoostLevel.keys()[boost_level])
 	$Decelerating.start(1.0)
 
 func find_nearest_pickup(asteroid) -> Area2D:

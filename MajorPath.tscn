@@ -1,0 +1,114 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://assets/major path line.png" type="Texture" id=1]
+[ext_resource path="res://assets/major path light.png" type="Texture" id=2]
+
+[sub_resource type="Animation" id=1]
+resource_name = "Twinkle"
+length = 3.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Light1:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.75, 1.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 2, 2 ), Vector2( 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Light2:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.5, 1.25, 2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 2, 2 ), Vector2( 1, 1 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Light3:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 1, 1.75, 2.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 2, 2 ), Vector2( 1, 1 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Light4:scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 1.5, 2.25, 3 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 2, 2 ), Vector2( 1, 1 ) ]
+}
+
+[node name="MajorPath" type="Sprite"]
+position = Vector2( 2597.94, 948.609 )
+rotation = 1.5708
+texture = ExtResource( 1 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_horizontal_guides_": [ 948.642 ]
+}
+
+[node name="Boost1" type="Area2D" parent="."]
+position = Vector2( -0.0299683, 96.0847 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Boost1"]
+polygon = PoolVector2Array( -11.6456, 0.177979, -0.299194, 5.85107, 11.7911, 0.177979, 0.630798, -5.58838 )
+
+[node name="Boost2" type="Area2D" parent="."]
+position = Vector2( -0.0299683, 96.0847 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Boost2"]
+position = Vector2( -0.350281, -64.0566 )
+polygon = PoolVector2Array( -11.6456, 0.177979, -0.299194, 5.85107, 11.7911, 0.177979, 0.630798, -5.58838 )
+
+[node name="Boost3" type="Area2D" parent="."]
+position = Vector2( -0.0299683, 96.0847 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Boost3"]
+position = Vector2( -0.350464, -128.288 )
+polygon = PoolVector2Array( -11.6456, 0.177979, -0.299194, 5.85107, 11.7911, 0.177979, 0.630798, -5.58838 )
+
+[node name="Boost4" type="Area2D" parent="."]
+position = Vector2( -0.0299683, 96.0847 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Boost4"]
+position = Vector2( -0.000671387, -192.17 )
+polygon = PoolVector2Array( -11.6456, 0.177979, -0.299194, 5.85107, 11.7911, 0.177979, 0.630798, -5.58838 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "Twinkle"
+anims/Twinkle = SubResource( 1 )
+
+[node name="Light1" type="Sprite" parent="."]
+position = Vector2( 0.0542603, 95.9878 )
+texture = ExtResource( 2 )
+
+[node name="Light2" type="Sprite" parent="."]
+position = Vector2( 0.0441284, 31.865 )
+texture = ExtResource( 2 )
+
+[node name="Light3" type="Sprite" parent="."]
+position = Vector2( 0.0637817, -32.0361 )
+texture = ExtResource( 2 )
+
+[node name="Light4" type="Sprite" parent="."]
+position = Vector2( 0.0297241, -96.0447 )
+scale = Vector2( 1.49355, 1.49355 )
+texture = ExtResource( 2 )

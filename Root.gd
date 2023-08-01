@@ -12,6 +12,7 @@ func _ready():
 	$Player.position = Vector2(2000, 1000)
 
 	_build_points()
+	_connect_boosts()
 
 	$Player.connect('picking_up',  GameState, 'on_picking_up')
 	$Player.connect('new_pickup',  GameState, 'on_new_pickup')
@@ -27,11 +28,6 @@ func _ready():
 	$Player.connect('compass_update', $HUD/Compass, 'on_compass_update')
 	$Player.connect('compass_update', $HUD/Compass/Needle, 'on_compass_update')
 	$Player.set_next_pickup($HomeAsteroid)
-	
-	$HomeAsteroid/MajorPaths/Sprite2/Boost1.connect('body_entered', $Player, 'boost_entered')
-	$HomeAsteroid/MajorPaths/Sprite2/Boost2.connect('body_entered', $Player, 'boost_entered')
-	$HomeAsteroid/MajorPaths/Sprite2/Boost3.connect('body_entered', $Player, 'boost_entered')
-	$HomeAsteroid/MajorPaths/Sprite2/Boost4.connect('body_entered', $Player, 'boost_entered')
 
 func _build_points():
 	for kid in get_children():
@@ -49,3 +45,13 @@ func _build_points():
 			dropoffs[k].append(point)
 			point.real_pos = point.position + v.position
 			point.connect('body_entered', $Player, 'dropoff_point_entered', [point, v])
+
+func _connect_boosts():
+	for a in asteroids.values():
+		# Not all asteroids have paths yet.
+		if not a.has_node('MajorPaths'):
+			continue
+		for p in a.get_node('MajorPaths').get_children():
+			for b in p.get_children():
+				if b is Area2D:
+					b.connect('body_entered', $Player, 'boost_entered')

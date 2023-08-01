@@ -38,6 +38,9 @@ __meta__ = {
 [node name="HUD" parent="." instance=ExtResource( 7 )]
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="GameState" type="Node" parent="."]
 script = ExtResource( 3 )
