@@ -24,16 +24,16 @@ enum BoostLevel {
 
 const THRUSTS = [
 	12.0, # NONE
-	15.0, # SOME
-	20.0, # SPEEDY
-	30.0, # LUDICROUS
+	14.0, # SOME
+	17.0, # SPEEDY
+	21.0, # LUDICROUS
 ]
 
 const MAX_SPEEDS = [
 	600.0, # NONE
 	630.0, # SOME
-	700.0, # SPEEDY
-	790.0, # LUDICROUS
+	670.0, # SPEEDY
+	720.0, # LUDICROUS
 ]
 
 var boost_level = BoostLevel.NONE
@@ -90,6 +90,9 @@ func _physics_process(delta):
 
 		# add acceleration to current speed
 		velocity += acceleration
+	# Begin immediate decelerating if no longer thrusting.
+	elif boost_level != BoostLevel.NONE:
+		now_decelerating()
 
 	# dampen a bit
 	velocity *= 0.98
