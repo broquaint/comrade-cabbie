@@ -13,6 +13,8 @@ func _ready():
 	_build_points()
 	# Connect boosts on major paths
 	_connect_boosts()
+	# Connect asteroids with "tunnels"
+	_connect_tunnels()
 
 	# Connect up all the signals
 	$Player.connect('picking_up',  GameState, 'on_picking_up')
@@ -28,10 +30,6 @@ func _ready():
 	$Player.connect('travel_time_update', $HUD/Control, 'on_travel_time_update')
 	$Player.connect('compass_update', $HUD/Compass, 'on_compass_update')
 	$Player.connect('compass_update', $HUD/Compass/Needle, 'on_compass_update')
-
-	$HomeGoodsTunnel.connect('body_entered', GameState, 'on_asteroid_change', [$HomeGoodsTunnel])
-	$HomeGoodsTunnel.connect('body_entered', $HUD/DestFlashControl, 'on_asteroid_change', [$HomeGoodsTunnel])
-	$HomeGoodsTunnel.connect('body_entered', $HUD/SatisfactionMeter, 'on_asteroid_change', [$HomeGoodsTunnel])
 
 	# Setup general game state.
 	$Player.position = Vector2(2000, 1000)
@@ -66,3 +64,9 @@ func _connect_boosts():
 			for b in p.get_children():
 				if b is Area2D:
 					b.connect('body_entered', $Player, 'boost_entered')
+
+func _connect_tunnels():
+	for tunnel in [$HomeGoodsTunnel, $HomeServicesTunnel, $ServicesStudyTunnel, $GoodsStudyTunnel]:
+		tunnel.connect('body_entered', GameState, 'on_asteroid_change', [tunnel])
+		tunnel.connect('body_entered', $HUD/DestFlashControl, 'on_asteroid_change', [tunnel])
+		tunnel.connect('body_entered', $HUD/SatisfactionMeter, 'on_asteroid_change', [tunnel])

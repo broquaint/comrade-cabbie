@@ -42,6 +42,27 @@ __meta__ = {
 AsteroidOne = "Home"
 AsteroidTwo = "Goods"
 
+[node name="HomeServicesTunnel" parent="." instance=ExtResource( 9 )]
+position = Vector2( 9718.65, 2836.96 )
+rotation = 0.0174533
+scale = Vector2( 0.95, 0.95 )
+AsteroidOne = "Home"
+AsteroidTwo = "Services"
+
+[node name="ServicesStudyTunnel" parent="." instance=ExtResource( 9 )]
+position = Vector2( 9582.77, 12789.4 )
+rotation = 0.0174533
+scale = Vector2( 0.95, 0.95 )
+AsteroidOne = "Services"
+AsteroidTwo = "Study"
+
+[node name="GoodsStudyTunnel" parent="." instance=ExtResource( 9 )]
+position = Vector2( 1086.55, 12828.5 )
+rotation = 0.0174533
+scale = Vector2( 0.95, 0.95 )
+AsteroidOne = "Goods"
+AsteroidTwo = "Study"
+
 [node name="Player" parent="." instance=ExtResource( 2 )]
 __meta__ = {
 "_edit_group_": true
