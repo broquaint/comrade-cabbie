@@ -8,6 +8,7 @@ signal distance_update(distance)
 signal travel_time_update(travel_time)
 
 const ROTATION_SPEED : float = 4.75 * 60
+const BOOST_ROTATION_SPEED : float = 2.75 * 60
 
 enum CabState {
 	CRUISING, # Not implemented yet
@@ -48,6 +49,8 @@ func picking_up():
 	return current_state == CabState.PICKING_UP
 func dropping_off():
 	return current_state == CabState.DROPPING_OFF
+func boosting():
+	return boost_level != BoostLevel.NONE
 
 func _process(_delta):
 	var compass_type = 'dropoff' if dropping_off() else 'pickup'
@@ -57,7 +60,7 @@ func _process(_delta):
 		emit_signal('travel_time_update', calc_travel_time())
 
 	if floor(velocity.length()) > 0:
-		if boost_level == BoostLevel.NONE:
+		if not boosting():
 			$Exhaust.emitting  = true
 			$Exhaust.gravity.y = (velocity.length() / MAX_SPEEDS[boost_level]) * 100
 			$BoostExhaust.emitting = false
@@ -73,10 +76,11 @@ func _process(_delta):
 	get_node("../HUD/Control/Container/Speed").bbcode_text = "[b]%.2f[/b]m/s (%.2f)" % [velocity.length(), $Exhaust.gravity.y]
 
 func _physics_process(delta):
+	var rotation_speed = BOOST_ROTATION_SPEED if boosting() else ROTATION_SPEED
 	if Input.is_action_pressed("move_left"):
-		rotation_degrees -= delta * ROTATION_SPEED
+		rotation_degrees -= delta * rotation_speed
 	elif Input.is_action_pressed("move_right"):
-		rotation_degrees += delta * ROTATION_SPEED
+		rotation_degrees += delta * rotation_speed
 
 	# get acceleration if thrust is pressed
 	if Input.is_action_pressed("move_up"):
@@ -91,7 +95,7 @@ func _physics_process(delta):
 		# add acceleration to current speed
 		velocity += acceleration
 	# Begin immediate decelerating if no longer thrusting.
-	elif boost_level != BoostLevel.NONE:
+	elif boosting():
 		now_decelerating()
 
 	# dampen a bit
