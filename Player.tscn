@@ -14,8 +14,8 @@ position = Vector2( -0.175596, -0.300093 )
 texture = ExtResource( 2 )
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
-position = Vector2( 1.2513, 1.30518 )
-polygon = PoolVector2Array( -0.296246, -15.8429, -15.9104, 15.0762, -0.141651, 7.60407, 15.5756, 15.2823 )
+position = Vector2( 0.0995857, -0.278425 )
+polygon = PoolVector2Array( -0.296246, -15.8429, -12.0068, -10.7026, -12.1028, 15.5948, -0.24976, 11.9957, 11.6513, 16.0267, 11.3634, -10.0788 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
