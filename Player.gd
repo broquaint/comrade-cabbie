@@ -7,7 +7,7 @@ signal compass_update(direction, type)
 signal distance_update(distance)
 signal travel_time_update(travel_time)
 
-const ROTATION_SPEED : float = 6.0 * 60
+const ROTATION_SPEED : float = 4.75 * 60
 
 enum CabState {
 	CRUISING, # Not implemented yet
