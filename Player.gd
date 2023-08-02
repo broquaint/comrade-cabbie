@@ -155,6 +155,7 @@ func set_next_dropoff(asteroid):
 	current_pickup.get_node('Point Pulse').visible = false
 	var dropoffs = get_parent().dropoffs[asteroid.name]
 	current_dropoff = dropoffs[randi() % dropoffs.size()]
+	current_dropoff.get_node('PointTarget').visible = true
 	current_dropoff.get_node('AnimationPlayer').play('Pulse')
 	current_dropoff.get_node('Point Pulse').visible = true
 	emit_signal('new_pickup', current_dropoff, calc_travel_estimate(current_pickup, current_dropoff))
@@ -210,6 +211,7 @@ func dropoff_point_entered(_node, point, asteroid):
 		emit_signal('new_dropoff', point, asteroid, calc_travel_time(), calc_journey_score())
 		current_dropoff.get_node('AnimationPlayer').stop()
 		current_dropoff.get_node('Point Pulse').visible = false
+		current_dropoff.get_node('PointTarget').visible = false
 		current_state = CabState.PICKING_UP
 		travel_time = 0
 		# This maybe doesn't want to be instant?

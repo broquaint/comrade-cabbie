@@ -12,3 +12,4 @@ func _ready():
 	var sb = StyleBoxFlat.new()
 	sb.bg_color = Color("#c8595652")
 	$Label.add_stylebox_override("normal", sb)
+	$PointTarget.visible = false
