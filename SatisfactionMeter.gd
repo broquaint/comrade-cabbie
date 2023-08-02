@@ -1,27 +1,40 @@
-extends Sprite
+extends Control
 
-var orig_pos : Vector2
+var asteroid_orig_pos : Vector2
+var overall_orig_pos  : Vector2
 
 func _ready():
-	orig_pos = position
-	set_region(true)
-	set_meter()
-#	var sb = StyleBoxFlat.new()
-#	sb.bg_color = Color("#c8595652")
-#	$"../MeterLabel".add_stylebox_override("normal", sb)
-#	var sb2 = StyleBoxFlat.new()
-#	sb2.bg_color = Color("#c8595652")
-#	$"../MeterValue".add_stylebox_override("normal", sb2)
+	asteroid_orig_pos = $AsteroidSatisfactionMeterSprite.position
+	overall_orig_pos  = $SatisfactionMeterSprite.position
+	$AsteroidSatisfactionMeterSprite.set_region(true)
+	$SatisfactionMeterSprite.set_region(true)
+	set_overall_meter()
 	
-func set_meter():
-	var ts = texture.get_size()
-	var new_height = ts.y * (GameState.satisfaction/100)
+func set_overall_meter():
+	var meter      = $SatisfactionMeterSprite
+	var ts         = meter.texture.get_size()
+	var new_height = ts.y * (GameState.overall_satisfaction/100)
 	var offset     = ts.y - new_height
-	set_region_rect(Rect2(0, offset, ts.x, new_height))
-	position.y = orig_pos.y + offset/2
+	meter.set_region_rect(Rect2(0, offset, ts.x, new_height))
+	meter.position.y = overall_orig_pos.y + offset/2
 
-	$"../MeterValue".text = "%.2f%%" % GameState.satisfaction
+	$MeterValue.text = "%.2f%%" % GameState.overall_satisfaction
 
-func on_new_dropoff(dropoff, travel_time, travel_score):
+func set_asteroid_meter(asteroid):
+	var meter      = $AsteroidSatisfactionMeterSprite
+	var ts         = meter.texture.get_size()
+	var new_height = ts.y * (GameState.asteroid_satisfaction[asteroid.name] / 100)
+	var offset     = ts.y - new_height
+	meter.set_region_rect(Rect2(0, offset, ts.x, new_height))
+	meter.position.y = asteroid_orig_pos.y + offset/2
+
+	$AsteroidMeterValue.text = "%.2f%%" % GameState.asteroid_satisfaction[asteroid.name]
+	$AsteroidMeterLabel.text = '%s Satisfaction' % asteroid.name.replace('Asteroid', '')
+
+func on_asteroid_change(_node, tunnel: Tunnel):
+	call_deferred('set_asteroid_meter', GameState.current_asteroid)
+
+func on_new_dropoff(dropoff, asteroid, travel_time, travel_score):
 	# Should ensure the satisfaction value is in its final state
-	call_deferred('set_meter')
+	call_deferred('set_overall_meter')
+	call_deferred('set_asteroid_meter', asteroid)

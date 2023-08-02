@@ -16,6 +16,10 @@ func flash():
 func set_text(text):
 	$DestFlashText.bbcode_text = text
 
+func on_asteroid_change(_node, tunnel: Tunnel):
+	flash()
+	call_deferred('set_text', "Now entering the [b]%s[/b] Asteroid!" % GameState.current_asteroid.name.replace('Asteroid', ''))
+
 func on_new_pickup(point: DropoffPoint, travel_distance: int):
 	flash()
 	$ColorRect.rect_size.x = orig_rect_size
@@ -47,7 +51,7 @@ const sluggish_time_text = [
 	'where am I? what year is it?'
 ]
 
-func on_new_dropoff(dropoff, travel_time, travel_score):
+func on_new_dropoff(dropoff, _asteroid, travel_time, travel_score):
 	flash()
 	var text_choice : Array
 	

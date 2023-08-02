@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://HUD.gd" type="Script" id=1]
 [ext_resource path="res://assets/compass.png" type="Texture" id=2]
@@ -13,8 +13,7 @@
 [ext_resource path="res://assets/compass pickup south.png" type="Texture" id=11]
 [ext_resource path="res://DestFlashControl.gd" type="Script" id=12]
 [ext_resource path="res://FontTheme.tres" type="Theme" id=13]
-[ext_resource path="res://assets/satisfaction meter.png" type="Texture" id=14]
-[ext_resource path="res://SatisfactionMeter.gd" type="Script" id=15]
+[ext_resource path="res://SatisfactionMeter.tscn" type="PackedScene" id=14]
 [ext_resource path="res://CompassNeedle.gd" type="Script" id=16]
 [ext_resource path="res://assets/compass pickup needle.png" type="Texture" id=17]
 [ext_resource path="res://assets/compass dropoff needle.png" type="Texture" id=18]
@@ -106,14 +105,10 @@ tracks/0/keys = {
 "values": [ 0.0, 90.0 ]
 }
 
-[sub_resource type="DynamicFontData" id=12]
-font_path = "res://assets/robotocondensed-regular.ttf"
-
-[sub_resource type="DynamicFont" id=13]
-size = 18
-font_data = SubResource( 12 )
-
 [node name="HUD" type="CanvasLayer"]
+__meta__ = {
+"_edit_horizontal_guides_": [ 403.702, 378.372 ]
+}
 
 [node name="Control" type="Control" parent="."]
 margin_right = 1025.0
@@ -291,36 +286,4 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="ColorRect" type="ColorRect" parent="."]
-margin_left = 952.0
-margin_top = 400.0
-margin_right = 1026.0
-margin_bottom = 606.0
-color = Color( 0.517647, 0.494118, 0.529412, 0.784314 )
-
-[node name="MeterLabel" type="Label" parent="."]
-margin_left = 930.176
-margin_top = 561.331
-margin_right = 1068.18
-margin_bottom = 583.331
-rect_rotation = -90.2
-theme = ExtResource( 13 )
-custom_fonts/font = SubResource( 13 )
-text = "Overall Satisfaction"
-
-[node name="MeterValue" type="Label" parent="."]
-anchor_left = 2.837
-anchor_top = -0.457
-anchor_right = 2.837
-anchor_bottom = -0.457
-margin_left = -1947.07
-margin_top = 652.102
-margin_right = -1907.07
-margin_bottom = 676.102
-theme = ExtResource( 13 )
-text = "60%"
-
-[node name="SatisfactionMeter" type="Sprite" parent="."]
-position = Vector2( 987.611, 499.535 )
-texture = ExtResource( 14 )
-script = ExtResource( 15 )
+[node name="SatisfactionMeter" parent="." instance=ExtResource( 14 )]

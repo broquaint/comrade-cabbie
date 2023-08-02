@@ -18,10 +18,16 @@ _global_script_classes=[ {
 "class": "PickupPoint",
 "language": "GDScript",
 "path": "res://PickupPoint.gd"
+}, {
+"base": "Area2D",
+"class": "Tunnel",
+"language": "GDScript",
+"path": "res://Tunnel.gd"
 } ]
 _global_script_class_icons={
 "DropoffPoint": "",
-"PickupPoint": ""
+"PickupPoint": "",
+"Tunnel": ""
 }
 
 [application]

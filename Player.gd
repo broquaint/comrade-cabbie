@@ -2,7 +2,7 @@ extends KinematicBody2D
 
 signal picking_up(current_pickup)
 signal new_pickup(current_dropoff, travel_distance)
-signal new_dropoff(dropoff, travel_time, travel_estimate)
+signal new_dropoff(dropoff, asteroid, travel_time, travel_estimate)
 signal compass_update(direction, type)
 signal distance_update(distance)
 signal travel_time_update(travel_time)
@@ -203,7 +203,7 @@ func pickup_point_entered(_node, point, asteroid):
 func dropoff_point_entered(_node, point, asteroid):
 	if point == current_dropoff and dropping_off():
 		# Not in use at the moment.
-		emit_signal('new_dropoff', point, calc_travel_time(), calc_journey_score())
+		emit_signal('new_dropoff', point, asteroid, calc_travel_time(), calc_journey_score())
 		current_dropoff.get_node('AnimationPlayer').stop()
 		current_dropoff.get_node('Point Pulse').visible = false
 		current_state = CabState.PICKING_UP
