@@ -149,12 +149,27 @@ func set_next_pickup(asteroid):
 	current_pickup.get_node('Point Pulse').visible = true
 	emit_signal("picking_up", current_pickup)
 
+var all_recent_pickups = {}
+func pick_next_dropoff(asteroid):
+	var dropoffs = get_parent().dropoffs[asteroid.name]
+	if not(asteroid.name in all_recent_pickups):
+		all_recent_pickups[asteroid.name] = []
+	var recent_pickups = all_recent_pickups[asteroid.name]
+	if recent_pickups.size() > 4:
+		recent_pickups.pop_back()
+	var dropoff = dropoffs[randi() % dropoffs.size()]
+	while dropoff in recent_pickups:
+		dropoff = dropoffs[randi() % dropoffs.size()]
+	recent_pickups.push_front(dropoff)
+	return dropoff
+
 func set_next_dropoff(asteroid):
 	current_state = CabState.DROPPING_OFF
 	current_pickup.get_node('AnimationPlayer').stop()
 	current_pickup.get_node('Point Pulse').visible = false
-	var dropoffs = get_parent().dropoffs[asteroid.name]
-	current_dropoff = dropoffs[randi() % dropoffs.size()]
+
+	current_dropoff = pick_next_dropoff(asteroid)
+
 	current_dropoff.get_node('PointTarget').visible = true
 	current_dropoff.get_node('AnimationPlayer').play('Pulse')
 	current_dropoff.get_node('Point Pulse').visible = true
