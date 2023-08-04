@@ -46,9 +46,10 @@ var current_state = CabState.CRUISING
 var travel_time : int
 
 func initialize():
-	boost_level = BoostLevel.NONE
-
 	velocity = Vector2.ZERO
+	rotation_degrees = 0.0
+
+	boost_level = BoostLevel.NONE
 	current_pickup  = null
 	current_dropoff = null
 	current_state = CabState.CRUISING

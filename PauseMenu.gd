@@ -17,6 +17,7 @@ func pause_game():
 	get_tree().paused = true
 	show()
 	get_node('%PauseOverlay').show()
+	$Resume.grab_focus()
 	GameState.current_state = GameState.States.PAUSED
 
 func resume_game():
