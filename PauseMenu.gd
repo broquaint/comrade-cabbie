@@ -32,5 +32,4 @@ func restart_game():
 	resume_game()
 
 func leave_game():
-	# TODO Implement title screen.
-	print("leaving ...")
+	$"../TitleMenu".show_title()

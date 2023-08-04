@@ -47,7 +47,7 @@ var travel_time : int
 
 func initialize():
 	velocity = Vector2.ZERO
-	rotation_degrees = 0.0
+	rotation_degrees = 90.0
 
 	boost_level = BoostLevel.NONE
 	current_pickup  = null

@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=2]
+[gd_scene load_steps=32 format=2]
 
 [ext_resource path="res://HUD.gd" type="Script" id=1]
 [ext_resource path="res://assets/compass.png" type="Texture" id=2]
@@ -14,11 +14,13 @@
 [ext_resource path="res://DestFlashControl.gd" type="Script" id=12]
 [ext_resource path="res://FontTheme.tres" type="Theme" id=13]
 [ext_resource path="res://SatisfactionMeter.tscn" type="PackedScene" id=14]
-[ext_resource path="res://assets/robotocondensed-bold.ttf" type="DynamicFontData" id=15]
+[ext_resource path="res://assets/title screen.png" type="Texture" id=15]
 [ext_resource path="res://CompassNeedle.gd" type="Script" id=16]
 [ext_resource path="res://assets/compass pickup needle.png" type="Texture" id=17]
 [ext_resource path="res://assets/compass dropoff needle.png" type="Texture" id=18]
 [ext_resource path="res://PauseMenu.gd" type="Script" id=19]
+[ext_resource path="res://MenuTheme.tres" type="Theme" id=20]
+[ext_resource path="res://TitleMenu.gd" type="Script" id=21]
 
 [sub_resource type="DynamicFontData" id=8]
 font_path = "res://assets/robotocondensed-bold.ttf"
@@ -106,54 +108,6 @@ tracks/0/keys = {
 "update": 0,
 "values": [ 0.0, 90.0 ]
 }
-
-[sub_resource type="StyleBoxFlat" id=21]
-bg_color = Color( 0.517647, 0.494118, 0.529412, 1 )
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color( 1, 1, 1, 1 )
-corner_radius_top_left = 2
-corner_radius_top_right = 2
-corner_radius_bottom_right = 2
-corner_radius_bottom_left = 2
-
-[sub_resource type="StyleBoxFlat" id=16]
-bg_color = Color( 0.517647, 0.494118, 0.529412, 1 )
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color( 1, 1, 1, 1 )
-corner_radius_top_left = 2
-corner_radius_top_right = 2
-corner_radius_bottom_right = 2
-corner_radius_bottom_left = 2
-
-[sub_resource type="StyleBoxFlat" id=17]
-bg_color = Color( 0.517647, 0.494118, 0.529412, 1 )
-
-[sub_resource type="StyleBoxFlat" id=20]
-bg_color = Color( 0.411765, 0.415686, 0.415686, 1 )
-
-[sub_resource type="DynamicFont" id=18]
-size = 20
-font_data = ExtResource( 15 )
-
-[sub_resource type="Theme" id=19]
-default_font = SubResource( 18 )
-Button/colors/font_color = Color( 1, 1, 1, 1 )
-Button/colors/font_color_disabled = Color( 0.9, 0.9, 0.9, 0.2 )
-Button/colors/font_color_focus = Color( 0.94, 0.94, 0.94, 1 )
-Button/colors/font_color_hover = Color( 0.94, 0.94, 0.94, 1 )
-Button/colors/font_color_pressed = Color( 1, 1, 1, 1 )
-Button/constants/hseparation = 2
-Button/styles/disabled = null
-Button/styles/focus = SubResource( 21 )
-Button/styles/hover = SubResource( 16 )
-Button/styles/normal = SubResource( 17 )
-Button/styles/pressed = SubResource( 20 )
 
 [node name="HUD" type="CanvasLayer"]
 
@@ -349,7 +303,7 @@ margin_left = 404.307
 margin_top = 237.572
 margin_right = 693.307
 margin_bottom = 324.572
-theme = SubResource( 19 )
+theme = ExtResource( 20 )
 script = ExtResource( 19 )
 __meta__ = {
 "_edit_group_": true
@@ -377,3 +331,45 @@ margin_bottom = 74.0
 focus_neighbour_top = NodePath("../Restart")
 focus_neighbour_bottom = NodePath("../Resume")
 text = "Leave The World"
+
+[node name="Title" type="Sprite" parent="."]
+pause_mode = 2
+visible = false
+position = Vector2( 512, 300 )
+texture = ExtResource( 15 )
+
+[node name="TitleMenu" type="VBoxContainer" parent="."]
+pause_mode = 2
+visible = false
+margin_left = 398.83
+margin_top = 273.87
+margin_right = 583.83
+margin_bottom = 402.87
+theme = ExtResource( 20 )
+script = ExtResource( 21 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Start" type="Button" parent="TitleMenu"]
+margin_right = 185.0
+margin_bottom = 27.0
+focus_neighbour_top = NodePath("../Credits")
+focus_neighbour_bottom = NodePath("../Settings")
+text = "Start"
+
+[node name="Settings" type="Button" parent="TitleMenu"]
+margin_top = 31.0
+margin_right = 185.0
+margin_bottom = 58.0
+focus_neighbour_top = NodePath("../Start")
+focus_neighbour_bottom = NodePath("../Credits")
+text = "Settings"
+
+[node name="Credits" type="Button" parent="TitleMenu"]
+margin_top = 62.0
+margin_right = 185.0
+margin_bottom = 89.0
+focus_neighbour_top = NodePath("../Settings")
+focus_neighbour_bottom = NodePath("../Start")
+text = "Credits"
