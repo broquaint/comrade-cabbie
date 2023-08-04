@@ -45,6 +45,19 @@ var current_dropoff : Area2D
 var current_state = CabState.CRUISING
 var travel_time : int
 
+func initialize():
+	boost_level = BoostLevel.NONE
+
+	velocity = Vector2.ZERO
+	current_pickup  = null
+	current_dropoff = null
+	current_state = CabState.CRUISING
+	travel_time = 0
+
+	$Decelerating.stop()
+	$Exhaust.emitting = false
+	$BoostExhaust.emitting = false
+
 func picking_up():
 	return current_state == CabState.PICKING_UP
 func dropping_off():

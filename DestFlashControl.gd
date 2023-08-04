@@ -1,17 +1,29 @@
 extends Control
 
+var orig_pos : Vector2
 var orig_rect_size : int
 var orig_rec2_size : int
 var orig_text_size : int
 
 func _ready():
+	orig_pos = rect_position
 	# Awful lazy way of handling different sizes of flashes >_<
 	orig_rect_size = $ColorRect.rect_size.x
 	orig_rec2_size = $ColorRect2.rect_size.x
 	orig_text_size = $DestFlashText.rect_size.x
 
+func reset():
+	$'../FlashAnimationPlayer'.stop()
+	$ColorRect.rect_size.x = orig_rect_size
+	$ColorRect2.rect_size.x = orig_rec2_size
+	$DestFlashText.rect_size.x = orig_text_size
+	rect_position = orig_pos
+
 func flash():
-	$'../FlashAnimationPlayer'.play("DestFlash")
+	var player = $'../FlashAnimationPlayer'
+	if $'../FlashAnimationPlayer'.is_playing():
+		reset()
+	player.play("DestFlash")
 
 func set_text(text):
 	$DestFlashText.bbcode_text = text

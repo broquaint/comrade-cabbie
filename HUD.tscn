@@ -353,7 +353,7 @@ margin_right = 289.0
 margin_bottom = 48.0
 text = "Start From Scratch"
 
-[node name="Button" type="Button" parent="PauseMenu"]
+[node name="Leave" type="Button" parent="PauseMenu"]
 margin_top = 52.0
 margin_right = 289.0
 margin_bottom = 74.0

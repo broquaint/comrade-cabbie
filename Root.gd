@@ -31,11 +31,16 @@ func _ready():
 	$Player.connect('compass_update', $HUD/Compass, 'on_compass_update')
 	$Player.connect('compass_update', $HUD/Compass/Needle, 'on_compass_update')
 
+	setup()
+
+func setup():
+	GameState.initialize()
+	$HUD/DestFlashControl.reset()
 	# Setup general game state.
+	$Player.initialize()
 	$Player.position = Vector2(2000, 1000)
 	$Player.set_next_pickup($HomeAsteroid)
 	$HUD/SatisfactionMeter.set_asteroid_meter($HomeAsteroid)
-	GameState.current_asteroid = $HomeAsteroid
 
 func _build_points():
 	for kid in get_children():

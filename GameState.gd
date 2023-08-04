@@ -23,6 +23,17 @@ var journeys = []
 var overall_satisfaction  = DEFAULT_SATISFACTION
 var asteroid_satisfaction = {}
 
+func initialize():
+	current_asteroid = get_node('/root/Root/HomeAsteroid')
+	journeys = []
+	overall_satisfaction  = DEFAULT_SATISFACTION
+	if not asteroid_satisfaction.empty():
+		for k in asteroid_satisfaction.keys():
+			asteroid_satisfaction[k] = DEFAULT_SATISFACTION
+	else:
+		asteroid_satisfaction = {}
+	current_state = States.PLAYING
+
 func on_picking_up(pickup: PickupPoint):
 	pass
 func on_new_pickup(dropoff: DropoffPoint, calc_travel_distance: int):
