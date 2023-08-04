@@ -36,8 +36,6 @@ __meta__ = {
 "_edit_vertical_guides_": [ 1683.31, 9512.57 ]
 }
 
-[node name="HUD" parent="." instance=ExtResource( 7 )]
-
 [node name="HomeGoodsTunnel" parent="." instance=ExtResource( 9 )]
 AsteroidOne = "Home"
 AsteroidTwo = "Goods"
@@ -67,6 +65,8 @@ AsteroidTwo = "Study"
 __meta__ = {
 "_edit_group_": true
 }
+
+[node name="HUD" parent="." instance=ExtResource( 7 )]
 
 [node name="GameState" type="Node" parent="."]
 script = ExtResource( 3 )
