@@ -5,12 +5,16 @@ var orig_rect_size : int
 var orig_rec2_size : int
 var orig_text_size : int
 
+signal repeat_message(msg)
+
 func _ready():
 	orig_pos = rect_position
 	# Awful lazy way of handling different sizes of flashes >_<
 	orig_rect_size = $ColorRect.rect_size.x
 	orig_rec2_size = $ColorRect2.rect_size.x
 	orig_text_size = $DestFlashText.rect_size.x
+
+	connect('repeat_message', $'../MessageLog', 'on_message')
 
 func reset():
 	$'../FlashAnimationPlayer'.stop()
@@ -27,6 +31,7 @@ func flash():
 
 func set_text(text):
 	$DestFlashText.bbcode_text = text
+	emit_signal('repeat_message', text)
 
 func on_asteroid_change(_node, tunnel: Tunnel):
 	flash()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=2]
+[gd_scene load_steps=40 format=2]
 
 [ext_resource path="res://HUD.gd" type="Script" id=1]
 [ext_resource path="res://assets/compass.png" type="Texture" id=2]
@@ -21,6 +21,9 @@
 [ext_resource path="res://PauseMenu.gd" type="Script" id=19]
 [ext_resource path="res://MenuTheme.tres" type="Theme" id=20]
 [ext_resource path="res://TitleMenu.gd" type="Script" id=21]
+[ext_resource path="res://MessageLog.gd" type="Script" id=22]
+[ext_resource path="res://assets/robotocondensed-regular.ttf" type="DynamicFontData" id=23]
+[ext_resource path="res://assets/robotocondensed-italic.ttf" type="DynamicFontData" id=24]
 
 [sub_resource type="DynamicFontData" id=8]
 font_path = "res://assets/robotocondensed-bold.ttf"
@@ -109,7 +112,28 @@ tracks/0/keys = {
 "values": [ 0.0, 90.0 ]
 }
 
+[sub_resource type="DynamicFontData" id=16]
+font_path = "res://assets/robotocondensed-bold.ttf"
+
+[sub_resource type="DynamicFont" id=17]
+font_data = SubResource( 16 )
+
+[sub_resource type="DynamicFont" id=18]
+font_data = ExtResource( 24 )
+
+[sub_resource type="DynamicFont" id=19]
+font_data = ExtResource( 23 )
+
+[sub_resource type="Theme" id=20]
+RichTextLabel/fonts/bold_font = SubResource( 17 )
+RichTextLabel/fonts/italics_font = SubResource( 18 )
+RichTextLabel/fonts/normal_font = SubResource( 19 )
+
 [node name="HUD" type="CanvasLayer"]
+__meta__ = {
+"_edit_horizontal_guides_": [ 428.025 ],
+"_edit_vertical_guides_": [ 169.244 ]
+}
 
 [node name="Control" type="Control" parent="."]
 margin_right = 1025.0
@@ -288,6 +312,32 @@ __meta__ = {
 }
 
 [node name="SatisfactionMeter" parent="." instance=ExtResource( 14 )]
+
+[node name="MessageLog" type="Node2D" parent="."]
+position = Vector2( 176.574, 477.254 )
+script = ExtResource( 22 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="ColorRect" type="ColorRect" parent="MessageLog"]
+margin_left = 1.0
+margin_top = -2.0
+margin_right = 659.0
+margin_bottom = 135.0
+color = Color( 0.34902, 0.337255, 0.321569, 0.784314 )
+
+[node name="Message" type="RichTextLabel" parent="MessageLog"]
+visible = false
+margin_left = 7.1273
+margin_top = 3.80124
+margin_right = 757.127
+margin_bottom = 35.8012
+rect_min_size = Vector2( 750, 32 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = SubResource( 20 )
+bbcode_enabled = true
 
 [node name="PauseOverlay" type="ColorRect" parent="."]
 unique_name_in_owner = true
