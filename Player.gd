@@ -180,13 +180,13 @@ func pick_next_dropoff(asteroid):
 func set_next_dropoff(asteroid):
 	current_state = CabState.DROPPING_OFF
 	current_pickup.get_node('AnimationPlayer').stop()
-	current_pickup.get_node('Point Pulse').visible = false
+	current_pickup.get_node('Point Pulse').hide()
 
 	current_dropoff = pick_next_dropoff(asteroid)
 
-	current_dropoff.get_node('PointTarget').visible = true
+	current_dropoff.get_node('PointTarget').show()
 	current_dropoff.get_node('AnimationPlayer').play('Pulse')
-	current_dropoff.get_node('Point Pulse').visible = true
+	current_dropoff.get_node('Point Pulse').show()
 	emit_signal('new_pickup', current_dropoff, calc_travel_estimate(current_pickup, current_dropoff))
 
 func calc_point_distance():
@@ -239,8 +239,8 @@ func dropoff_point_entered(_node, point, asteroid):
 		# Not in use at the moment.
 		emit_signal('new_dropoff', point, asteroid, calc_travel_time(), calc_journey_score())
 		current_dropoff.get_node('AnimationPlayer').stop()
-		current_dropoff.get_node('Point Pulse').visible = false
-		current_dropoff.get_node('PointTarget').visible = false
+		current_dropoff.get_node('Point Pulse').hide()
+		current_dropoff.get_node('PointTarget').hide()
 		current_state = CabState.PICKING_UP
 		travel_time = 0
 		# This maybe doesn't want to be instant?
