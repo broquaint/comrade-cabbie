@@ -31,7 +31,6 @@ func flash():
 
 func set_text(text):
 	$DestFlashText.bbcode_text = text
-	emit_signal('repeat_message', text)
 
 func on_asteroid_change(_node, tunnel: Tunnel):
 	flash()
@@ -43,7 +42,10 @@ func on_new_pickup(point: DropoffPoint, travel_distance: int):
 	$ColorRect2.rect_size.x = orig_rec2_size
 	$DestFlashText.rect_size.x = orig_text_size
 	$DestFlashText.scroll_active = false
-	set_text('Drop me off at [b]' + point.point_name + '[/b] in [b]%d[/b] seconds please!' % travel_distance)
+
+	var text = 'Drop me off at [b]' + point.point_name + '[/b] in [b]%d[/b] seconds please!' % travel_distance
+	set_text(text)
+	emit_signal('repeat_message', text)
 
 const speedy_time_text = [
 	'so fast!!',
@@ -89,4 +91,6 @@ func on_new_dropoff(dropoff, _asteroid, travel_time, travel_score):
 	$ColorRect2.rect_size.x += 180
 	$DestFlashText.rect_size.x += 180
 	$DestFlashText.scroll_active = false
-	set_text('Reached [b]%s[/b] in [b]%d[/b]s, %s' % [dropoff.point_name, travel_time, timeliness])
+	var text = 'Reached [b]%s[/b] in [b]%d[/b]s, %s' % [dropoff.point_name, travel_time, timeliness]
+	set_text(text)
+	emit_signal('repeat_message', text)

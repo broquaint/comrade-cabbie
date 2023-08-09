@@ -314,6 +314,7 @@ __meta__ = {
 [node name="SatisfactionMeter" parent="." instance=ExtResource( 14 )]
 
 [node name="MessageLog" type="Node2D" parent="."]
+modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 176.574, 477.254 )
 script = ExtResource( 22 )
 __meta__ = {
@@ -338,6 +339,11 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = SubResource( 20 )
 bbcode_enabled = true
+
+[node name="FadeTimer" type="Timer" parent="MessageLog"]
+one_shot = true
+
+[node name="FadeTween" type="Tween" parent="MessageLog"]
 
 [node name="PauseOverlay" type="ColorRect" parent="."]
 unique_name_in_owner = true

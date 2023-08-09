@@ -1,6 +1,12 @@
 extends Node2D
 
+const TRANSPARENT = Color('#00ffffff')
+const APPARENT    = Color('#ffffffff')
+
 var msg_id = 0
+
+func _ready():
+	$FadeTimer.connect('timeout', self, 'disappear')
 
 func clear_log():
 	for kid in get_children():
@@ -18,3 +24,26 @@ func on_message(msg):
 				remove_child(kid)
 	add_child(mn)
 	mn.show()
+
+	if modulate != APPARENT:
+		appear()
+
+	$FadeTimer.start(10.0)
+
+func appear():
+	var ft = $FadeTween
+	ft.interpolate_property(
+		self, 'modulate',
+		TRANSPARENT, APPARENT, 0.5,
+		Tween.TRANS_QUAD, Tween.EASE_IN
+	)
+	ft.start()
+
+func disappear():
+	var ft = $FadeTween
+	ft.interpolate_property(
+		self, 'modulate',
+		APPARENT, TRANSPARENT, 2,
+		Tween.TRANS_QUAD, Tween.EASE_OUT
+	)
+	ft.start()

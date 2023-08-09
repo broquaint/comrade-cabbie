@@ -31,6 +31,8 @@ func _ready():
 	$Player.connect('compass_update', $HUD/Compass, 'on_compass_update')
 	$Player.connect('compass_update', $HUD/Compass/Needle, 'on_compass_update')
 
+	GameState.connect('satisfaction_update', $HUD/MessageLog, 'on_message')
+
 	setup()
 
 	play_music()
