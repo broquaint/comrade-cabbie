@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Home Asteroid.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Player.tscn" type="PackedScene" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://HUD.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Study Asteroid.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Tunnel.tscn" type="PackedScene" id=9]
+[ext_resource path="res://assets/opa-compressed.mp3" type="AudioStream" id=10]
 
 [node name="Root" type="Node2D"]
 script = ExtResource( 4 )
@@ -70,3 +71,9 @@ __meta__ = {
 
 [node name="GameState" type="Node" parent="."]
 script = ExtResource( 3 )
+
+[node name="SoundTrack" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 10 )
+bus = "Music"
+
+[node name="FadeIn" type="Tween" parent="SoundTrack"]

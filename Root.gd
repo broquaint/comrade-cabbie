@@ -33,6 +33,8 @@ func _ready():
 
 	setup()
 
+	play_music()
+
 func setup():
 	GameState.initialize()
 	$HUD/DestFlashControl.reset()
@@ -41,6 +43,19 @@ func setup():
 	$Player.position = Vector2(2000, 1000)
 	$Player.set_next_pickup($HomeAsteroid)
 	$HUD/SatisfactionMeter.set_asteroid_meter($HomeAsteroid)
+
+func play_music():
+	if $SoundTrack.playing:
+		$SoundTrack.stop()
+	$SoundTrack.stream.loop = true
+	var fade_in = $SoundTrack/FadeIn
+	#  bool interpolate_property(object: Object, property: NodePath, initial_val: Variant, final_val: Variant, duration: float, trans_type: TransitionType = 0, ease_type: EaseType = 2, delay: float = 0)
+	fade_in.interpolate_property(
+		$SoundTrack, 'volume_db', -60.0, -20.0, 5,
+		Tween.TRANS_LINEAR, Tween.EASE_IN
+	)
+	fade_in.start()
+	$SoundTrack.play()
 
 func _build_points():
 	for kid in get_children():

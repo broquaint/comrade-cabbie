@@ -98,6 +98,8 @@ func _physics_process(delta):
 
 	# get acceleration if thrust is pressed
 	if Input.is_action_pressed("move_up"):
+		if not $ShipSound.playing:
+			$ShipSound.vroom(boost_level)
 		var acceleration : Vector2
 
 		# -THRUST because vector pointing up = y value of -1, and

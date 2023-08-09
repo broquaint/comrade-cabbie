@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/opa-compressed.mp3-bb3699454f00084d52fec0553e18d34f.mp3str"
+
+[deps]
+
+source_file="res://assets/opa-compressed.mp3"
+dest_files=[ "res://.import/opa-compressed.mp3-bb3699454f00084d52fec0553e18d34f.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

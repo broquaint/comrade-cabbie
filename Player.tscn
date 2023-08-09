@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Player.gd" type="Script" id=1]
 [ext_resource path="res://assets/ship.png" type="Texture" id=2]
 [ext_resource path="res://assets/ship exhaust.png" type="Texture" id=3]
 [ext_resource path="res://assets/ship exhaust boost.png" type="Texture" id=4]
+[ext_resource path="res://ShipSound.gd" type="Script" id=5]
 
 [node name="Player" type="KinematicBody2D"]
 position = Vector2( -51.7185, 19.0523 )
@@ -36,3 +37,6 @@ color = Color( 1, 1, 1, 0.498039 )
 
 [node name="Decelerating" type="Timer" parent="."]
 one_shot = true
+
+[node name="ShipSound" type="AudioStreamPlayer" parent="."]
+script = ExtResource( 5 )
