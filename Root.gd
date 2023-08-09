@@ -38,6 +38,7 @@ func _ready():
 func setup():
 	GameState.initialize()
 	$HUD/DestFlashControl.reset()
+	$HUD/MessageLog.clear_log()
 	# Setup general game state.
 	$Player.initialize()
 	$Player.position = Vector2(2000, 1000)

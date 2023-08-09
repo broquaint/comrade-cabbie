@@ -32,4 +32,8 @@ func restart_game():
 	resume_game()
 
 func leave_game():
+	GameState.initialize()
+	get_node('/root/Root').setup()
+	hide()
+	get_node('%PauseOverlay').hide()
 	$"../TitleMenu".show_title()
