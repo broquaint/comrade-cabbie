@@ -60,6 +60,14 @@ func play_music():
 	fade_in.start()
 	$SoundTrack.play()
 
+func toggle_music():
+	var music_bus = AudioServer.get_bus_index("Master")
+	AudioServer.set_bus_mute(music_bus, not AudioServer.is_bus_mute(music_bus))
+
+func toggle_sfx():
+	var sfx_bus = AudioServer.get_bus_index("SFX")
+	AudioServer.set_bus_mute(sfx_bus, not AudioServer.is_bus_mute(sfx_bus))
+
 func _build_points():
 	for kid in get_children():
 		if "Asteroid" in kid.name:

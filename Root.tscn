@@ -73,7 +73,9 @@ __meta__ = {
 script = ExtResource( 3 )
 
 [node name="SoundTrack" type="AudioStreamPlayer" parent="."]
+pause_mode = 2
 stream = ExtResource( 10 )
+volume_db = -80.0
 bus = "Music"
 
 [node name="FadeIn" type="Tween" parent="SoundTrack"]

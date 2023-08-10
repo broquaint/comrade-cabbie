@@ -39,4 +39,5 @@ color = Color( 1, 1, 1, 0.498039 )
 one_shot = true
 
 [node name="ShipSound" type="AudioStreamPlayer" parent="."]
+bus = "SFX"
 script = ExtResource( 5 )

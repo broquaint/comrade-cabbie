@@ -367,26 +367,71 @@ __meta__ = {
 
 [node name="Resume" type="Button" parent="PauseMenu"]
 margin_right = 289.0
-margin_bottom = 22.0
+margin_bottom = 27.0
 focus_neighbour_top = NodePath("../Leave")
-focus_neighbour_bottom = NodePath("../Restart")
+focus_neighbour_bottom = NodePath("../Settings")
 text = "Continue Cab Service"
 
-[node name="Restart" type="Button" parent="PauseMenu"]
-margin_top = 26.0
+[node name="Settings" type="Button" parent="PauseMenu"]
+margin_top = 31.0
 margin_right = 289.0
-margin_bottom = 48.0
+margin_bottom = 58.0
 focus_neighbour_top = NodePath("../Resume")
+focus_neighbour_bottom = NodePath("../Restart")
+text = "Settings"
+
+[node name="Restart" type="Button" parent="PauseMenu"]
+margin_top = 62.0
+margin_right = 289.0
+margin_bottom = 89.0
+focus_neighbour_top = NodePath("../Settings")
 focus_neighbour_bottom = NodePath("../Leave")
 text = "Start From Scratch"
 
 [node name="Leave" type="Button" parent="PauseMenu"]
-margin_top = 52.0
+margin_top = 93.0
 margin_right = 289.0
-margin_bottom = 74.0
+margin_bottom = 120.0
 focus_neighbour_top = NodePath("../Restart")
 focus_neighbour_bottom = NodePath("../Resume")
 text = "Leave The World"
+
+[node name="SettingsMenu" type="VBoxContainer" parent="."]
+pause_mode = 2
+visible = false
+margin_left = 404.307
+margin_top = 237.572
+margin_right = 693.307
+margin_bottom = 326.572
+theme = ExtResource( 20 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Music" type="CheckBox" parent="SettingsMenu"]
+margin_right = 289.0
+margin_bottom = 27.0
+focus_neighbour_top = NodePath("../Back")
+focus_neighbour_bottom = NodePath("../SFX")
+pressed = true
+text = "Toggle Music"
+
+[node name="SFX" type="CheckBox" parent="SettingsMenu"]
+margin_top = 31.0
+margin_right = 289.0
+margin_bottom = 58.0
+focus_neighbour_top = NodePath("../Music")
+focus_neighbour_bottom = NodePath("../Back")
+pressed = true
+text = "Toggle SFX"
+
+[node name="Back" type="Button" parent="SettingsMenu"]
+margin_top = 62.0
+margin_right = 289.0
+margin_bottom = 89.0
+focus_neighbour_top = NodePath("../SFX")
+focus_neighbour_bottom = NodePath("../Music")
+text = "Back"
 
 [node name="Title" type="Sprite" parent="."]
 pause_mode = 2

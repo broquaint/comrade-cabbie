@@ -2,8 +2,15 @@ extends VBoxContainer
 
 func _ready():
 	$Resume.connect('pressed', self, 'resume_game')
+	$Settings.connect('pressed', self, 'show_settings')
 	$Restart.connect('pressed', self, 'restart_game')
 	$Leave.connect('pressed', self, 'leave_game')
+	$'../SettingsMenu/Music'.connect('pressed', self, 'toggle_music')
+	$'../SettingsMenu/SFX'.connect('pressed', self, 'toggle_sfx')
+	$'../SettingsMenu/Back'.connect('pressed', self, 'leave_settings')
+
+func root():
+	return get_node('/root/Root')
 
 func _process(_delta):
 	if Input.is_action_just_pressed('pause'):
@@ -26,14 +33,30 @@ func resume_game():
 	get_node('%PauseOverlay').hide()
 	GameState.current_state = GameState.States.PLAYING
 
+func show_settings():
+	hide()
+	$'../SettingsMenu'.show()
+	$'../SettingsMenu/Music'.grab_focus()
+
 func restart_game():
 	GameState.initialize()
-	get_node('/root/Root').setup()
+	root().setup()
 	resume_game()
 
 func leave_game():
 	GameState.initialize()
-	get_node('/root/Root').setup()
+	root().setup()
 	hide()
 	get_node('%PauseOverlay').hide()
 	$"../TitleMenu".show_title()
+
+func toggle_music():
+	root().toggle_music()
+
+func toggle_sfx():
+	root().toggle_sfx()
+
+func leave_settings():
+	$'../SettingsMenu'.hide()
+	show()
+	$Settings.grab_focus()

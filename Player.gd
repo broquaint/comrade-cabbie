@@ -124,6 +124,9 @@ func _physics_process(delta):
 
 	velocity = move_and_slide(velocity)
 
+func toggle_sfx():
+	$ShipSound.volume_db = -10.0 if $ShipSound.volume_db != -80.0 else -80.0
+
 func _ready():
 	$Decelerating.connect('timeout', self, 'now_decelerating')
 
