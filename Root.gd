@@ -32,7 +32,12 @@ func _ready():
 	$Player.connect('compass_update', $HUD/Compass/Needle, 'on_compass_update')
 
 	GameState.connect('satisfaction_update', $HUD/MessageLog, 'on_message')
+	GameState.load_data()
 
+	if not GameState.settings['music']:
+		AudioServer.set_bus_mute(1, true)
+	if not GameState.settings['sfx']:
+		AudioServer.set_bus_mute(2, true)
 	setup()
 
 func setup():
@@ -49,22 +54,27 @@ func play_music():
 	if $SoundTrack.playing:
 		$SoundTrack.stop()
 	$SoundTrack.stream.loop = true
-	var fade_in = $SoundTrack/FadeIn
-	#  bool interpolate_property(object: Object, property: NodePath, initial_val: Variant, final_val: Variant, duration: float, trans_type: TransitionType = 0, ease_type: EaseType = 2, delay: float = 0)
-	fade_in.interpolate_property(
-		$SoundTrack, 'volume_db', -60.0, -20.0, 5,
-		Tween.TRANS_LINEAR, Tween.EASE_IN
-	)
-	fade_in.start()
+	# Don't adjust volume if music is muted.
+	if not GameState.settings['music']:
+		var fade_in = $SoundTrack/FadeIn
+		fade_in.interpolate_property(
+			$SoundTrack, 'volume_db', -60.0, -20.0, 5,
+			Tween.TRANS_LINEAR, Tween.EASE_IN
+		)
+		fade_in.start()
 	$SoundTrack.play()
 
 func toggle_music():
-	var music_bus = AudioServer.get_bus_index("Master")
-	AudioServer.set_bus_mute(music_bus, not AudioServer.is_bus_mute(music_bus))
+	var music_bus = AudioServer.get_bus_index("Music")
+	var mute_state = not AudioServer.is_bus_mute(music_bus)
+	AudioServer.set_bus_mute(music_bus, mute_state)
+	GameState.set_music(not mute_state)
 
 func toggle_sfx():
 	var sfx_bus = AudioServer.get_bus_index("SFX")
-	AudioServer.set_bus_mute(sfx_bus, not AudioServer.is_bus_mute(sfx_bus))
+	var mute_state = not AudioServer.is_bus_mute(sfx_bus)
+	AudioServer.set_bus_mute(sfx_bus, mute_state)
+	GameState.set_sfx(not mute_state)
 
 func _build_points():
 	for kid in get_children():

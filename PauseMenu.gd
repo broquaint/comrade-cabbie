@@ -33,8 +33,7 @@ func resume_game():
 
 func show_settings():
 	hide()
-	$'../SettingsMenu'.show()
-	$'../SettingsMenu/Music'.grab_focus()
+	$'../SettingsMenu'.enable()
 
 func restart_game():
 	GameState.initialize()

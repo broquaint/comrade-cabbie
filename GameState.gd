@@ -23,6 +23,7 @@ var current_state = States.TITLE
 var current_asteroid : Node2D
 var overall_satisfaction  = DEFAULT_SATISFACTION
 var asteroid_satisfaction = {}
+var settings = {}
 
 func initialize():
 	current_asteroid = get_node('/root/Root/HomeAsteroid')
@@ -33,6 +34,38 @@ func initialize():
 	else:
 		asteroid_satisfaction = {}
 	current_state = States.PLAYING
+
+const CONFIG_PATH = 'user://gamestate.cfg'
+func load_data():
+	var config = ConfigFile.new()
+	var res = config.load(CONFIG_PATH)
+	if res != OK:
+		# Shouldn't happen. Could happen. Meh.
+		settings = {
+			seen_intro = false,
+			music = true,
+			sfx = true,
+		}
+	else:
+		settings['seen_intro'] = config.get_value('settings', 'seen_intro', false)
+		settings['music']      = config.get_value('settings', 'music', true)
+		settings['sfx']        = config.get_value('settings', 'sfx', true)
+
+func save_setting_value(k, v):
+	var config = ConfigFile.new()
+	for sk in settings.keys():
+		config.set_value('settings', sk, settings[sk])
+	config.set_value('settings', k, v)
+	config.save(CONFIG_PATH)
+
+func set_seen_intro(seen_state):
+	save_setting_value('seen_intro', seen_state)
+
+func set_music(mute_state):
+	save_setting_value('music', mute_state)
+
+func set_sfx(mute_state):
+	save_setting_value('sfx', mute_state)
 
 func on_picking_up(pickup: PickupPoint):
 	pass

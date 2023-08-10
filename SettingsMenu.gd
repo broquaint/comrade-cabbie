@@ -8,6 +8,14 @@ func _ready():
 	$SFX.connect('pressed', self, 'toggle_sfx')
 	$Back.connect('pressed', self, 'leave_settings')
 
+func enable():
+	show()
+	$Music.grab_focus()
+	if not GameState.settings['music']:
+		$Music.pressed = false
+	if not GameState.settings['sfx']:
+		$SFX.pressed = false
+
 func root():
 	return get_node('/root/Root')
 

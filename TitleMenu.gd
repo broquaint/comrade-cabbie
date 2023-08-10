@@ -23,8 +23,7 @@ func start_game():
 
 func show_settings():
 	hide()
-	$'../SettingsMenu'.show()
-	$'../SettingsMenu/Music'.grab_focus()
+	$'../SettingsMenu'.enable()
 
 func show_credits():
 	pass
