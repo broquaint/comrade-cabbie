@@ -3,7 +3,7 @@ extends Node
 signal satisfaction_update(text)
 
 enum States {
-	MAIN_MENU,
+	TITLE,
 	TRANSITIONING,
 	PAUSED,
 	PLAYING
@@ -19,7 +19,7 @@ enum JourneyScore {
 
 const DEFAULT_SATISFACTION = 60.0
 
-var current_state = States.PLAYING
+var current_state = States.TITLE
 var current_asteroid : Node2D
 var overall_satisfaction  = DEFAULT_SATISFACTION
 var asteroid_satisfaction = {}

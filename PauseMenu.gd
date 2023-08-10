@@ -5,9 +5,7 @@ func _ready():
 	$Settings.connect('pressed', self, 'show_settings')
 	$Restart.connect('pressed', self, 'restart_game')
 	$Leave.connect('pressed', self, 'leave_game')
-	$'../SettingsMenu/Music'.connect('pressed', self, 'toggle_music')
-	$'../SettingsMenu/SFX'.connect('pressed', self, 'toggle_sfx')
-	$'../SettingsMenu/Back'.connect('pressed', self, 'leave_settings')
+	$'../SettingsMenu'.connect('left_pause_settings', self, 'leave_settings')
 
 func root():
 	return get_node('/root/Root')
@@ -50,13 +48,6 @@ func leave_game():
 	get_node('%PauseOverlay').hide()
 	$"../TitleMenu".show_title()
 
-func toggle_music():
-	root().toggle_music()
-
-func toggle_sfx():
-	root().toggle_sfx()
-
 func leave_settings():
-	$'../SettingsMenu'.hide()
 	show()
 	$Settings.grab_focus()

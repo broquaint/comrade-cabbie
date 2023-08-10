@@ -35,8 +35,6 @@ func _ready():
 
 	setup()
 
-	play_music()
-
 func setup():
 	GameState.initialize()
 	$HUD/DestFlashControl.reset()

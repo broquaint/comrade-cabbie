@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=2]
+[gd_scene load_steps=42 format=2]
 
 [ext_resource path="res://HUD.gd" type="Script" id=1]
 [ext_resource path="res://assets/compass.png" type="Texture" id=2]
@@ -24,6 +24,8 @@
 [ext_resource path="res://MessageLog.gd" type="Script" id=22]
 [ext_resource path="res://assets/robotocondensed-regular.ttf" type="DynamicFontData" id=23]
 [ext_resource path="res://assets/robotocondensed-italic.ttf" type="DynamicFontData" id=24]
+[ext_resource path="res://SettingsMenu.tscn" type="PackedScene" id=25]
+[ext_resource path="res://SettingsMenu.gd" type="Script" id=26]
 
 [sub_resource type="DynamicFontData" id=8]
 font_path = "res://assets/robotocondensed-bold.ttf"
@@ -396,43 +398,6 @@ focus_neighbour_top = NodePath("../Restart")
 focus_neighbour_bottom = NodePath("../Resume")
 text = "Leave The World"
 
-[node name="SettingsMenu" type="VBoxContainer" parent="."]
-pause_mode = 2
-visible = false
-margin_left = 404.307
-margin_top = 237.572
-margin_right = 693.307
-margin_bottom = 326.572
-theme = ExtResource( 20 )
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Music" type="CheckBox" parent="SettingsMenu"]
-margin_right = 289.0
-margin_bottom = 27.0
-focus_neighbour_top = NodePath("../Back")
-focus_neighbour_bottom = NodePath("../SFX")
-pressed = true
-text = "Toggle Music"
-
-[node name="SFX" type="CheckBox" parent="SettingsMenu"]
-margin_top = 31.0
-margin_right = 289.0
-margin_bottom = 58.0
-focus_neighbour_top = NodePath("../Music")
-focus_neighbour_bottom = NodePath("../Back")
-pressed = true
-text = "Toggle SFX"
-
-[node name="Back" type="Button" parent="SettingsMenu"]
-margin_top = 62.0
-margin_right = 289.0
-margin_bottom = 89.0
-focus_neighbour_top = NodePath("../SFX")
-focus_neighbour_bottom = NodePath("../Music")
-text = "Back"
-
 [node name="Title" type="Sprite" parent="."]
 pause_mode = 2
 visible = false
@@ -474,3 +439,6 @@ margin_bottom = 89.0
 focus_neighbour_top = NodePath("../Settings")
 focus_neighbour_bottom = NodePath("../Start")
 text = "Credits"
+
+[node name="SettingsMenu" parent="." instance=ExtResource( 25 )]
+script = ExtResource( 26 )
