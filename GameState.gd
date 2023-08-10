@@ -1,6 +1,7 @@
 extends Node
 
 signal satisfaction_update(text)
+signal asteroid_unlock(asteroid)
 
 enum States {
 	TITLE,
@@ -24,6 +25,13 @@ var current_asteroid : Node2D
 var overall_satisfaction  = DEFAULT_SATISFACTION
 var asteroid_satisfaction = {}
 var settings = {}
+
+var journeys = []
+var unlocks = {
+	Services = false,
+	Goods = false,
+	Study = false
+}
 
 func initialize():
 	current_asteroid = get_node('/root/Root/HomeAsteroid')
@@ -115,3 +123,22 @@ func on_new_dropoff(_dropoff: DropoffPoint, asteroid: Node2D, travel_time: float
 			'satisfaction_update',
 			'%s Satisfaction [i]%s[/i] by [b]%.2f[/b] to [b]%.2f[/b]%% and overall satisaction by [b]%.2f[/b] to [b]%.2f[/b]%%' % [aname, direction, local_delta, local_satisfaction, whole_delta, overall_satisfaction]
 		)
+
+	journeys.push_front(journey_score)
+	handle_unlocks()
+
+func unlocking_now():
+	if journeys.size() > 1:
+		for js in journeys.slice(0, 1):
+			if js > JourneyScore.TIMELY:
+				return false
+	else:
+		return false
+	return true
+
+func handle_unlocks():
+	var should_unlock = unlocking_now()
+	if should_unlock and not unlocks['Services']:
+		unlocks['Services'] = true
+		emit_signal('asteroid_unlock', 'Services')
+		journeys = []

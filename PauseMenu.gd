@@ -27,7 +27,10 @@ func pause_game():
 
 func resume_game():
 	get_tree().paused = false
-	hide()
+	if $'../SettingsMenu'.visible:
+		$'../SettingsMenu'.hide()
+	else:
+		hide()
 	get_node('%PauseOverlay').hide()
 	GameState.current_state = GameState.States.PLAYING
 
