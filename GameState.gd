@@ -67,6 +67,9 @@ func set_music(mute_state):
 func set_sfx(mute_state):
 	save_setting_value('sfx', mute_state)
 
+func intro_acknowledged():
+	set_seen_intro(true)
+
 func on_picking_up(pickup: PickupPoint):
 	pass
 func on_new_pickup(dropoff: DropoffPoint, calc_travel_distance: int):

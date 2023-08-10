@@ -31,6 +31,7 @@ func _ready():
 	$Player.connect('compass_update', $HUD/Compass, 'on_compass_update')
 	$Player.connect('compass_update', $HUD/Compass/Needle, 'on_compass_update')
 
+	$HUD/IntroPopup.connect('confirmed', GameState, 'intro_acknowledged')
 	GameState.connect('satisfaction_update', $HUD/MessageLog, 'on_message')
 	GameState.load_data()
 
@@ -40,6 +41,7 @@ func _ready():
 		AudioServer.set_bus_mute(2, true)
 	setup()
 
+# Used during start+restart
 func setup():
 	GameState.initialize()
 	$HUD/DestFlashControl.reset()
@@ -49,6 +51,14 @@ func setup():
 	$Player.position = Vector2(2000, 1000)
 	$Player.set_next_pickup($HomeAsteroid)
 	$HUD/SatisfactionMeter.set_asteroid_meter($HomeAsteroid)
+
+# Used coming from Title screen
+func start_game():
+	GameState.current_state = GameState.States.PLAYING
+	get_tree().paused = false
+	play_music()
+	if not GameState.settings['seen_intro']:
+		$HUD/IntroPopup.popup()
 
 func play_music():
 	if $SoundTrack.playing:

@@ -398,6 +398,30 @@ focus_neighbour_top = NodePath("../Restart")
 focus_neighbour_bottom = NodePath("../Resume")
 text = "Leave The World"
 
+[node name="IntroPopup" type="AcceptDialog" parent="."]
+visible = true
+margin_left = 171.316
+margin_top = 106.345
+margin_right = 788.316
+margin_bottom = 356.345
+window_title = "Introduction"
+
+[node name="IntroText" type="RichTextLabel" parent="IntroPopup"]
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 609.0
+margin_bottom = 214.0
+theme = ExtResource( 13 )
+bbcode_enabled = true
+bbcode_text = "Welcome, Comrade, to the Five Fives asteroid belt where everything comes in [b]fives[/b]!
+You have signed on as the local community cab driver and you're determined to make these rocks a better place.
+If you can get the satisfaction of the Home Asteroid above [b]80%[/b] then you will be invited to other asteroids to help in getting people to places.
+[i]Good luck, Comrade![/i]"
+text = "Welcome, Comrade, to the Five Fives asteroid belt where everything comes in fives!
+You have signed on as the local community cab driver and you're determined to make these rocks a better place.
+If you can get the satisfaction of the Home Asteroid above 80% then you will be invited to other asteroids to help in getting people to places.
+Good luck, Comrade!"
+
 [node name="Title" type="Sprite" parent="."]
 pause_mode = 2
 visible = false

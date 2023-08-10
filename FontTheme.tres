@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=7 format=2]
+[gd_resource type="Theme" load_steps=9 format=2]
 
 [sub_resource type="DynamicFontData" id=5]
 font_path = "res://assets/robotocondensed-italic.ttf"
@@ -14,6 +14,13 @@ font_path = "res://assets/robotocondensed-bold.ttf"
 size = 20
 font_data = SubResource( 3 )
 
+[sub_resource type="DynamicFontData" id=7]
+font_path = "res://assets/robotocondensed-italic.ttf"
+
+[sub_resource type="DynamicFont" id=8]
+size = 20
+font_data = SubResource( 7 )
+
 [sub_resource type="DynamicFontData" id=1]
 font_path = "res://assets/robotocondensed-regular.ttf"
 
@@ -25,3 +32,4 @@ font_data = SubResource( 1 )
 default_font = SubResource( 2 )
 Label/fonts/font = SubResource( 6 )
 RichTextLabel/fonts/bold_font = SubResource( 4 )
+RichTextLabel/fonts/italics_font = SubResource( 8 )

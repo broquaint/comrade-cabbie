@@ -15,9 +15,7 @@ func show_title():
 	$Start.grab_focus()
 
 func start_game():
-	GameState.current_state = GameState.States.PLAYING
-	get_tree().paused = false
-	root().play_music()
+	root().start_game()
 	$'../Title'.hide()
 	hide()
 
