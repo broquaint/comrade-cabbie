@@ -128,8 +128,8 @@ func on_new_dropoff(_dropoff: DropoffPoint, asteroid: Node2D, travel_time: float
 	handle_unlocks()
 
 func unlocking_now():
-	if journeys.size() > 1:
-		for js in journeys.slice(0, 1):
+	if journeys.size() > 4:
+		for js in journeys.slice(0, 4):
 			if js > JourneyScore.TIMELY:
 				return false
 	else:
@@ -137,8 +137,12 @@ func unlocking_now():
 	return true
 
 func handle_unlocks():
-	var should_unlock = unlocking_now()
-	if should_unlock and not unlocks['Services']:
-		unlocks['Services'] = true
-		emit_signal('asteroid_unlock', 'Services')
-		journeys = []
+	if unlocking_now():
+		if not unlocks['Services']:
+			unlocks['Services'] = true
+			emit_signal('asteroid_unlock', 'Services')
+			journeys = []
+		elif not unlocks['Study']:
+			unlocks['Study'] = true
+			emit_signal('asteroid_unlock', 'Study')
+			journeys = []
