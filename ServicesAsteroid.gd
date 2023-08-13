@@ -4,5 +4,5 @@ signal announce_unlock(msg)
 
 func on_asteroid_unlocked(asteroid):
 	if asteroid == 'Study':
-		$AnimationPlayer.play("LiftStudyBarrier")
+		$StudyBarrier/AnimationPlayer.play("LiftStudyBarrier")
 		emit_signal("announce_unlock", '[b]The Study asteroid wants you! Head to the [i]Southern Tunnel[/i]![/b]')

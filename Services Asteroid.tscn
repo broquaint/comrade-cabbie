@@ -312,7 +312,7 @@ points = PoolVector2Array( 32, 32, 0, 32, 0, 0, 32, 0 )
 } ]
 13/z_index = 0
 
-[sub_resource type="Animation" id=15]
+[sub_resource type="Animation" id=17]
 resource_name = "LiftStudyBarrier"
 length = 3.0
 tracks/0/type = "value"
@@ -325,7 +325,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 3 ),
 "transitions": PoolRealArray( 2, 1 ),
 "update": 0,
-"values": [ Vector2( 959.686, 10879.3 ), Vector2( 800.541, 10720.5 ) ]
+"values": [ Vector2( 959.686, 10879.3 ), Vector2( 801.285, 10719.4 ) ]
 }
 
 [sub_resource type="Animation" id=16]
@@ -340,7 +340,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( 9533.67, 2658.15 ) ]
+"values": [ Vector2( 959.686, 10879.3 ) ]
 }
 
 [node name="Services Asteroid" type="TileMap"]
@@ -537,18 +537,19 @@ position = Vector2( 2171.49, 1770.51 )
 point_name = "South Curve"
 
 [node name="StudyBarrier" type="StaticBody2D" parent="."]
-position = Vector2( 9533.67, 2658.15 )
-rotation = 1.5708
+position = Vector2( 959.686, 10879.3 )
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StudyBarrier"]
-polygon = PoolVector2Array( 41.0488, -62.9194, -69.3398, 29.2092, -35.9326, 65.7288, 75.4932, -30.7573 )
-
 [node name="Sprite" type="Sprite" parent="StudyBarrier"]
+rotation = 1.5708
 texture = ExtResource( 7 )
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/LiftStudyBarrier = SubResource( 15 )
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StudyBarrier"]
+polygon = PoolVector2Array( -40.6684, -63.457, -26.0313, -63.6221, 63.2711, 25.1875, 63.5673, 41.9248, 41.0361, 64.291, 26.399, 64.291, -64.2191, -27.9717, -64.0546, -41.9502 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="StudyBarrier"]
+root_node = NodePath("../..")
+anims/LiftStudyBarrier = SubResource( 17 )
 anims/RESET = SubResource( 16 )

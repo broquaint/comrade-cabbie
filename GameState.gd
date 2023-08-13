@@ -30,7 +30,8 @@ var journeys = []
 var unlocks = {
 	Services = false,
 	Goods = false,
-	Study = false
+	Study = false,
+	Home = false,
 }
 
 func initialize():
@@ -145,4 +146,12 @@ func handle_unlocks():
 		elif not unlocks['Study']:
 			unlocks['Study'] = true
 			emit_signal('asteroid_unlock', 'Study')
+			journeys = []
+		elif not unlocks['Goods']:
+			unlocks['Goods'] = true
+			emit_signal('asteroid_unlock', 'Goods')
+			journeys = []
+		elif not unlocks['Home']:
+			unlocks['Home'] = true
+			emit_signal('asteroid_unlock', 'Home')
 			journeys = []
