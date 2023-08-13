@@ -31,19 +31,21 @@ func on_message(msg):
 	$FadeTimer.start(10.0)
 
 func appear():
-	var ft = $FadeTween
+	# It's possible we're fading out, so stop that to fade in again.
+	$FadeOutTween.stop_all()
+	var ft = $FadeInTween
 	ft.interpolate_property(
 		self, 'modulate',
-		TRANSPARENT, APPARENT, 0.5,
+		self.modulate, APPARENT, 0.5,
 		Tween.TRANS_QUAD, Tween.EASE_IN
 	)
 	ft.start()
 
 func disappear():
-	var ft = $FadeTween
+	var ft = $FadeOutTween
 	ft.interpolate_property(
 		self, 'modulate',
-		APPARENT, TRANSPARENT, 2,
+		self.modulate, TRANSPARENT, 2,
 		Tween.TRANS_QUAD, Tween.EASE_OUT
 	)
 	ft.start()

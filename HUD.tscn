@@ -405,7 +405,9 @@ bbcode_enabled = true
 [node name="FadeTimer" type="Timer" parent="MessageLog"]
 one_shot = true
 
-[node name="FadeTween" type="Tween" parent="MessageLog"]
+[node name="FadeInTween" type="Tween" parent="MessageLog"]
+
+[node name="FadeOutTween" type="Tween" parent="MessageLog"]
 
 [node name="PauseOverlay" type="ColorRect" parent="."]
 unique_name_in_owner = true
@@ -530,7 +532,7 @@ script = ExtResource( 26 )
 [node name="BannerPanel" type="Panel" parent="."]
 margin_left = -1044.85
 margin_top = 320.107
-margin_right = -20.8501
+margin_right = -20.8483
 margin_bottom = 424.107
 theme = SubResource( 24 )
 script = ExtResource( 27 )
