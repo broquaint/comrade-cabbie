@@ -34,7 +34,9 @@ func _ready():
 	$HUD/IntroPopup.connect('confirmed', GameState, 'intro_acknowledged')
 	GameState.connect('satisfaction_update', $HUD/MessageLog, 'on_message')
 	for a in asteroids.values():
-		GameState.connect("asteroid_unlock", a, 'on_asteroid_unlocked')
+		GameState.connect('asteroid_unlock', a, 'on_asteroid_unlocked')
+		a.connect('announce_unlock', $HUD/BannerPanel, 'on_announce')
+		a.connect('announce_unlock', $HUD/MessageLog, 'on_message')
 	GameState.load_data()
 
 	if not GameState.settings['music']:
