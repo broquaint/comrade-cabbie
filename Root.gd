@@ -80,7 +80,8 @@ func unlocks_complete(_asteroid):
 	# Using a Timer as that handles games pauses seamlessly.
 	var completion_time = TIMER_LIMIT - $PlayTime.time_left
 	$PlayTime.stop()
-	$HUD/CompletionPopup.journeys_end(completion_time)
+	GameState.save_completion_time(completion_time)
+	$HUD/CompletionPopup.journeys_end(completion_time, GameState.settings['fastest_time'])
 
 func play_music():
 	if $SoundTrack.playing:

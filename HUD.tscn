@@ -412,6 +412,29 @@ one_shot = true
 
 [node name="FadeOutTween" type="Tween" parent="MessageLog"]
 
+[node name="BannerPanel" type="Panel" parent="."]
+margin_left = -1044.85
+margin_top = 320.107
+margin_right = -20.8501
+margin_bottom = 424.107
+theme = SubResource( 24 )
+script = ExtResource( 27 )
+
+[node name="BannerText" type="RichTextLabel" parent="BannerPanel"]
+margin_left = 8.0
+margin_top = 32.0
+margin_right = 1024.0
+margin_bottom = 104.0
+rect_min_size = Vector2( 1012, 64 )
+bbcode_enabled = true
+bbcode_text = "[b]The Unnamed asteroid wants you! Please head to [i]Woozle Wuzzle[/i][/b]"
+text = "The Unnamed asteroid wants you! Please head to Woozle Wuzzle"
+
+[node name="BannerAnimationPlayer" type="AnimationPlayer" parent="BannerPanel"]
+root_node = NodePath("../..")
+anims/BannerSlide = SubResource( 25 )
+anims/RESET = SubResource( 26 )
+
 [node name="PauseOverlay" type="ColorRect" parent="."]
 unique_name_in_owner = true
 visible = false
@@ -547,10 +570,10 @@ Creators of Godot for this amazing game engine!"
 
 [node name="CompletionPopup" type="AcceptDialog" parent="."]
 visible = true
-margin_left = 287.0
-margin_top = 89.0
-margin_right = 758.0
-margin_bottom = 352.0
+margin_left = 186.207
+margin_top = 69.6536
+margin_right = 814.207
+margin_bottom = 306.654
 theme = ExtResource( 13 )
 window_title = "Congratulations!"
 script = ExtResource( 32 )
@@ -558,15 +581,17 @@ script = ExtResource( 32 )
 [node name="AdiosText" type="RichTextLabel" parent="CompletionPopup"]
 margin_left = 8.0
 margin_top = 8.0
-margin_right = 463.0
-margin_bottom = 217.0
+margin_right = 620.0
+margin_bottom = 191.0
 bbcode_enabled = true
 bbcode_text = "Thanks for playing, comrade! I hope you enjoyed your time getting people where they need to go. You're free to continue your journeys around these rocks, maybe try get that satisfaction level up to 100% across the board or try some of the inter-asteroid journeys! Until next time—safe travels!
 
-Completion time: [b]XXX[/b]"
+Completion time: [b]XXX[/b]
+zzFastest time: [b]YYY[/b]zz"
 text = "Thanks for playing, comrade! I hope you enjoyed your time getting people where they need to go. You're free to continue your journeys around these rocks, maybe try get that satisfaction level up to 100% across the board or try some of the inter-asteroid journeys! Until next time—safe travels!
 
-Completion time: XXX"
+Completion time: XXX
+zzFastest time: YYYzz"
 
 [node name="TitleMenu" type="VBoxContainer" parent="."]
 pause_mode = 2
@@ -606,26 +631,3 @@ text = "Credits"
 
 [node name="SettingsMenu" parent="." instance=ExtResource( 25 )]
 script = ExtResource( 26 )
-
-[node name="BannerPanel" type="Panel" parent="."]
-margin_left = -1044.85
-margin_top = 320.107
-margin_right = -20.8501
-margin_bottom = 424.107
-theme = SubResource( 24 )
-script = ExtResource( 27 )
-
-[node name="BannerText" type="RichTextLabel" parent="BannerPanel"]
-margin_left = 8.0
-margin_top = 32.0
-margin_right = 1024.0
-margin_bottom = 104.0
-rect_min_size = Vector2( 1012, 64 )
-bbcode_enabled = true
-bbcode_text = "[b]The Unnamed asteroid wants you! Please head to [i]Woozle Wuzzle[/i][/b]"
-text = "The Unnamed asteroid wants you! Please head to Woozle Wuzzle"
-
-[node name="BannerAnimationPlayer" type="AnimationPlayer" parent="BannerPanel"]
-root_node = NodePath("../..")
-anims/BannerSlide = SubResource( 25 )
-anims/RESET = SubResource( 26 )

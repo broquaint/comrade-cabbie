@@ -54,17 +54,20 @@ func load_data():
 			seen_intro = false,
 			music = true,
 			sfx = true,
+			fastest_time = 31449601
 		}
 	else:
-		settings['seen_intro'] = config.get_value('settings', 'seen_intro', false)
-		settings['music']      = config.get_value('settings', 'music', true)
-		settings['sfx']        = config.get_value('settings', 'sfx', true)
+		settings['seen_intro']   = config.get_value('settings', 'seen_intro', false)
+		settings['music']        = config.get_value('settings', 'music', true)
+		settings['sfx']          = config.get_value('settings', 'sfx', true)
+		settings['fastest_time'] = config.get_value('settings', 'fastest_time', 31449601)
 
 func save_setting_value(k, v):
 	var config = ConfigFile.new()
 	for sk in settings.keys():
 		config.set_value('settings', sk, settings[sk])
 	config.set_value('settings', k, v)
+	settings[k] = v
 	config.save(CONFIG_PATH)
 
 func set_seen_intro(seen_state):
@@ -75,6 +78,10 @@ func set_music(mute_state):
 
 func set_sfx(mute_state):
 	save_setting_value('sfx', mute_state)
+
+func save_completion_time(new_time):
+	if new_time < settings['fastest_time']:
+		save_setting_value('fastest_time', new_time)
 
 func intro_acknowledged():
 	set_seen_intro(true)
