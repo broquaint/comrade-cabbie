@@ -463,7 +463,6 @@ focus_neighbour_bottom = NodePath("../Resume")
 text = "Leave The World"
 
 [node name="IntroPopup" type="AcceptDialog" parent="."]
-visible = true
 margin_left = 171.0
 margin_top = 106.0
 margin_right = 788.0
@@ -519,10 +518,11 @@ position = Vector2( 512, 300 )
 texture = ExtResource( 15 )
 
 [node name="CreditsPopup" type="PopupDialog" parent="."]
+visible = true
 margin_left = 308.0
 margin_top = 206.0
 margin_right = 742.0
-margin_bottom = 396.0
+margin_bottom = 423.0
 theme = ExtResource( 13 )
 __meta__ = {
 "_edit_group_": true
@@ -532,15 +532,17 @@ __meta__ = {
 margin_left = 8.0
 margin_top = 8.0
 margin_right = 426.0
-margin_bottom = 174.0
+margin_bottom = 209.0
 bbcode_enabled = true
-bbcode_text = "[b]Game sculptor[/b]: Dan Brook aka [i]broquaint[/i]
+bbcode_text = "[b]Game making person[/b]: Dan Brook aka [i]broquaint[/i]
 [b]Tester[/b]: Son of Dan Brook aka son of [i]broquaint[/i]
-[b]Thanks[/b]: bones, newobject & garebear in the #eggplant-gamejam of the Eggplant Discord server for all their feedback.
+[b]Thanks to[/b]: bones, newobject & garebear in the #eggplant-gamejam of the Eggplant Discord server for all their feedback.
+Stevia Sphere for the wonderful music: [i]A Mimir[/i]
 Creators of [b]Godot[/b] for this amazing game engine!"
-text = "Game sculptor: Dan Brook aka broquaint
+text = "Game making person: Dan Brook aka broquaint
 Tester: Son of Dan Brook aka son of broquaint
-Thanks: bones, newobject & garebear in the #eggplant-gamejam of the Eggplant Discord server for all their feedback.
+Thanks to: bones, newobject & garebear in the #eggplant-gamejam of the Eggplant Discord server for all their feedback.
+Stevia Sphere for the wonderful music: A Mimir
 Creators of Godot for this amazing game engine!"
 
 [node name="TitleMenu" type="VBoxContainer" parent="."]

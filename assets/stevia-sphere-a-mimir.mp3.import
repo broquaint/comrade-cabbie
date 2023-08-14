@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/stevia-sphere-a-mimir.mp3-ffbd855bcd40e3a47c370a08078aea7a.mp3str"
+
+[deps]
+
+source_file="res://assets/stevia-sphere-a-mimir.mp3"
+dest_files=[ "res://.import/stevia-sphere-a-mimir.mp3-ffbd855bcd40e3a47c370a08078aea7a.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

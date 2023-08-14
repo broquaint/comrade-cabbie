@@ -9,7 +9,7 @@
 [ext_resource path="res://HUD.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Study Asteroid.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Tunnel.tscn" type="PackedScene" id=9]
-[ext_resource path="res://assets/opa-compressed.mp3" type="AudioStream" id=10]
+[ext_resource path="res://assets/stevia-sphere-a-mimir.mp3" type="AudioStream" id=10]
 [ext_resource path="res://Fun Asteroid.tscn" type="PackedScene" id=11]
 [ext_resource path="res://assets/asteroid-unlock.mp3" type="AudioStream" id=12]
 

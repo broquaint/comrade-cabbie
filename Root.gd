@@ -46,6 +46,7 @@ func _ready():
 
 	# No idea why all these streams are looping.
 	$UnlockSound.stream.loop = false
+	$SoundTrack.stream.loop = true
 	setup()
 
 # Used during start+restart
@@ -79,7 +80,7 @@ func play_music():
 	if GameState.settings['music']:
 		var fade_in = $SoundTrack/FadeIn
 		fade_in.interpolate_property(
-			$SoundTrack, 'volume_db', -60.0, -30.0, 4,
+			$SoundTrack, 'volume_db', -60.0, -25.0, 4,
 			Tween.TRANS_LINEAR, Tween.EASE_IN
 		)
 		fade_in.start()
