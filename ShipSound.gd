@@ -2,16 +2,16 @@ extends AudioStreamPlayer
 
 
 # export(Texture) var north_pickup_tex
-export(AudioStreamSample) var no_boost        = preload("res://assets/ship1.wav")
-export(AudioStreamSample) var boost_some      = preload("res://assets/ship2.wav")
-export(AudioStreamSample) var boost_speedy    = preload("res://assets/ship3.wav")
-export(AudioStreamSample) var boost_ludicrous = preload("res://assets/ship4.wav")
+export(AudioStreamSample) var no_boost        = preload("res://assets/boost-none.wav")
+export(AudioStreamSample) var boost_some      = preload("res://assets/boost-some.wav")
+export(AudioStreamSample) var boost_speedy    = preload("res://assets/boost-speedy.wav")
+export(AudioStreamSample) var boost_ludicrous = preload("res://assets/boost-ludicrous.wav")
 
 func _ready():
 	self.stream = no_boost
 
 func vroom(boost_type):
-#	stop()
+	stop()
 	match boost_type:
 		0:
 			self.stream = no_boost
