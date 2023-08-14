@@ -72,10 +72,10 @@ func play_music():
 		$SoundTrack.stop()
 	$SoundTrack.stream.loop = true
 	# Don't adjust volume if music is muted.
-	if not GameState.settings['music']:
+	if GameState.settings['music']:
 		var fade_in = $SoundTrack/FadeIn
 		fade_in.interpolate_property(
-			$SoundTrack, 'volume_db', -60.0, -20.0, 5,
+			$SoundTrack, 'volume_db', -60.0, -30.0, 4,
 			Tween.TRANS_LINEAR, Tween.EASE_IN
 		)
 		fade_in.start()
