@@ -19,6 +19,7 @@ enum JourneyScore {
 }
 
 const DEFAULT_SATISFACTION = 60.0
+const UNLOCK_THRESHOLD = 5
 
 var current_state = States.TITLE
 var current_asteroid : Node2D
@@ -78,14 +79,7 @@ func set_sfx(mute_state):
 func intro_acknowledged():
 	set_seen_intro(true)
 
-func on_picking_up(pickup: PickupPoint):
-	pass
-func on_new_pickup(dropoff: DropoffPoint, calc_travel_distance: int):
-	pass
-
-func on_asteroid_change(_node, tunnel: Tunnel):
-	var asteroid_name = current_asteroid.name.replace('Asteroid', '')
-	var new_asteroid = tunnel.AsteroidTwo if asteroid_name == tunnel.AsteroidOne else tunnel.AsteroidOne
+func set_current_asteroid(new_asteroid):
 	current_asteroid = get_node("/root/Root/%sAsteroid" % new_asteroid)
 
 func on_new_dropoff(_dropoff: DropoffPoint, asteroid: Node2D, travel_time: float, journey_score: int):
@@ -120,8 +114,9 @@ func on_new_dropoff(_dropoff: DropoffPoint, asteroid: Node2D, travel_time: float
 	journeys.push_front({score = journey_score, asteroid = asteroid.name.replace('Asteroid', '')})
 	handle_unlocks()
 
-const UNLOCK_THRESHOLD = 5
 func good_journey_count():
+	if unlock_order.empty():
+		return 0
 	var unlock_target = unlock_order[0]
 	var good_journeys = 0
 	for js in journeys:

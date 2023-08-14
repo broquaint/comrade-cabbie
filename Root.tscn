@@ -38,8 +38,8 @@ __meta__ = {
 }
 
 [node name="HomeGoodsTunnel" parent="." instance=ExtResource( 9 )]
-AsteroidOne = "Home"
-AsteroidTwo = "Goods"
+AsteroidOne = "Goods"
+AsteroidTwo = "Home"
 
 [node name="HomeServicesTunnel" parent="." instance=ExtResource( 9 )]
 position = Vector2( 9718.65, 2836.96 )
@@ -59,8 +59,8 @@ AsteroidTwo = "Study"
 position = Vector2( 1086.55, 12828.5 )
 rotation = 0.0174533
 scale = Vector2( 0.95, 0.95 )
-AsteroidOne = "Goods"
-AsteroidTwo = "Study"
+AsteroidOne = "Study"
+AsteroidTwo = "Goods"
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
 __meta__ = {

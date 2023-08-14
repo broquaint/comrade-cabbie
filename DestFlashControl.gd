@@ -32,9 +32,9 @@ func flash():
 func set_text(text):
 	$DestFlashText.bbcode_text = text
 
-func on_asteroid_change(_node, tunnel: Tunnel):
+func on_asteroid_change(_from, to):
 	flash()
-	call_deferred('set_text', "Now entering the [b]%s[/b] Asteroid!" % GameState.current_asteroid.name.replace('Asteroid', ''))
+	set_text("Now entering the [b]%s[/b] Asteroid!" % to)
 
 func on_new_pickup(point: DropoffPoint, travel_distance: int):
 	flash()

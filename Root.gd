@@ -17,8 +17,6 @@ func _ready():
 	_connect_tunnels()
 
 	# Connect up all the signals
-	$Player.connect('picking_up',  GameState, 'on_picking_up')
-	$Player.connect('new_pickup',  GameState, 'on_new_pickup')
 	$Player.connect('new_dropoff', GameState, 'on_new_dropoff')
 	
 	$Player.connect('picking_up', $HUD/Control, 'on_picking_up')
@@ -120,6 +118,6 @@ func _connect_boosts():
 
 func _connect_tunnels():
 	for tunnel in [$HomeGoodsTunnel, $HomeServicesTunnel, $ServicesStudyTunnel, $GoodsStudyTunnel]:
-		tunnel.connect('body_entered', GameState, 'on_asteroid_change', [tunnel])
-		tunnel.connect('body_entered', $HUD/DestFlashControl, 'on_asteroid_change', [tunnel])
-		tunnel.connect('body_entered', $HUD/SatisfactionMeter, 'on_asteroid_change', [tunnel])
+		tunnel.connect('tunnel_entered', $Player, 'on_asteroid_change')
+		tunnel.connect('tunnel_entered', $HUD/DestFlashControl, 'on_asteroid_change')
+		tunnel.connect('tunnel_entered', $HUD/SatisfactionMeter, 'on_asteroid_change')

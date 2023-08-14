@@ -158,6 +158,18 @@ func find_nearest_pickup(asteroid) -> Area2D:
 			closest = pickup
 	return closest
 
+func on_asteroid_change(_from, _to):
+	if current_state != CabState.PICKING_UP:
+		return
+
+	current_pickup.get_node('AnimationPlayer').stop()
+	current_pickup.get_node('Point Pulse').hide()
+
+	current_pickup = find_nearest_pickup(GameState.current_asteroid)
+	current_pickup.get_node('AnimationPlayer').play('Pulse')
+	current_pickup.get_node('Point Pulse').visible = true
+	emit_signal("picking_up", current_pickup)
+
 func set_next_pickup(asteroid):
 	current_state = CabState.PICKING_UP
 	current_pickup = find_nearest_pickup(asteroid)

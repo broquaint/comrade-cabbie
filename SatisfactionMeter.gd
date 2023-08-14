@@ -30,8 +30,8 @@ func set_asteroid_meter(asteroid):
 	$AsteroidMeterValue.text = "%.2f%%" % GameState.asteroid_satisfaction[asteroid.name]
 	$AsteroidMeterLabel.text = '%s Satisfaction' % asteroid.name.replace('Asteroid', '')
 
-func on_asteroid_change(_node, tunnel: Tunnel):
-	call_deferred('set_asteroid_meter', GameState.current_asteroid)
+func on_asteroid_change(_from, _to):
+	set_asteroid_meter(GameState.current_asteroid)
 
 func on_new_dropoff(dropoff, asteroid, travel_time, travel_score):
 	# Should ensure the satisfaction value is in its final state
