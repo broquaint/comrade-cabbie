@@ -36,6 +36,7 @@ func _ready():
 		a.connect('announce_unlock', $HUD/BannerPanel, 'on_announce')
 		a.connect('announce_unlock', $HUD/MessageLog, 'on_message')
 	GameState.connect('asteroid_unlock', self, 'on_asteroid_unlocked')
+	$GoodsAsteroid.connect('announce_unlock', self, 'unlocks_complete')
 
 	GameState.load_data()
 
@@ -64,13 +65,22 @@ func setup():
 	$HUD/SatisfactionMeter.set_progress_meter()
 	$HUD/SatisfactionMeter.set_asteroid_meter($HomeAsteroid)
 
+const TIMER_LIMIT = 86400*7*52
 # Used coming from Title screen
 func start_game():
 	GameState.current_state = GameState.States.PLAYING
 	get_tree().paused = false
 	play_music()
+	# Haven't tested the edge case of the game running for 1 year.
+	$PlayTime.start(TIMER_LIMIT)
 	if not GameState.settings['seen_intro']:
 		$HUD/IntroPopup.popup()
+
+func unlocks_complete(_asteroid):
+	# Using a Timer as that handles games pauses seamlessly.
+	var completion_time = TIMER_LIMIT - $PlayTime.time_left
+	$PlayTime.stop()
+	$HUD/CompletionPopup.journeys_end(completion_time)
 
 func play_music():
 	if $SoundTrack.playing:

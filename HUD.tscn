@@ -1,4 +1,4 @@
-[gd_scene load_steps=55 format=2]
+[gd_scene load_steps=56 format=2]
 
 [ext_resource path="res://HUD.gd" type="Script" id=1]
 [ext_resource path="res://assets/compass.png" type="Texture" id=2]
@@ -31,6 +31,7 @@
 [ext_resource path="res://assets/robotocondensed-bolditalic.ttf" type="DynamicFontData" id=29]
 [ext_resource path="res://assets/pickup point.png" type="Texture" id=30]
 [ext_resource path="res://assets/dropoff point.png" type="Texture" id=31]
+[ext_resource path="res://CompletionPopup.gd" type="Script" id=32]
 
 [sub_resource type="DynamicFontData" id=8]
 font_path = "res://assets/robotocondensed-bold.ttf"
@@ -518,7 +519,6 @@ position = Vector2( 512, 300 )
 texture = ExtResource( 15 )
 
 [node name="CreditsPopup" type="PopupDialog" parent="."]
-visible = true
 margin_left = 308.0
 margin_top = 206.0
 margin_right = 742.0
@@ -545,8 +545,32 @@ Thanks to: bones, newobject & garebear in the #eggplant-gamejam of the Eggplant 
 Stevia Sphere for the wonderful music: A Mimir
 Creators of Godot for this amazing game engine!"
 
+[node name="CompletionPopup" type="AcceptDialog" parent="."]
+visible = true
+margin_left = 287.0
+margin_top = 89.0
+margin_right = 758.0
+margin_bottom = 352.0
+theme = ExtResource( 13 )
+window_title = "Congratulations!"
+script = ExtResource( 32 )
+
+[node name="AdiosText" type="RichTextLabel" parent="CompletionPopup"]
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 463.0
+margin_bottom = 217.0
+bbcode_enabled = true
+bbcode_text = "Thanks for playing, comrade! I hope you enjoyed your time getting people where they need to go. You're free to continue your journeys around these rocks, maybe try get that satisfaction level up to 100% across the board or try some of the inter-asteroid journeys! Until next time—safe travels!
+
+Completion time: [b]XXX[/b]"
+text = "Thanks for playing, comrade! I hope you enjoyed your time getting people where they need to go. You're free to continue your journeys around these rocks, maybe try get that satisfaction level up to 100% across the board or try some of the inter-asteroid journeys! Until next time—safe travels!
+
+Completion time: XXX"
+
 [node name="TitleMenu" type="VBoxContainer" parent="."]
 pause_mode = 2
+visible = false
 margin_left = 398.83
 margin_top = 273.87
 margin_right = 583.83
