@@ -87,7 +87,7 @@ func _process(_delta):
 		$BoostExhaust.emitting = false
 
 	# Hack!
-	get_node("../HUD/Control/Container/Speed").bbcode_text = "[b]%.2f[/b]m/s (%.2f)" % [velocity.length(), $Exhaust.gravity.y]
+	get_node("../HUD/Control/Container/Speed").bbcode_text = "[b]%d[/b]m/s" % int(velocity.length() / 8)
 
 func _physics_process(delta):
 	var rotation_speed = BOOST_ROTATION_SPEED if boosting() else ROTATION_SPEED
