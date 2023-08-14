@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://assets/all layers tiled.png" type="Texture" id=1]
 [ext_resource path="res://Pickup Point.tscn" type="PackedScene" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://assets/fun asteroid map.png" type="Texture" id=4]
 [ext_resource path="res://MajorPath.tscn" type="PackedScene" id=5]
 [ext_resource path="res://assets/asteroid barrier.png" type="Texture" id=6]
+[ext_resource path="res://FunAsteroid.gd" type="Script" id=7]
 
 [sub_resource type="ConvexPolygonShape2D" id=2]
 points = PoolVector2Array( 32, 32, 0, 32, 0, 0, 32, 0 )
@@ -346,6 +347,7 @@ tracks/0/keys = {
 tile_set = SubResource( 11 )
 cell_size = Vector2( 32, 32 )
 format = 1
+script = ExtResource( 7 )
 
 [node name="Sprite" type="Sprite" parent="."]
 modulate = Color( 1, 1, 1, 0.741176 )
