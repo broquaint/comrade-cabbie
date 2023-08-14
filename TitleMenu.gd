@@ -5,7 +5,6 @@ func _ready():
 	$Settings.connect('pressed', self, 'show_settings')
 	$Credits.connect('pressed', self, 'show_credits')
 	$'../SettingsMenu'.connect('left_title_settings', self, 'leave_settings')
-	
 	show_title()
 
 func show_title():
@@ -24,7 +23,7 @@ func show_settings():
 	$'../SettingsMenu'.enable()
 
 func show_credits():
-	pass
+	$'../CreditsPopup'.popup()
 
 func root():
 	return get_node('/root/Root')

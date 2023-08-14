@@ -518,9 +518,33 @@ visible = false
 position = Vector2( 512, 300 )
 texture = ExtResource( 15 )
 
+[node name="CreditsPopup" type="PopupDialog" parent="."]
+margin_left = 308.0
+margin_top = 206.0
+margin_right = 742.0
+margin_bottom = 396.0
+theme = ExtResource( 13 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CreditsText" type="RichTextLabel" parent="CreditsPopup"]
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 426.0
+margin_bottom = 174.0
+bbcode_enabled = true
+bbcode_text = "[b]Game sculptor[/b]: Dan Brook aka [i]broquaint[/i]
+[b]Tester[/b]: Son of Dan Brook aka son of [i]broquaint[/i]
+[b]Thanks[/b]: bones, newobject & garebear in the #eggplant-gamejam of the Eggplant Discord server for all their feedback.
+Creators of [b]Godot[/b] for this amazing game engine!"
+text = "Game sculptor: Dan Brook aka broquaint
+Tester: Son of Dan Brook aka son of broquaint
+Thanks: bones, newobject & garebear in the #eggplant-gamejam of the Eggplant Discord server for all their feedback.
+Creators of Godot for this amazing game engine!"
+
 [node name="TitleMenu" type="VBoxContainer" parent="."]
 pause_mode = 2
-visible = false
 margin_left = 398.83
 margin_top = 273.87
 margin_right = 583.83
