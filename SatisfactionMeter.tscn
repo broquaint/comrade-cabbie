@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://assets/satisfaction meter for asteroids.png" type="Texture" id=1]
+[ext_resource path="res://assets/progress meter.png" type="Texture" id=1]
 [ext_resource path="res://SatisfactionMeter.gd" type="Script" id=2]
 [ext_resource path="res://FontTheme.tres" type="Theme" id=3]
 [ext_resource path="res://assets/satisfaction meter.png" type="Texture" id=4]
@@ -18,28 +18,34 @@ margin_top = 401.0
 margin_right = 882.0
 margin_bottom = 441.0
 script = ExtResource( 2 )
+__meta__ = {
+"_edit_horizontal_guides_": [ 594.964 ],
+"_edit_vertical_guides_": [ 1017.45, 930.713 ]
+}
 
 [node name="ColorRect" type="ColorRect" parent="."]
-margin_right = 181.0
+margin_left = 1.0
+margin_top = -4.0
+margin_right = 182.0
 margin_bottom = 199.0
 color = Color( 0.517647, 0.494118, 0.529412, 0.784314 )
 
 [node name="MeterLabel" type="Label" parent="."]
-margin_left = 88.7889
-margin_top = 169.522
-margin_right = 226.793
-margin_bottom = 191.522
-rect_rotation = -90.2
+margin_left = 0.948486
+margin_top = 155.958
+margin_right = 138.953
+margin_bottom = 177.958
+rect_rotation = -90.0
 theme = ExtResource( 3 )
 custom_fonts/font = SubResource( 13 )
 text = "Unlock progress"
 
 [node name="AsteroidMeterLabel" type="Label" parent="."]
-margin_left = 2.6955
-margin_top = 172.893
-margin_right = 149.695
-margin_bottom = 194.893
-rect_rotation = -90.2
+margin_left = 89.5671
+margin_top = 176.445
+margin_right = 236.567
+margin_bottom = 198.445
+rect_rotation = -90.0
 theme = ExtResource( 3 )
 custom_fonts/font = SubResource( 13 )
 text = "Asteroid Satisfaction"
@@ -49,17 +55,25 @@ anchor_left = 2.837
 anchor_top = -0.457
 anchor_right = 2.837
 anchor_bottom = -0.457
-margin_left = -82.9279
-margin_top = -5.09485
-margin_right = -42.9279
-margin_bottom = 18.9052
+margin_left = -1.22868
+margin_top = -7.71185
+margin_right = 38.7713
+margin_bottom = 16.2882
 theme = ExtResource( 3 )
 text = "60%"
 
+[node name="ProgressCount" type="Label" parent="."]
+margin_left = 26.4331
+margin_top = -25.6989
+margin_right = 66.4331
+margin_bottom = -1.69885
+theme = ExtResource( 3 )
+text = "5/5"
+
 [node name="AsteroidSatisfactionMeterSprite" type="Sprite" parent="."]
-position = Vector2( 56.7602, 99.1479 )
-texture = ExtResource( 1 )
+position = Vector2( 143.452, 97.0335 )
+texture = ExtResource( 4 )
 
 [node name="SatisfactionMeterSprite" type="Sprite" parent="."]
-position = Vector2( 143.466, 97.9223 )
-texture = ExtResource( 4 )
+position = Vector2( 56.7128, 97.6777 )
+texture = ExtResource( 1 )

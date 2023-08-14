@@ -19,6 +19,8 @@ func set_progress_meter():
 	meter.set_region_rect(Rect2(0, offset, ts.x, new_height))
 	meter.position.y = overall_orig_pos.y + offset/2
 
+	$ProgressCount.text = '%d/%d' % [gjc, GameState.UNLOCK_THRESHOLD]
+
 func set_asteroid_meter(asteroid):
 	var meter      = $AsteroidSatisfactionMeterSprite
 	var ts         = meter.texture.get_size()
