@@ -111,8 +111,10 @@ func _physics_process(delta):
 		# add acceleration to current speed
 		velocity += acceleration
 	# Begin immediate decelerating if no longer thrusting.
-	elif boosting():
-		now_decelerating()
+	else:
+		if boosting():
+			now_decelerating()
+		$ShipSound.stop()
 
 	# dampen a bit
 	velocity *= 0.98
@@ -126,6 +128,8 @@ func _physics_process(delta):
 
 func _ready():
 	$Decelerating.connect('timeout', self, 'now_decelerating')
+	$Pickup.stream.loop = false
+	$Dropoff.stream.loop = false
 
 func now_decelerating():
 	match boost_level:
@@ -148,6 +152,7 @@ func boost_entered(_node):
 		BoostLevel.SPEEDY:
 			boost_level = BoostLevel.LUDICROUS
 	$Decelerating.start(1.0)
+	$ShipSound.vroom(boost_level)
 
 func find_nearest_pickup(asteroid) -> Area2D:
 	var pickups = get_parent().pickups[asteroid.name]
@@ -192,6 +197,8 @@ func pick_next_dropoff(asteroid):
 	return dropoff
 
 func set_next_dropoff(asteroid):
+	$Pickup.play()
+
 	current_state = CabState.DROPPING_OFF
 	current_pickup.get_node('AnimationPlayer').stop()
 	current_pickup.get_node('Point Pulse').hide()
@@ -250,6 +257,7 @@ func pickup_point_entered(_node, point, asteroid):
 
 func dropoff_point_entered(_node, point, asteroid):
 	if point == current_dropoff and dropping_off():
+		$Dropoff.play()
 		# Not in use at the moment.
 		emit_signal('new_dropoff', point, asteroid, calc_travel_time(), calc_journey_score())
 		current_dropoff.get_node('AnimationPlayer').stop()

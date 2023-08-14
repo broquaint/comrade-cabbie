@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/asteroid-unlock.mp3-3e23d4fd683767ec055dc42f61ff7e1b.mp3str"
+
+[deps]
+
+source_file="res://assets/asteroid-unlock.mp3"
+dest_files=[ "res://.import/asteroid-unlock.mp3-3e23d4fd683767ec055dc42f61ff7e1b.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

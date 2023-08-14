@@ -35,12 +35,17 @@ func _ready():
 		GameState.connect('asteroid_unlock', a, 'on_asteroid_unlocked')
 		a.connect('announce_unlock', $HUD/BannerPanel, 'on_announce')
 		a.connect('announce_unlock', $HUD/MessageLog, 'on_message')
+	GameState.connect('asteroid_unlock', self, 'on_asteroid_unlocked')
+
 	GameState.load_data()
 
 	if not GameState.settings['music']:
 		AudioServer.set_bus_mute(1, true)
 	if not GameState.settings['sfx']:
 		AudioServer.set_bus_mute(2, true)
+
+	# No idea why all these streams are looping.
+	$UnlockSound.stream.loop = false
 	setup()
 
 # Used during start+restart
@@ -87,6 +92,10 @@ func toggle_sfx():
 	var mute_state = not AudioServer.is_bus_mute(sfx_bus)
 	AudioServer.set_bus_mute(sfx_bus, mute_state)
 	GameState.set_sfx(not mute_state)
+
+func on_asteroid_unlocked(_asteroid):
+	yield(get_tree().create_timer(2), "timeout")
+	$UnlockSound.play()
 
 func _build_points():
 	for kid in get_children():
