@@ -32,7 +32,7 @@ margin_bottom = 191.522
 rect_rotation = -90.2
 theme = ExtResource( 3 )
 custom_fonts/font = SubResource( 13 )
-text = "Overall Satisfaction"
+text = "Unlock progress"
 
 [node name="AsteroidMeterLabel" type="Label" parent="."]
 margin_left = 2.6955
@@ -43,18 +43,6 @@ rect_rotation = -90.2
 theme = ExtResource( 3 )
 custom_fonts/font = SubResource( 13 )
 text = "Asteroid Satisfaction"
-
-[node name="MeterValue" type="Label" parent="."]
-anchor_left = 2.837
-anchor_top = -0.457
-anchor_right = 2.837
-anchor_bottom = -0.457
-margin_left = 2.53795
-margin_top = -4.81799
-margin_right = 42.5379
-margin_bottom = 19.182
-theme = ExtResource( 3 )
-text = "60%"
 
 [node name="AsteroidMeterValue" type="Label" parent="."]
 anchor_left = 2.837

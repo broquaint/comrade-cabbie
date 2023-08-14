@@ -22,7 +22,6 @@ const DEFAULT_SATISFACTION = 60.0
 
 var current_state = States.TITLE
 var current_asteroid : Node2D
-var overall_satisfaction  = DEFAULT_SATISFACTION
 var asteroid_satisfaction = {}
 var settings = {}
 
@@ -33,10 +32,10 @@ var unlocks = {
 	Study = false,
 	Home = false,
 }
+var unlock_order = ['Home', 'Services', 'Study', 'Goods']
 
 func initialize():
 	current_asteroid = get_node('/root/Root/HomeAsteroid')
-	overall_satisfaction  = DEFAULT_SATISFACTION
 	if not asteroid_satisfaction.empty():
 		for k in asteroid_satisfaction.keys():
 			asteroid_satisfaction[k] = DEFAULT_SATISFACTION
@@ -106,12 +105,6 @@ func on_new_dropoff(_dropoff: DropoffPoint, asteroid: Node2D, travel_time: float
 
 	asteroid_satisfaction[asteroid.name] = clamp(prev_satisfaction * ratio, 0, 100)
 
-	var prev_whole_satisfaction = overall_satisfaction
-	var total_satisfaction = 0
-	for s in asteroid_satisfaction.values():
-		total_satisfaction += s
-	overall_satisfaction = total_satisfaction / asteroid_satisfaction.size()
-
 	var local_satisfaction = asteroid_satisfaction[asteroid.name]
 	if prev_satisfaction == local_satisfaction:
 		emit_signal('satisfaction_update', 'No change to satisfaction levels ._.')
@@ -119,26 +112,31 @@ func on_new_dropoff(_dropoff: DropoffPoint, asteroid: Node2D, travel_time: float
 		var aname = asteroid.name.replace('Asteroid', '')
 		var direction = 'increased' if prev_satisfaction < local_satisfaction else 'decreased'
 		var local_delta = local_satisfaction - prev_satisfaction
-		var whole_delta = overall_satisfaction - prev_whole_satisfaction
 		emit_signal(
 			'satisfaction_update',
-			'%s Satisfaction [i]%s[/i] by [b]%.2f[/b] to [b]%.2f[/b]%% and overall satisaction by [b]%.2f[/b] to [b]%.2f[/b]%%' % [aname, direction, local_delta, local_satisfaction, whole_delta, overall_satisfaction]
+			'%s Satisfaction [i]%s[/i] by [b]%.2f[/b] to [b]%.2f[/b]%%' % [aname, direction, local_delta, local_satisfaction]
 		)
 
-	journeys.push_front(journey_score)
+	journeys.push_front({score = journey_score, asteroid = asteroid.name.replace('Asteroid', '')})
 	handle_unlocks()
 
+const UNLOCK_THRESHOLD = 5
+func good_journey_count():
+	var unlock_target = unlock_order[0]
+	var good_journeys = 0
+	for js in journeys:
+		if js['score'] <= JourneyScore.TIMELY and js['asteroid'] == unlock_target:
+			good_journeys += 1
+	return clamp(good_journeys, 0, UNLOCK_THRESHOLD)
+
 func unlocking_now():
-	if journeys.size() > 4:
-		for js in journeys.slice(0, 4):
-			if js > JourneyScore.TIMELY:
-				return false
-	else:
+	if unlock_order.empty():
 		return false
-	return true
+	return good_journey_count() >= UNLOCK_THRESHOLD
 
 func handle_unlocks():
 	if unlocking_now():
+		unlock_order.pop_front()
 		if not unlocks['Services']:
 			unlocks['Services'] = true
 			emit_signal('asteroid_unlock', 'Services')

@@ -507,7 +507,6 @@ texture = ExtResource( 7 )
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="HomeBarrier"]
 position = Vector2( -1.34363, 0 )
 rotation = -0.0575959
-scale = Vector2( 1, 1 )
 polygon = PoolVector2Array( 34.8154, -66.7111, -69.3398, 29.2092, -35.9326, 65.7288, 71.9824, -26.0356 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="HomeBarrier"]
