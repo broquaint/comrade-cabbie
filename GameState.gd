@@ -26,24 +26,28 @@ var current_asteroid : Node2D
 var asteroid_satisfaction = {}
 var settings = {}
 
-var journeys = []
-var unlocks = {
-	Services = false,
-	Goods = false,
-	Study = false,
-	Home = false,
-}
-var unlock_order = ['Home', 'Services', 'Study', 'Goods']
-var asteroids_done = []
+var journeys : Array
+var unlocks : Dictionary
+var unlock_order : Array
+var asteroids_done : Array
 
 func initialize():
-	current_asteroid = get_node('/root/Root/HomeAsteroid')
+	self.current_asteroid = get_node('/root/Root/HomeAsteroid')
 	if not asteroid_satisfaction.empty():
 		for k in asteroid_satisfaction.keys():
-			asteroid_satisfaction[k] = DEFAULT_SATISFACTION
+			self.asteroid_satisfaction[k] = DEFAULT_SATISFACTION
 	else:
-		asteroid_satisfaction = {}
-	current_state = States.PLAYING
+		self.asteroid_satisfaction = {}
+	self.current_state = States.PLAYING
+	self.journeys = []
+	self.unlocks = {
+		Services = false,
+		Goods = false,
+		Study = false,
+		Home = false,
+	}
+	self.unlock_order = ['Home', 'Services', 'Study', 'Goods']
+	self.asteroids_done = []
 
 const CONFIG_PATH = 'user://gamestate.cfg'
 func load_data():

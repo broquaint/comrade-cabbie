@@ -62,6 +62,9 @@ func setup():
 #	$Player.position = Vector2(9428, 12950) # Study
 #	$Player.position = Vector2(200, 4000) # Goods
 	$Player.set_next_pickup($HomeAsteroid)
+
+	$HUD/Control/Container/TravelTime.bbcode_text = '-'
+	$HUD/Control/Container/Speed.bbcode_text = '0m/s'
 	$HUD/SatisfactionMeter.set_progress_meter()
 	$HUD/SatisfactionMeter.set_asteroid_meter($HomeAsteroid)
 

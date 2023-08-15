@@ -30,25 +30,32 @@ func on_new_pickup(point: DropoffPoint, travel_distance: int):
 
 const speedy_time_text = [
 	'so fast!!',
-	'that took no time!!'
+	'that took no time!!',
+	'you really know your way around!!',
+	'that was some fine driving!!'
 ]
 const fast_time_text = [
 	'that was fast!',
 	'thank you so much!',
-	'quick as you like!'
+	'quick as you like!',
+	'got here in a jiffy!'
 ]
 const timely_time_text = [
 	'right on time!',
-	'perfect timing!'
+	'perfect timing!',
+	'not a moment too soon!',
+	'that was a pleasant journey',
 ]
 const tardy_time_text = [
 	'got there in the end',
 	'better late than never',
+	'that was a good excuse for a nap',
 ]
 const sluggish_time_text = [
-	'that took a while',
-	'I have aged significantly',
-	'where am I? what year is it?'
+	'that took longer than I though',
+	'we live to see another day',
+	"maybe I'll walk next time",
+	'was that the scenic route?'
 ]
 
 func on_new_dropoff(dropoff, _asteroid, travel_time, travel_score):
