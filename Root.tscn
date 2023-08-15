@@ -92,5 +92,6 @@ bus = "Music"
 [node name="UnlockSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 12 )
 volume_db = -22.0
+bus = "SFX"
 
 [node name="PlayTime" type="Timer" parent="."]

@@ -48,7 +48,9 @@ script = ExtResource( 5 )
 [node name="Pickup" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 6 )
 volume_db = -25.0
+bus = "SFX"
 
 [node name="Dropoff" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 7 )
 volume_db = -25.0
+bus = "SFX"
