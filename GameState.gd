@@ -34,6 +34,7 @@ var unlocks = {
 	Home = false,
 }
 var unlock_order = ['Home', 'Services', 'Study', 'Goods']
+var asteroids_done = []
 
 func initialize():
 	current_asteroid = get_node('/root/Root/HomeAsteroid')
@@ -141,29 +142,34 @@ func handle_unlocks():
 		unlock_order.pop_front()
 		if not unlocks['Services']:
 			unlocks['Services'] = true
+			asteroids_done.append('Home')
 			emit_signal('asteroid_unlock', 'Services')
 			journeys = []
 		elif not unlocks['Study']:
 			unlocks['Study'] = true
+			asteroids_done.append('Services')
 			emit_signal('asteroid_unlock', 'Study')
 			journeys = []
 		elif not unlocks['Goods']:
 			unlocks['Goods'] = true
+			asteroids_done.append('Study')
 			emit_signal('asteroid_unlock', 'Goods')
 			journeys = []
 		elif not unlocks['Home']:
 			unlocks['Home'] = true
+			asteroids_done.append('Goods')
 			emit_signal('asteroid_unlock', 'Home')
 			journeys = []
 
 func unlocked_asteroids():
-	var res = []
-	for k in unlocks.keys():
-		if unlocks[k]:
-			res.append(k)
-	# A bit clunky but only consider a unlock on _subsequent_ unlock.
-	if res.size() > 0:
-		res.pop_back()
-	if not res.has('Home'):
-		res.append('Home')
-	return res
+	return asteroids_done
+#	var res = []
+#	for k in unlocks.keys():
+#		if unlocks[k]:
+#			res.append(k)
+#	# A bit clunky but only consider a unlock on _subsequent_ unlock.
+#	if res.size() > 0:
+#		res.pop_back()
+#	if not res.has('Home'):
+#		res.append('Home')
+#	return res
