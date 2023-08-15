@@ -1,27 +1,12 @@
 extends Control
 
-var orig_pos : Vector2
-var orig_rect_size : int
-var orig_rec2_size : int
-var orig_text_size : int
-
 signal repeat_message(msg)
 
 func _ready():
-	orig_pos = rect_position
-	# Awful lazy way of handling different sizes of flashes >_<
-	orig_rect_size = $ColorRect.rect_size.x
-	orig_rec2_size = $ColorRect2.rect_size.x
-	orig_text_size = $DestFlashText.rect_size.x
-
 	connect('repeat_message', $'../MessageLog', 'on_message')
 
 func reset():
 	$'../FlashAnimationPlayer'.stop()
-	$ColorRect.rect_size.x = orig_rect_size
-	$ColorRect2.rect_size.x = orig_rec2_size
-	$DestFlashText.rect_size.x = orig_text_size
-	rect_position = orig_pos
 
 func flash():
 	var player = $'../FlashAnimationPlayer'
@@ -38,12 +23,8 @@ func on_asteroid_change(_from, to):
 
 func on_new_pickup(point: DropoffPoint, travel_distance: int):
 	flash()
-	$ColorRect.rect_size.x = orig_rect_size
-	$ColorRect2.rect_size.x = orig_rec2_size
-	$DestFlashText.rect_size.x = orig_text_size
-	$DestFlashText.scroll_active = false
 
-	var text = 'Drop me off at [b]' + point.point_name + '[/b] in [b]%d[/b] seconds please!' % travel_distance
+	var text = point.announce_msg(travel_distance)
 	set_text(text)
 	emit_signal('repeat_message', text)
 
@@ -87,10 +68,6 @@ func on_new_dropoff(dropoff, _asteroid, travel_time, travel_score):
 			text_choice = sluggish_time_text
 
 	var timeliness = text_choice[randi() % text_choice.size()]
-	$ColorRect.rect_size.x += 180
-	$ColorRect2.rect_size.x += 180
-	$DestFlashText.rect_size.x += 180
-	$DestFlashText.scroll_active = false
 	var text = 'Reached [b]%s[/b] in [b]%d[/b]s, %s' % [dropoff.point_name, travel_time, timeliness]
 	set_text(text)
 	emit_signal('repeat_message', text)

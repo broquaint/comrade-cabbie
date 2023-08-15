@@ -155,3 +155,15 @@ func handle_unlocks():
 			unlocks['Home'] = true
 			emit_signal('asteroid_unlock', 'Home')
 			journeys = []
+
+func unlocked_asteroids():
+	var res = []
+	for k in unlocks.keys():
+		if unlocks[k]:
+			res.append(k)
+	# A bit clunky but only consider a unlock on _subsequent_ unlock.
+	if res.size() > 0:
+		res.pop_back()
+	if not res.has('Home'):
+		res.append('Home')
+	return res

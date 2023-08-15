@@ -1,4 +1,4 @@
-[gd_scene load_steps=56 format=2]
+[gd_scene load_steps=59 format=2]
 
 [ext_resource path="res://HUD.gd" type="Script" id=1]
 [ext_resource path="res://assets/compass.png" type="Texture" id=2]
@@ -32,6 +32,14 @@
 [ext_resource path="res://assets/pickup point.png" type="Texture" id=30]
 [ext_resource path="res://assets/dropoff point.png" type="Texture" id=31]
 [ext_resource path="res://CompletionPopup.gd" type="Script" id=32]
+
+[sub_resource type="StyleBoxFlat" id=29]
+bg_color = Color( 0.411765, 0.415686, 0.415686, 1 )
+border_width_bottom = 4
+border_color = Color( 0.87451, 0.443137, 0.14902, 1 )
+
+[sub_resource type="Theme" id=30]
+Panel/styles/panel = SubResource( 29 )
 
 [sub_resource type="DynamicFontData" id=8]
 font_path = "res://assets/robotocondensed-bold.ttf"
@@ -70,10 +78,49 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 1.1, 4, 4.9 ),
-"transitions": PoolRealArray( 1, 0.329877, 1, 0.233258 ),
+"times": PoolRealArray( 0, 1, 4, 5 ),
+"transitions": PoolRealArray( 0.217638, 1, 2.14355, 1 ),
 "update": 0,
-"values": [ Vector2( -470, 146 ), Vector2( 250, 146 ), Vector2( 250, 146 ), Vector2( 1025, 146 ) ]
+"values": [ Vector2( -1040, 146 ), Vector2( 0, 146 ), Vector2( 0, 146 ), Vector2( 1040, 146 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("DestFlashControl:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1, 4, 5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="Animation" id=31]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("DestFlashControl:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( -1040, 146 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("DestFlashControl:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ) ]
 }
 
 [sub_resource type="Animation" id=14]
@@ -196,7 +243,7 @@ tracks/0/keys = {
 
 [node name="HUD" type="CanvasLayer"]
 __meta__ = {
-"_edit_horizontal_guides_": [ 428.025 ],
+"_edit_horizontal_guides_": [ 428.025, 320.471 ],
 "_edit_vertical_guides_": [ 169.244 ]
 }
 
@@ -326,36 +373,23 @@ script = ExtResource( 16 )
 pickup = ExtResource( 17 )
 dropoff = ExtResource( 18 )
 
-[node name="DestFlashControl" type="Control" parent="."]
-margin_left = -470.0
+[node name="DestFlashControl" type="Panel" parent="."]
+modulate = Color( 1, 1, 1, 0 )
+margin_left = -1040.0
 margin_top = 146.0
-margin_right = -2.0
+margin_right = -16.0014
 margin_bottom = 194.0
+theme = SubResource( 30 )
 script = ExtResource( 12 )
-
-[node name="ColorRect2" type="ColorRect" parent="DestFlashControl"]
-anchor_left = 0.00961202
-anchor_top = 0.102734
-anchor_right = 0.00961202
-anchor_bottom = 0.102734
-margin_left = -5.3833
-margin_top = -4.93121
-margin_right = 462.617
-margin_bottom = 38.0688
-color = Color( 0.517647, 0.494118, 0.529412, 0.784314 )
-
-[node name="ColorRect" type="ColorRect" parent="DestFlashControl"]
-margin_left = 1.0
-margin_top = 2.0
-margin_right = 465.0
-margin_bottom = 41.0
-color = Color( 0.34902, 0.337255, 0.321569, 0.784314 )
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="DestFlashText" type="RichTextLabel" parent="DestFlashControl"]
-margin_left = 8.2428
-margin_top = 4.80209
-margin_right = 460.243
-margin_bottom = 43.8021
+margin_left = 64.0
+margin_top = 4.802
+margin_right = 1024.0
+margin_bottom = 43.802
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = SubResource( 6 )
@@ -365,6 +399,7 @@ text = "Lorem ipsum"
 
 [node name="FlashAnimationPlayer" type="AnimationPlayer" parent="."]
 anims/DestFlash = SubResource( 7 )
+anims/RESET = SubResource( 31 )
 __meta__ = {
 "_editor_description_": ""
 }
@@ -569,7 +604,6 @@ Stevia Sphere for the wonderful music: A Mimir
 Creators of Godot for this amazing game engine!"
 
 [node name="CompletionPopup" type="AcceptDialog" parent="."]
-visible = true
 margin_left = 186.207
 margin_top = 69.6536
 margin_right = 814.207

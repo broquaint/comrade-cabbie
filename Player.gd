@@ -184,15 +184,24 @@ func set_next_pickup(asteroid):
 
 var all_recent_pickups = {}
 func pick_next_dropoff(asteroid):
-	var dropoffs = get_parent().dropoffs[asteroid.name]
 	if not(asteroid.name in all_recent_pickups):
 		all_recent_pickups[asteroid.name] = []
 	var recent_pickups = all_recent_pickups[asteroid.name]
 	if recent_pickups.size() > 4:
 		recent_pickups.pop_back()
+
+	var dropoffs
+	var asteroids = GameState.unlocked_asteroids()
+	if asteroids.size() > 1 and randf() > 0.199:
+		var other_asteroid = asteroids[randi() % asteroids.size()]
+		dropoffs = get_parent().dropoffs[other_asteroid + 'Asteroid']
+	else:
+		dropoffs = get_parent().dropoffs[asteroid.name]
+
 	var dropoff = dropoffs[randi() % dropoffs.size()]
 	while dropoff in recent_pickups:
 		dropoff = dropoffs[randi() % dropoffs.size()]
+
 	recent_pickups.push_front(dropoff)
 	return dropoff
 
