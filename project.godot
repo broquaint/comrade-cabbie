@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "TileMap",
+"class": "Asteroid",
+"language": "GDScript",
+"path": "res://Asteroid.gd"
+}, {
 "base": "Area2D",
 "class": "DropoffPoint",
 "language": "GDScript",
@@ -25,6 +30,7 @@ _global_script_classes=[ {
 "path": "res://Tunnel.gd"
 } ]
 _global_script_class_icons={
+"Asteroid": "res://assets/asteroid class icon.png",
 "DropoffPoint": "",
 "PickupPoint": "",
 "Tunnel": ""

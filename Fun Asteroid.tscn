@@ -348,6 +348,8 @@ tile_set = SubResource( 11 )
 cell_size = Vector2( 32, 32 )
 format = 1
 script = ExtResource( 7 )
+start_position = Vector2( 5472, 4256 )
+map_name = "Fun"
 
 [node name="Sprite" type="Sprite" parent="."]
 modulate = Color( 1, 1, 1, 0.741176 )

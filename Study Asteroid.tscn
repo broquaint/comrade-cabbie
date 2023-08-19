@@ -353,6 +353,8 @@ __meta__ = {
 "_edit_horizontal_guides_": [ 1567.46, 2146.32, 4048.52, 3183.19, 2493.92 ],
 "_edit_vertical_guides_": [ 8637.75 ]
 }
+start_position = Vector2( 9428, 12950 )
+map_name = "Study"
 
 [node name="Sprite" type="Sprite" parent="."]
 visible = false

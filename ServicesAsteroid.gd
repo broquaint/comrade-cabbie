@@ -1,6 +1,4 @@
-extends TileMap
-
-signal announce_unlock(msg)
+extends "res://Asteroid.gd"
 
 func on_asteroid_unlocked(asteroid):
 	if asteroid == 'Study':
