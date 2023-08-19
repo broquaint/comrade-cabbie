@@ -59,6 +59,9 @@ func initialize():
 	$Exhaust.emitting = false
 	$BoostExhaust.emitting = false
 
+	position = GameState.current_asteroid.start_position
+	set_next_pickup(GameState.current_asteroid)
+
 func picking_up():
 	return current_state == CabState.PICKING_UP
 func dropping_off():

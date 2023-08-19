@@ -1,20 +1,32 @@
 extends VBoxContainer
 
 func _ready():
-	$Start.connect('pressed', self, 'start_game')
+	$NewGame.connect('pressed', self, 'start_game')
+	$ContinueGame.connect('pressed', self, 'continue_game')
 	$Settings.connect('pressed', self, 'show_settings')
 	$Credits.connect('pressed', self, 'show_credits')
 	$'../SettingsMenu'.connect('left_title_settings', self, 'leave_settings')
+
 	show_title()
 
 func show_title():
 	get_tree().paused = true
 	$'../Title'.show()
 	show()
-	$Start.grab_focus()
+	if not GameState.has_game_save():
+		$ContinueGame.hide()
+		$NewGame.grab_focus()
+	else:
+		$ContinueGame.show()
+		$ContinueGame.grab_focus()
 
 func start_game():
-	root().start_game()
+	root().start_new_game()
+	$'../Title'.hide()
+	hide()
+
+func continue_game():
+	root().load_previous_game()
 	$'../Title'.hide()
 	hide()
 

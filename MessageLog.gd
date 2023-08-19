@@ -3,10 +3,15 @@ extends Node2D
 const TRANSPARENT = Color('#00ffffff')
 const APPARENT    = Color('#ffffffff')
 
-var msg_id = 0
+var msg_id : int
 
 func _ready():
+	setup()
+
+func setup():
 	$FadeTimer.connect('timeout', self, 'disappear')
+	msg_id = 0
+	clear_log()
 
 func clear_log():
 	for kid in get_children():

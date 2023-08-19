@@ -31,8 +31,50 @@ var unlocks : Dictionary
 var unlock_order : Array
 var asteroids_done : Array
 
+const SAVE_GAME_PATH = 'user://savegame.json'
+func save_game_state():
+	var save = {
+		# Don't store the actual node
+		current_asteroid_name = current_asteroid.name,
+		asteroid_satisfaction = asteroid_satisfaction,
+
+		journeys = journeys,
+		unlocks = unlocks,
+		unlock_order = unlock_order,
+		asteroids_done = asteroids_done,
+
+		play_time = root().play_time()
+	}
+	var save_game = File.new()
+	save_game.open(SAVE_GAME_PATH, File.WRITE)
+	save_game.store_string(to_json(save))
+	save_game.close()
+
+func load_game_state():
+	var save_game = File.new()
+	save_game.open(SAVE_GAME_PATH, File.READ)
+	var state = parse_json(save_game.get_as_text())
+	save_game.close()
+
+	# Don't store the actual node
+	self.current_asteroid = asteroid_node(state['current_asteroid_name'])
+	self.asteroid_satisfaction = state['asteroid_satisfaction']
+
+	self.journeys = state['journeys']
+	self.unlocks = state['unlocks']
+	self.unlock_order = state['unlock_order']
+	self.asteroids_done = state['asteroids_done']
+
+	for asteroid in asteroids_done:
+		asteroid_node(asteroid + 'Asteroid').lift_barrier()
+
+	return state
+
+func has_game_save():
+	return File.new().file_exists(SAVE_GAME_PATH)
+
 func initialize():
-	self.current_asteroid = get_node('/root/Root/HomeAsteroid')
+	self.current_asteroid = asteroid_node('HomeAsteroid')
 	if not asteroid_satisfaction.empty():
 		for k in asteroid_satisfaction.keys():
 			self.asteroid_satisfaction[k] = DEFAULT_SATISFACTION
@@ -50,7 +92,7 @@ func initialize():
 	self.asteroids_done = []
 
 const CONFIG_PATH = 'user://gamestate.cfg'
-func load_data():
+func load_settings():
 	var config = ConfigFile.new()
 	var res = config.load(CONFIG_PATH)
 	if res != OK:
@@ -92,7 +134,13 @@ func intro_acknowledged():
 	set_seen_intro(true)
 
 func set_current_asteroid(new_asteroid):
-	current_asteroid = get_node("/root/Root/%sAsteroid" % new_asteroid)
+	current_asteroid = asteroid_node("%sAsteroid" % new_asteroid)
+
+func root():
+	return get_node('/root/Root')
+
+func asteroid_node(name):
+	return root().get_node(name)
 
 func on_new_dropoff(_dropoff: DropoffPoint, asteroid: Node2D, travel_time: float, journey_score: int):
 	var prev_satisfaction = asteroid_satisfaction[asteroid.name]
@@ -125,6 +173,11 @@ func on_new_dropoff(_dropoff: DropoffPoint, asteroid: Node2D, travel_time: float
 
 	journeys.push_front({score = journey_score, asteroid = asteroid.name.replace('Asteroid', '')})
 	handle_unlocks()
+
+	save_game_state()
+
+func on_asteroid_change(_from, _to):
+	call_deferred('save_game_state')
 
 func good_journey_count():
 	if unlock_order.empty():
@@ -167,13 +220,3 @@ func handle_unlocks():
 
 func unlocked_asteroids():
 	return asteroids_done
-#	var res = []
-#	for k in unlocks.keys():
-#		if unlocks[k]:
-#			res.append(k)
-#	# A bit clunky but only consider a unlock on _subsequent_ unlock.
-#	if res.size() > 0:
-#		res.pop_back()
-#	if not res.has('Home'):
-#		res.append('Home')
-#	return res

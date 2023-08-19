@@ -38,7 +38,7 @@ func _ready():
 	GameState.connect('asteroid_unlock', self, 'on_asteroid_unlocked')
 	$GoodsAsteroid.connect('announce_unlock', self, 'unlocks_complete')
 
-	GameState.load_data()
+	GameState.load_settings()
 
 	if not GameState.settings['music']:
 		AudioServer.set_bus_mute(1, true)
@@ -52,25 +52,16 @@ func _ready():
 
 # Used during start+restart
 func setup():
-	GameState.initialize()
-	$HUD/DestFlashControl.reset()
-	$HUD/MessageLog.clear_log()
 	# Setup general game state.
+	GameState.initialize()
+	# Get the player ready.
 	$Player.initialize()
-	$Player.position = Vector2(2000, 1000) # Home
-#	$Player.position = Vector2(10065, 3250) # Services
-#	$Player.position = Vector2(9428, 12950) # Study
-#	$Player.position = Vector2(200, 4000) # Goods
-	$Player.set_next_pickup($HomeAsteroid)
-
-	$HUD/Control/Container/TravelTime.bbcode_text = '-'
-	$HUD/Control/Container/Speed.bbcode_text = '0m/s'
-	$HUD/SatisfactionMeter.set_progress_meter()
-	$HUD/SatisfactionMeter.set_asteroid_meter($HomeAsteroid)
+	# Set all HUD elements to default.
+	$HUD.initialize()
 
 const TIMER_LIMIT = 86400*7*52
 # Used coming from Title screen
-func start_game():
+func start_new_game():
 	GameState.current_state = GameState.States.PLAYING
 	get_tree().paused = false
 	play_music()
@@ -78,6 +69,23 @@ func start_game():
 	$PlayTime.start(TIMER_LIMIT)
 	if not GameState.settings['seen_intro']:
 		$HUD/IntroPopup.popup()
+
+func load_previous_game():
+	# XXX Not using current_state ATM
+	GameState.current_state = GameState.States.PLAYING
+	get_tree().paused = false
+	play_music()
+
+	var state = GameState.load_game_state()
+	$PlayTime.start(state['play_time'])
+
+	$Player.initialize()
+
+	$HUD/SatisfactionMeter.set_progress_meter()
+	$HUD/SatisfactionMeter.set_asteroid_meter(GameState.current_asteroid)
+
+func play_time():
+	return TIMER_LIMIT - $PlayTime.time_left
 
 func unlocks_complete(_asteroid):
 	# Using a Timer as that handles games pauses seamlessly.
@@ -87,8 +95,6 @@ func unlocks_complete(_asteroid):
 	$HUD/CompletionPopup.journeys_end(completion_time, GameState.settings['fastest_time'])
 
 func play_music():
-	if $SoundTrack.playing:
-		$SoundTrack.stop()
 	$SoundTrack.stream.loop = true
 	# Don't adjust volume if music is muted.
 	if GameState.settings['music']:
@@ -146,6 +152,7 @@ func _connect_boosts():
 
 func _connect_tunnels():
 	for tunnel in [$HomeGoodsTunnel, $HomeServicesTunnel, $ServicesStudyTunnel, $GoodsStudyTunnel]:
+		tunnel.connect('tunnel_entered', GameState, 'on_asteroid_change')
 		tunnel.connect('tunnel_entered', $Player, 'on_asteroid_change')
 		tunnel.connect('tunnel_entered', $HUD/DestFlashControl, 'on_asteroid_change')
 		tunnel.connect('tunnel_entered', $HUD/SatisfactionMeter, 'on_asteroid_change')
