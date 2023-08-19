@@ -13,7 +13,7 @@ func set_progress_meter():
 	var meter      = $SatisfactionMeterSprite
 	var ts         = meter.texture.get_size()
 	var gjc        = GameState.good_journey_count()
-	var unlock_pct = float(gjc) / GameState.UNLOCK_THRESHOLD if gjc > 0 else 0
+	var unlock_pct = float(gjc) / GameState.UNLOCK_THRESHOLD if gjc > 0 else 0.0
 	var new_height = ts.y * unlock_pct
 	var offset     = ts.y - new_height
 	meter.set_region_rect(Rect2(0, offset, ts.x, new_height))
@@ -35,7 +35,7 @@ func set_asteroid_meter(asteroid):
 func on_asteroid_change(_from, _to):
 	set_asteroid_meter(GameState.current_asteroid)
 
-func on_new_dropoff(dropoff, asteroid, travel_time, travel_score):
+func on_new_dropoff(_dropoff, asteroid, _travel_time, _travel_score):
 	# Should ensure the satisfaction value is in its final state
 	call_deferred('set_progress_meter')
 	call_deferred('set_asteroid_meter', asteroid)

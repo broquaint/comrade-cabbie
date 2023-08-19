@@ -142,7 +142,7 @@ func root():
 func asteroid_node(name):
 	return root().get_node(name)
 
-func on_new_dropoff(_dropoff: DropoffPoint, asteroid: Node2D, travel_time: float, journey_score: int):
+func on_new_dropoff(_dropoff: DropoffPoint, asteroid: Node2D, _travel_time: float, journey_score: int):
 	var prev_satisfaction = asteroid_satisfaction[asteroid.name]
 	var ratio : float
 	match journey_score:

@@ -6,10 +6,10 @@ const APPARENT    = Color('#ffffffff')
 var msg_id : int
 
 func _ready():
+	$FadeTimer.connect('timeout', self, 'disappear')
 	setup()
 
 func setup():
-	$FadeTimer.connect('timeout', self, 'disappear')
 	msg_id = 0
 	clear_log()
 
