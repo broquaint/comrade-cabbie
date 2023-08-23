@@ -127,7 +127,11 @@ func _physics_process(delta):
 	if velocity.length() > max_speed:
 		velocity = velocity.normalized() * max_speed
 
-	velocity = move_and_slide(velocity)
+	var collision = move_and_collide(velocity * delta)
+	if collision:
+		velocity = velocity.bounce(collision.normal) * Vector2(0.7, 0.7)
+#		if collision.collider.has_method("hit"):
+#			collision.collider.hit()
 
 func _ready():
 	$Decelerating.connect('timeout', self, 'now_decelerating')
