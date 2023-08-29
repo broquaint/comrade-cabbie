@@ -9,6 +9,7 @@ signal travel_time_update(travel_time)
 
 const ROTATION_SPEED : float = 4.75 * 60
 const BOOST_ROTATION_SPEED : float = 2.75 * 60
+const FLOAT_ROTATION_SPEED : float = 5.5 * 60
 
 enum CabState {
 	CRUISING, # Not implemented yet
@@ -92,8 +93,13 @@ func _process(_delta):
 	# Hack!
 	get_node("../HUD/Control/Container/Speed").bbcode_text = "[b]%d[/b]m/s" % int(velocity.length() / 8)
 
-func _physics_process(delta):
-	var rotation_speed = BOOST_ROTATION_SPEED if boosting() else ROTATION_SPEED
+func _physics_process(delta):	
+	var rotation_speed = ROTATION_SPEED
+	if boosting():
+		rotation_speed = BOOST_ROTATION_SPEED
+	elif not Input.is_action_pressed("move_up"):
+		rotation_speed = FLOAT_ROTATION_SPEED
+
 	if Input.is_action_pressed("move_left"):
 		rotation_degrees -= delta * rotation_speed
 	elif Input.is_action_pressed("move_right"):
@@ -113,14 +119,16 @@ func _physics_process(delta):
 
 		# add acceleration to current speed
 		velocity += acceleration
+
+		# dampen a bit so acceleration feels reasonable
+		velocity *= 0.98
 	# Begin immediate decelerating if no longer thrusting.
 	else:
 		if boosting():
 			now_decelerating()
 		$ShipSound.stop()
-
-	# dampen a bit
-	velocity *= 0.98
+		# dampen a bit, but lighter than when accelerating so the ship drifts
+		velocity *= 0.985
 
 	# cap speed
 	var max_speed = MAX_SPEEDS[boost_level]
@@ -129,7 +137,8 @@ func _physics_process(delta):
 
 	var collision = move_and_collide(velocity * delta)
 	if collision:
-		velocity = velocity.bounce(collision.normal) * Vector2(0.7, 0.7)
+		var bounce_ratio = clamp(velocity.length() / max_speed, 0.0, 0.68)
+		velocity = velocity.bounce(collision.normal) * bounce_ratio
 #		if collision.collider.has_method("hit"):
 #			collision.collider.hit()
 
