@@ -91,19 +91,33 @@ func _process(_delta):
 		$BoostExhaust.emitting = false
 
 	# Hack!
-	get_node("../HUD/Control/Container/Speed").bbcode_text = "[b]%d[/b]m/s" % int(velocity.length() / 8)
+	get_node("../HUD/Control/Container/Speed").bbcode_text = "[b]%d[/b]m/s (%.2f)" % [int(velocity.length() / 8), rotation_degrees]
 
-func _physics_process(delta):	
-	var rotation_speed = ROTATION_SPEED
-	if boosting():
-		rotation_speed = BOOST_ROTATION_SPEED
-	elif not Input.is_action_pressed("move_up"):
-		rotation_speed = FLOAT_ROTATION_SPEED
+func _physics_process(delta):
+	if Input.is_action_pressed("action_button") and $Flipper/Cooldown.is_stopped():
+		var to = rotation_degrees - 180.0
+		var flip = $Flipper
+		flip.interpolate_property(
+			self, 'rotation_degrees', rotation_degrees, to, 0.44,
+			Tween.TRANS_LINEAR, Tween.EASE_IN_OUT
+		)
+		flip.start()
+		$Flipper/Cooldown.start(0.88)
+	elif not $Flipper.is_active():
+		var rotation_speed = ROTATION_SPEED
+		if boosting():
+			rotation_speed = BOOST_ROTATION_SPEED
+		elif not Input.is_action_pressed("move_up"):
+			rotation_speed = FLOAT_ROTATION_SPEED
 
-	if Input.is_action_pressed("move_left"):
-		rotation_degrees -= delta * rotation_speed
-	elif Input.is_action_pressed("move_right"):
-		rotation_degrees += delta * rotation_speed
+		if Input.is_action_pressed("move_left"):
+			rotation_degrees -= delta * rotation_speed
+		elif Input.is_action_pressed("move_right"):
+			rotation_degrees += delta * rotation_speed
+
+		if Input.is_action_just_released("move_left") or Input.is_action_just_released("move_right"):
+			# TODO Round to nearest X
+			rotation_degrees -= fmod(rotation_degrees, 10.0)
 
 	# get acceleration if thrust is pressed
 	if Input.is_action_pressed("move_up"):
@@ -140,9 +154,10 @@ func _physics_process(delta):
 		var bounce_ratio = clamp(velocity.length() / max_speed, 0.0, 0.68)
 		velocity = velocity.bounce(collision.normal) * bounce_ratio
 #		if collision.collider.has_method("hit"):
-#			collision.collider.hit()
+#			collision.collider.hit()	
 
 func _ready():
+# warning-ignore:return_value_discarded
 	$Decelerating.connect('timeout', self, 'now_decelerating')
 	$Pickup.stream.loop = false
 	$Dropoff.stream.loop = false
@@ -210,7 +225,7 @@ func pick_next_dropoff(asteroid):
 	var unlocked_asteroids = GameState.unlocked_asteroids()
 	var current_asteroid = GameState.current_asteroid.name.replace('Asteroid', '')
 
-	if unlocked_asteroids.has(current_asteroid) and unlocked_asteroids.size() > 1 and randf() < 0.201:
+	if unlocked_asteroids.has(current_asteroid) and unlocked_asteroids.size() > 1: # and randf() < 0.201:
 		var other_asteroid = unlocked_asteroids[randi() % unlocked_asteroids.size()]
 		dropoffs = get_parent().dropoffs[other_asteroid + 'Asteroid']
 	else:
