@@ -15,6 +15,11 @@ _global_script_classes=[ {
 "path": "res://Asteroid.gd"
 }, {
 "base": "Area2D",
+"class": "DestPoint",
+"language": "GDScript",
+"path": "res://DestPoint.gd"
+}, {
+"base": "Area2D",
 "class": "DropoffPoint",
 "language": "GDScript",
 "path": "res://DropoffPoint.gd"
@@ -31,6 +36,7 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "Asteroid": "res://assets/asteroid class icon.png",
+"DestPoint": "res://assets/dest point icon.png",
 "DropoffPoint": "",
 "PickupPoint": "",
 "Tunnel": ""
