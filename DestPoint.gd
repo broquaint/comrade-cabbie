@@ -11,8 +11,6 @@ signal passenger_dropoff_interrupted(point)
 
 export var point_type : String
 export var point_name : String
-# There's got to be a better way …
-var real_pos : Vector2
 
 func _ready():
 	$Label.text = point_name
@@ -23,6 +21,9 @@ func _ready():
 
 func get_asteroid():
 	return get_node('../..')
+
+func real_pos():
+	return self.position + get_asteroid().position
 
 func base_point_exited():
 	if not $Timer.is_stopped():

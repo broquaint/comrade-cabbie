@@ -1,14 +1,13 @@
 extends Node2D
 
-var asteroids = {}
-var pickups   = {}
-var dropoffs  = {}
-
 func _ready():
 	randomize()
 
+	# Now everything is ready build up a view of the asteroids + points.
+	GameState.build_system_data()
+
 	# Setup pickup/dropoff points
-	_build_points()
+	_connect_points()
 	# Connect boosts on major paths
 	_connect_boosts()
 	# Connect asteroids with "tunnels"
@@ -29,7 +28,7 @@ func _ready():
 
 	$HUD/IntroPopup.connect('confirmed', GameState, 'intro_acknowledged')
 	GameState.connect('satisfaction_update', $HUD/MessageLog, 'on_message')
-	for a in asteroids.values():
+	for a in GameState.asteroids.values():
 		GameState.connect('asteroid_unlock', a, 'on_asteroid_unlocked')
 		a.connect('announce_unlock', $HUD/BannerPanel, 'on_announce')
 		a.connect('announce_unlock', $HUD/MessageLog, 'on_message')
@@ -120,28 +119,18 @@ func on_asteroid_unlocked(_asteroid):
 	yield(get_tree().create_timer(2), "timeout")
 	$UnlockSound.play()
 
-func _build_points():
-	for kid in get_children():
-		if "Asteroid" in kid.name:
-			pickups[kid.name] = []
-			dropoffs[kid.name] = []
-			asteroids[kid.name] = kid
-			GameState.asteroid_satisfaction[kid.name] = GameState.DEFAULT_SATISFACTION
-	for k in asteroids.keys():
-		var v = asteroids[k]
-		for point in v.get_node('Pickups').get_children():
-			pickups[k].append(point)
-			point.real_pos = point.position + v.position
+func _connect_points():
+	for asteroid_points in GameState.pickups.values():
+		for point in asteroid_points:
 			point.connect('passenger_pickup_ready', $Player, 'passenger_collected')
 			point.connect('passenger_pickup_interrupted', $Player, 'passenger_pickup_missed')
-		for point in v.get_node('Dropoffs').get_children():
-			dropoffs[k].append(point)
-			point.real_pos = point.position + v.position
+	for asteroid_points in GameState.dropoffs.values():
+		for point in asteroid_points:
 			point.connect('passenger_dropoff_ready', $Player, 'passenger_deposited')
 			point.connect('passenger_dropoff_interrupted', $Player, 'passenger_dropoff_missed')
 
 func _connect_boosts():
-	for a in asteroids.values():
+	for a in GameState.asteroids.values():
 		# Not all asteroids have paths yet.
 		if not a.has_node('MajorPaths'):
 			continue

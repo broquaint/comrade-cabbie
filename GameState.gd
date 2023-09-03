@@ -21,10 +21,15 @@ enum JourneyScore {
 const DEFAULT_SATISFACTION = 60.0
 const UNLOCK_THRESHOLD = 5
 
+var settings = {}
+
 var current_state = States.TITLE
 var current_asteroid : Node2D
+
+var pickups = {}
+var dropoffs = {}
+var asteroids = {}
 var asteroid_satisfaction = {}
-var settings = {}
 
 var journeys : Array
 var unlocks : Dictionary
@@ -74,6 +79,7 @@ func has_game_save():
 	return File.new().file_exists(SAVE_GAME_PATH)
 
 func initialize():
+	build_system_data()
 	self.current_asteroid = asteroid_node('HomeAsteroid')
 	if not asteroid_satisfaction.empty():
 		for k in asteroid_satisfaction.keys():
@@ -90,6 +96,25 @@ func initialize():
 	}
 	self.unlock_order = ['Home', 'Services', 'Study', 'Goods']
 	self.asteroids_done = []
+
+# Builds up info about the system that other parts of the game use.
+func build_system_data():
+	if not pickups.empty():
+		return
+	for kid in root().get_children():
+		if not(kid is Asteroid):
+			continue
+		var pickups = []
+		for point in kid.get_node('Pickups').get_children():
+			pickups.append(point)
+		var dropoffs = []
+		for point in kid.get_node('Dropoffs').get_children():
+			dropoffs.append(point)
+
+		self.pickups[kid.name]   = pickups
+		self.dropoffs[kid.name]  = dropoffs
+		self.asteroids[kid.name] = kid
+		self.asteroid_satisfaction[kid.name] = DEFAULT_SATISFACTION
 
 const CONFIG_PATH = 'user://gamestate.cfg'
 func load_settings():
@@ -140,7 +165,7 @@ func root():
 	return get_node('/root/Root')
 
 func asteroid_node(name):
-	return root().get_node(name)
+	return asteroids[name]
 
 func on_new_dropoff(dropoff: DropoffPoint, _travel_time: float, journey_score: int):
 	var asteroid = dropoff.get_asteroid()

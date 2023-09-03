@@ -190,11 +190,11 @@ func boost_entered(_node):
 	$ShipSound.vroom(boost_level)
 
 func find_nearest_pickup(asteroid) -> Area2D:
-	var pickups = get_parent().pickups[asteroid.name]
+	var pickups = GameState.pickups[asteroid.name]
 	var closest = pickups[0]
 	for pickup in pickups:
-		var dist = self.position.distance_to(pickup.real_pos)
-		if dist < self.position.distance_to(closest.real_pos):
+		var dist = self.position.distance_to(pickup.real_pos())
+		if dist < self.position.distance_to(closest.real_pos()):
 			closest = pickup
 	return closest
 
@@ -228,9 +228,9 @@ func pick_next_dropoff(asteroid):
 
 	if unlocked_asteroids.has(current_asteroid) and unlocked_asteroids.size() > 1: # and randf() < 0.201:
 		var other_asteroid = unlocked_asteroids[randi() % unlocked_asteroids.size()]
-		dropoffs = get_parent().dropoffs[other_asteroid + 'Asteroid']
+		dropoffs = GameState.dropoffs[other_asteroid + 'Asteroid']
 	else:
-		dropoffs = get_parent().dropoffs[asteroid.name]
+		dropoffs = GameState.dropoffs[asteroid.name]
 
 	var dropoff = dropoffs[randi() % dropoffs.size()]
 	while dropoff in recent_pickups:
@@ -251,13 +251,13 @@ func set_next_dropoff(asteroid):
 	emit_signal('new_pickup', current_dropoff, calc_travel_estimate(current_pickup, current_dropoff))
 
 func calc_point_distance():
-	var point = current_dropoff if current_state == CabState.DROPPING_OFF else current_pickup
-	var dist = self.position.distance_to(point.real_pos)
+	var point : DestPoint = current_dropoff if current_state == CabState.DROPPING_OFF else current_pickup
+	var dist = self.position.distance_to(point.real_pos())
 	return int(dist / 8)
 
 func calc_compass():
-	var point = current_dropoff if current_state == CabState.DROPPING_OFF else current_pickup
-	var diff = self.position - point.real_pos
+	var point : DestPoint = current_dropoff if current_state == CabState.DROPPING_OFF else current_pickup
+	var diff = self.position - point.real_pos()
 	var is_v = abs(diff.y) > abs(diff.x)
 	if is_v:
 		return 'north' if diff.y > 0 else 'south' 
@@ -265,7 +265,7 @@ func calc_compass():
 		return 'west' if diff.x > 0 else 'east'
 
 func calc_travel_estimate(a, b):
-	var dist = int(a.real_pos.distance_to(b.real_pos) / 8)
+	var dist = int(a.real_pos().distance_to(b.real_pos()) / 8)
 	# Add 25% for buffer.
 	return clamp(1.25 * (dist / 20), 5, 600)
 
