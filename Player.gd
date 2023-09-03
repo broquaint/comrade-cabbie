@@ -118,8 +118,10 @@ func _physics_process(delta):
 			rotation_degrees += delta * rotation_speed
 
 		if Input.is_action_just_released("move_left") or Input.is_action_just_released("move_right"):
-			# TODO Round to nearest X
-			rotation_degrees -= fmod(rotation_degrees, 10.0)
+			var rem = fmod(rotation_degrees, 10.0)
+			# rd = 33.5, rem = 3.5 -> rd -=  3.5 -> 30
+			# rd = 36.7, rem = 6.7 -> rd -= -3.3 -> 40
+			rotation_degrees -= rem if rem < 5 else -(10 - rem)
 
 	# get acceleration if thrust is pressed
 	if Input.is_action_pressed("move_up"):
