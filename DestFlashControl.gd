@@ -58,7 +58,7 @@ const sluggish_time_text = [
 	'was that the scenic route?'
 ]
 
-func on_new_dropoff(dropoff, _asteroid, travel_time, travel_score):
+func on_new_dropoff(dropoff, travel_time, travel_score):
 	flash()
 	var text_choice : Array
 	

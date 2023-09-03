@@ -35,7 +35,7 @@ func set_asteroid_meter(asteroid):
 func on_asteroid_change(_from, _to):
 	set_asteroid_meter(GameState.current_asteroid)
 
-func on_new_dropoff(_dropoff, asteroid, _travel_time, _travel_score):
+func on_new_dropoff(dropoff, _travel_time, _travel_score):
 	# Should ensure the satisfaction value is in its final state
 	call_deferred('set_progress_meter')
-	call_deferred('set_asteroid_meter', asteroid)
+	call_deferred('set_asteroid_meter', dropoff.get_asteroid())

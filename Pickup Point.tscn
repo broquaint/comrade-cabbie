@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://PickupPoint.gd" type="Script" id=1]
 [ext_resource path="res://assets/pickup point.png" type="Texture" id=2]
@@ -10,7 +10,7 @@ resource_name = "Pulse"
 length = 3.0
 loop = true
 tracks/0/type = "value"
-tracks/0/path = NodePath("Point Pulse:scale")
+tracks/0/path = NodePath("PointPulse:scale")
 tracks/0/interp = 1
 tracks/0/loop_wrap = false
 tracks/0/imported = false
@@ -22,7 +22,7 @@ tracks/0/keys = {
 "values": [ Vector2( 1, 1 ), Vector2( 2, 2 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Point Pulse:modulate")
+tracks/1/path = NodePath("PointPulse:modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = false
 tracks/1/imported = false
@@ -37,7 +37,7 @@ tracks/1/keys = {
 [sub_resource type="Animation" id=2]
 length = 0.001
 tracks/0/type = "value"
-tracks/0/path = NodePath("Point Target:scale")
+tracks/0/path = NodePath("PointTarget:scale")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -49,7 +49,7 @@ tracks/0/keys = {
 "values": [ Vector2( 1, 1 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Point Pulse:scale")
+tracks/1/path = NodePath("PointPulse:scale")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -60,13 +60,88 @@ tracks/1/keys = {
 "update": 0,
 "values": [ Vector2( 1, 1 ) ]
 }
+tracks/2/type = "value"
+tracks/2/path = NodePath("ProgressMeter:rect_size")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 6 ) ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "ProgressFill"
+tracks/0/type = "value"
+tracks/0/path = NodePath("ProgressMeter:rect_size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1.6245, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 6 ), Vector2( 63, 6 ) ]
+}
+
+[sub_resource type="Animation" id=4]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("PointTarget:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("PointPulse:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("ProgressMeter:rect_size")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 6 ) ]
+}
 
 [node name="Pickup Point" type="Area2D" groups=["pickup points"]]
 script = ExtResource( 1 )
+__meta__ = {
+"_edit_horizontal_guides_": [ 40.0 ],
+"_edit_vertical_guides_": [ -31.0, 32.0 ]
+}
+point_type = "pickup"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/Pulse = SubResource( 1 )
 anims/RESET = SubResource( 2 )
+
+[node name="ProgressAnimation" type="AnimationPlayer" parent="."]
+anims/ProgressFill = SubResource( 3 )
+anims/RESET = SubResource( 4 )
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 polygon = PoolVector2Array( -8.3215, -29.6314, -21.3127, -22.8679, -29.5495, -8.33643, -29.7747, 7.64565, -21.2239, 22.2533, -3.83713, 30.5192, 3.28857, 30.7329, 19.749, 22.6809, 29.7962, 7.14684, 30.0812, -7.95966, 20.6753, -22.8524, 7.35022, -29.8356 )
@@ -74,13 +149,13 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Point Pulse" type="Sprite" parent="."]
+[node name="PointPulse" type="Sprite" parent="."]
 texture = ExtResource( 2 )
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Point Target" type="Sprite" parent="."]
+[node name="PointTarget" type="Sprite" parent="."]
 texture = ExtResource( 2 )
 __meta__ = {
 "_edit_group_": true
@@ -97,3 +172,14 @@ text = "Foo Bar"
 __meta__ = {
 "_edit_group_": true
 }
+
+[node name="ProgressMeter" type="ColorRect" parent="."]
+visible = false
+margin_left = -31.0
+margin_top = 34.0
+margin_right = -31.0
+margin_bottom = 40.0
+color = Color( 0.415686, 0.745098, 0.188235, 1 )
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true

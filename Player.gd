@@ -2,10 +2,12 @@ extends KinematicBody2D
 
 signal picking_up(current_pickup)
 signal new_pickup(current_dropoff, travel_distance)
-signal new_dropoff(dropoff, asteroid, travel_time, travel_estimate)
+signal new_dropoff(dropoff, travel_time, travel_estimate)
 signal compass_update(direction, type)
 signal distance_update(distance)
 signal travel_time_update(travel_time)
+
+signal pickup_interrupted()
 
 const ROTATION_SPEED : float = 4.75 * 60
 const BOOST_ROTATION_SPEED : float = 2.75 * 60
@@ -199,18 +201,18 @@ func on_asteroid_change(_from, _to):
 		return
 
 	current_pickup.get_node('AnimationPlayer').stop()
-	current_pickup.get_node('Point Pulse').hide()
+	current_pickup.get_node('PointPulse').hide()
 
 	current_pickup = find_nearest_pickup(GameState.current_asteroid)
 	current_pickup.get_node('AnimationPlayer').play('Pulse')
-	current_pickup.get_node('Point Pulse').visible = true
+	current_pickup.get_node('PointPulse').visible = true
 	emit_signal("picking_up", current_pickup)
 
 func set_next_pickup(asteroid):
 	current_state = CabState.PICKING_UP
 	current_pickup = find_nearest_pickup(asteroid)
 	current_pickup.get_node('AnimationPlayer').play('Pulse')
-	current_pickup.get_node('Point Pulse').visible = true
+	current_pickup.get_node('PointPulse').visible = true
 	emit_signal("picking_up", current_pickup)
 
 var all_recent_pickups = {}
@@ -243,13 +245,13 @@ func set_next_dropoff(asteroid):
 
 	current_state = CabState.DROPPING_OFF
 	current_pickup.get_node('AnimationPlayer').stop()
-	current_pickup.get_node('Point Pulse').hide()
+	current_pickup.get_node('PointPulse').hide()
 
 	current_dropoff = pick_next_dropoff(asteroid)
 
 	current_dropoff.get_node('PointTarget').show()
 	current_dropoff.get_node('AnimationPlayer').play('Pulse')
-	current_dropoff.get_node('Point Pulse').show()
+	current_dropoff.get_node('PointPulse').show()
 	emit_signal('new_pickup', current_dropoff, calc_travel_estimate(current_pickup, current_dropoff))
 
 func calc_point_distance():
@@ -289,23 +291,28 @@ func calc_journey_score():
 	else:
 		return GameState.JourneyScore.SLUGGISH
 
-func pickup_point_entered(_node, point, asteroid):
-	if picking_up():
-		# It's possible to go to alternative pickups.
-		current_pickup = point
-		set_next_dropoff(asteroid)
-		travel_time = Time.get_ticks_msec()
-		current_state = CabState.DROPPING_OFF
+func passenger_collected(point : PickupPoint):
+	# It's possible to go to alternative pickups.
+	current_pickup = point
+	set_next_dropoff(point.get_asteroid())
+	travel_time = Time.get_ticks_msec()
+	current_state = CabState.DROPPING_OFF
 
-func dropoff_point_entered(_node, point, asteroid):
-	if point == current_dropoff and dropping_off():
-		$Dropoff.play()
-		# Not in use at the moment.
-		emit_signal('new_dropoff', point, asteroid, calc_travel_time(), calc_journey_score())
-		current_dropoff.get_node('AnimationPlayer').stop()
-		current_dropoff.get_node('Point Pulse').hide()
-		current_dropoff.get_node('PointTarget').hide()
-		current_state = CabState.PICKING_UP
-		travel_time = 0
-		# This maybe doesn't want to be instant?
-		set_next_pickup(asteroid)
+func passenger_pickup_missed(point : PickupPoint):
+	if picking_up():
+		emit_signal('pickup_interrupted', point)
+
+func passenger_deposited(point : DropoffPoint):
+	$Dropoff.play()
+	# Not in use at the moment.
+	emit_signal('new_dropoff', point, calc_travel_time(), calc_journey_score())
+	current_dropoff.get_node('AnimationPlayer').stop()
+	current_dropoff.get_node('PointPulse').hide()
+	current_dropoff.get_node('PointTarget').hide()
+	current_state = CabState.PICKING_UP
+	travel_time = 0
+	# This maybe doesn't want to be instant?
+	set_next_pickup(point.get_asteroid())
+
+func passenger_dropoff_missed(_point):
+	pass

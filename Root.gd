@@ -4,8 +4,6 @@ var asteroids = {}
 var pickups   = {}
 var dropoffs  = {}
 
-var community_satisfaction = 75
-
 func _ready():
 	randomize()
 
@@ -134,11 +132,13 @@ func _build_points():
 		for point in v.get_node('Pickups').get_children():
 			pickups[k].append(point)
 			point.real_pos = point.position + v.position
-			point.connect('body_entered', $Player, 'pickup_point_entered', [point, v])
+			point.connect('passenger_pickup_ready', $Player, 'passenger_collected')
+			point.connect('passenger_pickup_interrupted', $Player, 'passenger_pickup_missed')
 		for point in v.get_node('Dropoffs').get_children():
 			dropoffs[k].append(point)
 			point.real_pos = point.position + v.position
-			point.connect('body_entered', $Player, 'dropoff_point_entered', [point, v])
+			point.connect('passenger_dropoff_ready', $Player, 'passenger_deposited')
+			point.connect('passenger_dropoff_interrupted', $Player, 'passenger_dropoff_missed')
 
 func _connect_boosts():
 	for a in asteroids.values():

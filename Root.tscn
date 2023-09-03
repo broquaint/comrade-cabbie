@@ -74,6 +74,7 @@ AsteroidOne = "Study"
 AsteroidTwo = "Goods"
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
+unique_name_in_owner = true
 __meta__ = {
 "_edit_group_": true
 }
