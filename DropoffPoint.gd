@@ -1,6 +1,6 @@
-extends "res://DestPoint.gd"
-
 class_name DropoffPoint
+
+extends "res://DestPoint.gd"
 
 func point_entered(player):
 	if self == player.current_dropoff and player.dropping_off():
@@ -21,3 +21,11 @@ func announce_msg(travel_distance):
 	if get_asteroid() != GameState.current_asteroid:
 		in_asteroid = ', [b]%s[/b],' % (get_asteroid().map_name + ' Asteroid')
 	return 'Drop me off at [b]' + point_name + '[/b]%s in [b]%d[/b] seconds please!' % [in_asteroid, travel_distance]
+
+func journey_started():
+	$PointTarget.show()
+	.start_pulse()
+
+func journey_completed():
+	$PointTarget.hide()
+	.stop_pulse()

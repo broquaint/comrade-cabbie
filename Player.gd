@@ -43,8 +43,8 @@ const MAX_SPEEDS = [
 var boost_level = BoostLevel.NONE
 
 var velocity : Vector2
-var current_pickup : Area2D
-var current_dropoff : Area2D
+var current_pickup : PickupPoint
+var current_dropoff : DropoffPoint
 var current_state = CabState.CRUISING
 var travel_time : int
 
@@ -200,19 +200,16 @@ func on_asteroid_change(_from, _to):
 	if current_state != CabState.PICKING_UP:
 		return
 
-	current_pickup.get_node('AnimationPlayer').stop()
-	current_pickup.get_node('PointPulse').hide()
+	current_pickup.waiting_stopped()
 
 	current_pickup = find_nearest_pickup(GameState.current_asteroid)
-	current_pickup.get_node('AnimationPlayer').play('Pulse')
-	current_pickup.get_node('PointPulse').visible = true
+	current_pickup.passenger_waiting()
 	emit_signal("picking_up", current_pickup)
 
 func set_next_pickup(asteroid):
 	current_state = CabState.PICKING_UP
 	current_pickup = find_nearest_pickup(asteroid)
-	current_pickup.get_node('AnimationPlayer').play('Pulse')
-	current_pickup.get_node('PointPulse').visible = true
+	current_pickup.passenger_waiting()
 	emit_signal("picking_up", current_pickup)
 
 var all_recent_pickups = {}
@@ -244,14 +241,11 @@ func set_next_dropoff(asteroid):
 	$Pickup.play()
 
 	current_state = CabState.DROPPING_OFF
-	current_pickup.get_node('AnimationPlayer').stop()
-	current_pickup.get_node('PointPulse').hide()
+	current_pickup.waiting_stopped()
 
 	current_dropoff = pick_next_dropoff(asteroid)
 
-	current_dropoff.get_node('PointTarget').show()
-	current_dropoff.get_node('AnimationPlayer').play('Pulse')
-	current_dropoff.get_node('PointPulse').show()
+	current_dropoff.journey_started()
 	emit_signal('new_pickup', current_dropoff, calc_travel_estimate(current_pickup, current_dropoff))
 
 func calc_point_distance():
@@ -303,12 +297,10 @@ func passenger_pickup_missed(point : PickupPoint):
 		emit_signal('pickup_interrupted', point)
 
 func passenger_deposited(point : DropoffPoint):
-	$Dropoff.play()
-	# Not in use at the moment.
 	emit_signal('new_dropoff', point, calc_travel_time(), calc_journey_score())
-	current_dropoff.get_node('AnimationPlayer').stop()
-	current_dropoff.get_node('PointPulse').hide()
-	current_dropoff.get_node('PointTarget').hide()
+
+	$Dropoff.play()
+	current_dropoff.journey_completed()
 	current_state = CabState.PICKING_UP
 	travel_time = 0
 	# This maybe doesn't want to be instant?

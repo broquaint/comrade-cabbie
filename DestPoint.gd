@@ -33,3 +33,11 @@ func base_point_exited():
 func passenger_done():
 	$ProgressMeter.hide()
 	emit_signal(('passenger_%s_ready' % point_type), self)
+
+func start_pulse():
+	$AnimationPlayer.play('Pulse')
+	$PointPulse.show()
+
+func stop_pulse():
+	$AnimationPlayer.stop()
+	$PointPulse.hide()

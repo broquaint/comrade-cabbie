@@ -1,6 +1,6 @@
-extends "res://DestPoint.gd"
-
 class_name PickupPoint
+
+extends "res://DestPoint.gd"
 
 func point_entered(player):
 	emit_signal('pickup_entered', self)
@@ -16,3 +16,9 @@ func point_exited(player):
 	if player.picking_up():
 		$AnimationPlayer.play("Pulse")
 		$PointPulse.show()
+
+func passenger_waiting():
+	.start_pulse()
+
+func waiting_stopped():
+	.stop_pulse()
