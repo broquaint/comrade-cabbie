@@ -161,16 +161,18 @@ func on_new_dropoff(dropoff: DropoffPoint, _travel_time: float, journey_score: i
 	asteroid_satisfaction[asteroid.name] = clamp(prev_satisfaction * ratio, 0, 100)
 
 	var local_satisfaction = asteroid_satisfaction[asteroid.name]
-	if prev_satisfaction == local_satisfaction:
-		emit_signal('satisfaction_update', 'No change to satisfaction levels ._.')
-	else:
-		var aname = asteroid.name.replace('Asteroid', '')
-		var direction = 'increased' if prev_satisfaction < local_satisfaction else 'decreased'
-		var local_delta = local_satisfaction - prev_satisfaction
-		emit_signal(
-			'satisfaction_update',
-			'%s Satisfaction [i]%s[/i] by [b]%.2f[/b] to [b]%.2f[/b]%%' % [aname, direction, local_delta, local_satisfaction]
-		)
+	# Don't emit any signals when satisfaction is full.
+	if prev_satisfaction != 100 and local_satisfaction != 100:
+		if prev_satisfaction == local_satisfaction:
+			emit_signal('satisfaction_update', 'No change to satisfaction levels ._.')
+		else:
+			var aname = asteroid.name.replace('Asteroid', '')
+			var direction = 'increased' if prev_satisfaction < local_satisfaction else 'decreased'
+			var local_delta = local_satisfaction - prev_satisfaction
+			emit_signal(
+				'satisfaction_update',
+				'%s Satisfaction [i]%s[/i] by [b]%.2f[/b] to [b]%.2f[/b]%%' % [aname, direction, local_delta, local_satisfaction]
+			)
 
 	journeys.push_front({score = journey_score, asteroid = asteroid.name.replace('Asteroid', '')})
 	handle_unlocks()
