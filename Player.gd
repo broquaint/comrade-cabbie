@@ -9,10 +9,6 @@ signal travel_time_update(travel_time)
 
 signal pickup_interrupted()
 
-const ROTATION_SPEED : float = 4.75 * 60
-const BOOST_ROTATION_SPEED : float = 2.75 * 60
-const FLOAT_ROTATION_SPEED : float = 5.5 * 60
-
 enum CabState {
 	CRUISING, # Not implemented yet
 	PICKING_UP,
@@ -25,6 +21,12 @@ enum BoostLevel {
 	SPEEDY,
 	LUDICROUS
 }
+
+const ROTATION_SPEED : float       = 4.25 * 60
+const BOOST_ROTATION_SPEED : float = 2.75 * 60
+const FLOAT_ROTATION_SPEED : float = 5.0  * 60
+
+const TURN_SNAP : float = 15.0
 
 const THRUSTS = [
 	12.0, # NONE
@@ -118,10 +120,8 @@ func _physics_process(delta):
 			rotation_degrees += delta * rotation_speed
 
 		if Input.is_action_just_released("move_left") or Input.is_action_just_released("move_right"):
-			var rem = fmod(rotation_degrees, 10.0)
-			# rd = 33.5, rem = 3.5 -> rd -=  3.5 -> 30
-			# rd = 36.7, rem = 6.7 -> rd -= -3.3 -> 40
-			rotation_degrees -= rem if rem < 5 else -(10 - rem)
+			var rem = fmod(rotation_degrees, TURN_SNAP)
+			rotation_degrees -= rem if abs(rem) < (TURN_SNAP/2) else -((sign(rem) * TURN_SNAP) - rem)
 
 	# get acceleration if thrust is pressed
 	if Input.is_action_pressed("move_up"):
