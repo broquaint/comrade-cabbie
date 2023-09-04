@@ -49,6 +49,7 @@ var current_pickup : PickupPoint
 var current_dropoff : DropoffPoint
 var current_state = CabState.CRUISING
 var travel_time : int
+var all_recent_pickups : Dictionary
 
 func initialize():
 	velocity = Vector2.ZERO
@@ -59,6 +60,7 @@ func initialize():
 	current_dropoff = null
 	current_state = CabState.CRUISING
 	travel_time = 0
+	all_recent_pickups = {}
 
 	$Decelerating.stop()
 	$Exhaust.emitting = false
@@ -214,7 +216,6 @@ func set_next_pickup(asteroid):
 	current_pickup.passenger_waiting()
 	emit_signal("picking_up", current_pickup)
 
-var all_recent_pickups = {}
 func pick_next_dropoff(asteroid):
 	if not(asteroid.name in all_recent_pickups):
 		all_recent_pickups[asteroid.name] = []
