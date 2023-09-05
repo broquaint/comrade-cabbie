@@ -61,6 +61,12 @@ playback/speed = 1.1
 wait_time = 0.88
 one_shot = true
 
+[node name="Snapper" type="Tween" parent="."]
+
+[node name="DoubleTapWait" type="Timer" parent="Snapper"]
+wait_time = 0.25
+one_shot = true
+
 [node name="ShipSound" type="AudioStreamPlayer" parent="."]
 volume_db = -8.0
 bus = "SFX"

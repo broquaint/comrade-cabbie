@@ -100,7 +100,7 @@ func _process(_delta):
 	get_node("../HUD/Control/Container/Speed").bbcode_text = "[b]%d[/b]m/s (%.2f)" % [int(velocity.length() / 8), rotation_degrees]
 
 func _physics_process(delta):
-	if Input.is_action_pressed("action_button") and $Flipper/Cooldown.is_stopped():
+	if Input.is_action_pressed("action_button") and $Flipper/Cooldown.is_stopped() and not $Snapper.is_active():
 		var to = rotation_degrees - 180.0
 		var flip = $Flipper
 		flip.interpolate_property(
@@ -109,7 +109,7 @@ func _physics_process(delta):
 		)
 		flip.start()
 		$Flipper/Cooldown.start(0.88)
-	elif not $Flipper.is_active():
+	elif not $Flipper.is_active() and not $Snapper.is_active():
 		var rotation_speed = ROTATION_SPEED
 		if boosting():
 			rotation_speed = BOOST_ROTATION_SPEED
@@ -122,14 +122,25 @@ func _physics_process(delta):
 			rotation_degrees += delta * rotation_speed
 
 		if Input.is_action_just_released("move_left") or Input.is_action_just_released("move_right"):
-			var rem = fmod(rotation_degrees, TURN_SNAP)
-			rotation_degrees -= rem if abs(rem) < (TURN_SNAP/2) else -((sign(rem) * TURN_SNAP) - rem)
+			rotation_degrees = int(stepify(rotation_degrees, TURN_SNAP))
+
+	if Input.is_action_just_released("move_up"):
+		$Snapper/DoubleTapWait.start()
 
 	# get acceleration if thrust is pressed
 	if Input.is_action_pressed("move_up"):
 		if not $ShipSound.playing:
 			$ShipSound.vroom(boost_level)
 		var acceleration : Vector2
+
+		if not $Snapper/DoubleTapWait.is_stopped() and not $Snapper.is_active() and not $Flipper.is_active():
+			var to = int(stepify(rotation_degrees, 45.0))
+			$Snapper.interpolate_property(
+				self, 'rotation_degrees', rotation_degrees, to, 0.25,
+				Tween.TRANS_LINEAR, Tween.EASE_IN_OUT
+			)
+			$Snapper.start()
+			$Snapper/DoubleTapWait.stop()
 
 		# -THRUST because vector pointing up = y value of -1, and
 		# rotated() method of Vector2 needs a radian, not degrees,
