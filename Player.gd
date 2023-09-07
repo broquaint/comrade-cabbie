@@ -6,8 +6,12 @@ signal new_dropoff(dropoff, travel_time, travel_estimate)
 signal compass_update(direction, type)
 signal distance_update(distance)
 signal travel_time_update(travel_time)
+signal movement_update(status)
 
 signal pickup_interrupted()
+
+const ANGULAR_THRUST = 14.0
+const ANGULAR_DRAG = 0.25
 
 enum CabState {
 	CRUISING, # Not implemented yet
@@ -43,6 +47,10 @@ const MAX_SPEEDS = [
 ]
 
 var boost_level = BoostLevel.NONE
+
+var net_angular_acceleration = 0.0
+var angular_acceleration = 0.0
+var angular_velocity = 0.0
 
 var velocity : Vector2
 var current_pickup : PickupPoint
@@ -96,8 +104,8 @@ func _process(_delta):
 		$Exhaust.emitting = false
 		$BoostExhaust.emitting = false
 
-	# Hack!
-	get_node("../HUD/Control/Container/Speed").bbcode_text = "[b]%d[/b]m/s (%.2f)" % [int(velocity.length() / 8), rotation_degrees]
+	# Still quite gross.
+	emit_signal("movement_update", {velocity=velocity, net_angular_acceleration=net_angular_acceleration, angular_velocity=angular_velocity})
 
 func _physics_process(delta):
 	if Input.is_action_pressed("action_button") and $Flipper/Cooldown.is_stopped() and not $Snapper.is_active():
@@ -116,13 +124,20 @@ func _physics_process(delta):
 		elif not Input.is_action_pressed("move_up"):
 			rotation_speed = FLOAT_ROTATION_SPEED
 
+		angular_acceleration = 0
 		if Input.is_action_pressed("move_left"):
-			rotation_degrees -= delta * rotation_speed
+			# rotation_degrees -= delta * rotation_speed
+			angular_acceleration = -ANGULAR_THRUST
 		elif Input.is_action_pressed("move_right"):
-			rotation_degrees += delta * rotation_speed
+			# rotation_degrees += delta * rotation_speed
+			angular_acceleration = ANGULAR_THRUST
 
-		if Input.is_action_just_released("move_left") or Input.is_action_just_released("move_right"):
-			rotation_degrees = int(stepify(rotation_degrees, TURN_SNAP))
+		# Angular movement
+		net_angular_acceleration = angular_acceleration - angular_velocity * ANGULAR_DRAG
+		angular_velocity += net_angular_acceleration * delta
+		rotation += angular_velocity * delta
+		# if Input.is_action_just_released("move_left") or Input.is_action_just_released("move_right"):
+		# 	rotation_degrees = int(stepify(rotation_degrees, TURN_SNAP))
 
 	if Input.is_action_just_released("move_up"):
 		$Snapper/DoubleTapWait.start()

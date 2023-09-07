@@ -78,9 +78,9 @@ func load_game_state():
 func has_game_save():
 	return File.new().file_exists(SAVE_GAME_PATH)
 
-func initialize():
+func initialize(start_asteroid = 'HomeAsteroid'):
 	build_system_data()
-	self.current_asteroid = asteroid_node('HomeAsteroid')
+	self.current_asteroid = asteroid_node(start_asteroid)
 	if not asteroid_satisfaction.empty():
 		for k in asteroid_satisfaction.keys():
 			self.asteroid_satisfaction[k] = DEFAULT_SATISFACTION

@@ -23,6 +23,7 @@ func _ready():
 	$Player.connect('new_dropoff', $HUD/SatisfactionMeter, 'on_new_dropoff')
 	$Player.connect('distance_update', $HUD/Compass, 'on_distance_update')
 	$Player.connect('travel_time_update', $HUD/Control, 'on_travel_time_update')
+	$Player.connect('movement_update', $HUD/Control, 'on_movement_update')
 	$Player.connect('compass_update', $HUD/Compass, 'on_compass_update')
 	$Player.connect('compass_update', $HUD/Compass/Needle, 'on_compass_update')
 
