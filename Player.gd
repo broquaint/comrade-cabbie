@@ -10,9 +10,6 @@ signal movement_update(status)
 
 signal pickup_interrupted()
 
-const ANGULAR_THRUST = 14.0
-const ANGULAR_DRAG = 0.25
-
 enum CabState {
 	CRUISING, # Not implemented yet
 	PICKING_UP,
@@ -29,6 +26,9 @@ enum BoostLevel {
 const ROTATION_SPEED : float       = 4.25 * 60
 const BOOST_ROTATION_SPEED : float = 2.75 * 60
 const FLOAT_ROTATION_SPEED : float = 5.0  * 60
+
+const ANGULAR_THRUST = 20.0
+const ANGULAR_DRAG = 5.0
 
 const TURN_SNAP : float = 15.0
 
@@ -125,16 +125,19 @@ func _physics_process(delta):
 			rotation_speed = FLOAT_ROTATION_SPEED
 
 		angular_acceleration = 0
+		var angular_drag = ANGULAR_DRAG
 		if Input.is_action_pressed("move_left"):
 			# rotation_degrees -= delta * rotation_speed
 			angular_acceleration = -ANGULAR_THRUST
 		elif Input.is_action_pressed("move_right"):
 			# rotation_degrees += delta * rotation_speed
 			angular_acceleration = ANGULAR_THRUST
+		else:
+			angular_drag = ANGULAR_DRAG * 100
 
 		# Angular movement
 		net_angular_acceleration = angular_acceleration - angular_velocity * ANGULAR_DRAG
-		angular_velocity += net_angular_acceleration * delta
+		angular_velocity = clamp(angular_velocity + net_angular_acceleration * delta, -4.0, 4.0)
 		rotation += angular_velocity * delta
 		# if Input.is_action_just_released("move_left") or Input.is_action_just_released("move_right"):
 		# 	rotation_degrees = int(stepify(rotation_degrees, TURN_SNAP))
@@ -149,6 +152,8 @@ func _physics_process(delta):
 		var acceleration : Vector2
 
 		if not $Snapper/DoubleTapWait.is_stopped() and not $Snapper.is_active() and not $Flipper.is_active():
+			net_angular_acceleration = 0
+			angular_velocity = 0
 			var to = int(stepify(rotation_degrees, 45.0))
 			$Snapper.interpolate_property(
 				self, 'rotation_degrees', rotation_degrees, to, 0.25,
