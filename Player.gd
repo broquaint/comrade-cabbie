@@ -23,10 +23,6 @@ enum BoostLevel {
 	LUDICROUS
 }
 
-const ROTATION_SPEED : float       = 4.25 * 60
-const BOOST_ROTATION_SPEED : float = 2.75 * 60
-const FLOAT_ROTATION_SPEED : float = 5.0  * 60
-
 const ANGULAR_THRUST = 20.0
 const ANGULAR_DRAG = 5.0
 
@@ -108,39 +104,21 @@ func _process(_delta):
 	emit_signal("movement_update", {velocity=velocity, net_angular_acceleration=net_angular_acceleration, angular_velocity=angular_velocity})
 
 func _physics_process(delta):
-	if Input.is_action_pressed("action_button") and $Flipper/Cooldown.is_stopped() and not $Snapper.is_active():
-		var to = rotation_degrees - 180.0
-		var flip = $Flipper
-		flip.interpolate_property(
-			self, 'rotation_degrees', rotation_degrees, to, 0.44,
-			Tween.TRANS_LINEAR, Tween.EASE_IN_OUT
-		)
-		flip.start()
-		$Flipper/Cooldown.start(0.88)
-	elif not $Flipper.is_active() and not $Snapper.is_active():
-		var rotation_speed = ROTATION_SPEED
-		if boosting():
-			rotation_speed = BOOST_ROTATION_SPEED
-		elif not Input.is_action_pressed("move_up"):
-			rotation_speed = FLOAT_ROTATION_SPEED
+	angular_acceleration = 0
 
-		angular_acceleration = 0
-		var angular_drag = ANGULAR_DRAG
-		if Input.is_action_pressed("move_left"):
-			# rotation_degrees -= delta * rotation_speed
-			angular_acceleration = -ANGULAR_THRUST
-		elif Input.is_action_pressed("move_right"):
-			# rotation_degrees += delta * rotation_speed
-			angular_acceleration = ANGULAR_THRUST
-		else:
-			angular_drag = ANGULAR_DRAG * 100
+	if Input.is_action_pressed("move_left"):
+		# rotation_degrees -= delta * rotation_speed
+		angular_acceleration = -ANGULAR_THRUST
+	elif Input.is_action_pressed("move_right"):
+		# rotation_degrees += delta * rotation_speed
+		angular_acceleration = ANGULAR_THRUST
 
-		# Angular movement
-		net_angular_acceleration = angular_acceleration - angular_velocity * ANGULAR_DRAG
-		angular_velocity = clamp(angular_velocity + net_angular_acceleration * delta, -4.0, 4.0)
-		rotation += angular_velocity * delta
-		# if Input.is_action_just_released("move_left") or Input.is_action_just_released("move_right"):
-		# 	rotation_degrees = int(stepify(rotation_degrees, TURN_SNAP))
+	# Angular movement
+	net_angular_acceleration = angular_acceleration - angular_velocity * ANGULAR_DRAG
+	angular_velocity = clamp(angular_velocity + net_angular_acceleration * delta, -4.0, 4.0)
+	rotation += angular_velocity * delta
+	# if Input.is_action_just_released("move_left") or Input.is_action_just_released("move_right"):
+	# 	rotation_degrees = int(stepify(rotation_degrees, TURN_SNAP))
 
 	if Input.is_action_just_released("move_up"):
 		$Snapper/DoubleTapWait.start()
@@ -151,7 +129,7 @@ func _physics_process(delta):
 			$ShipSound.vroom(boost_level)
 		var acceleration : Vector2
 
-		if not $Snapper/DoubleTapWait.is_stopped() and not $Snapper.is_active() and not $Flipper.is_active():
+		if not $Snapper/DoubleTapWait.is_stopped() and not $Snapper.is_active():
 			net_angular_acceleration = 0
 			angular_velocity = 0
 			var to = int(stepify(rotation_degrees, 45.0))

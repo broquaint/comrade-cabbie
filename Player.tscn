@@ -53,14 +53,6 @@ color = Color( 1, 1, 1, 0.498039 )
 [node name="Decelerating" type="Timer" parent="."]
 one_shot = true
 
-[node name="Flipper" type="Tween" parent="."]
-playback_speed = 1.1
-playback/speed = 1.1
-
-[node name="Cooldown" type="Timer" parent="Flipper"]
-wait_time = 0.88
-one_shot = true
-
 [node name="Snapper" type="Tween" parent="."]
 
 [node name="DoubleTapWait" type="Timer" parent="Snapper"]
