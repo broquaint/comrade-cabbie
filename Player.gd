@@ -124,7 +124,8 @@ func _physics_process(delta):
 		$Snapper/DoubleTapWait.start()
 
 	# get acceleration if thrust is pressed
-	if Input.is_action_pressed("move_up"):
+	var moving_up = Input.is_action_pressed("move_up")
+	if moving_up or Input.is_action_pressed("move_down"):
 		if not $ShipSound.playing:
 			$ShipSound.vroom(boost_level)
 		var acceleration : Vector2
@@ -143,8 +144,9 @@ func _physics_process(delta):
 		# -THRUST because vector pointing up = y value of -1, and
 		# rotated() method of Vector2 needs a radian, not degrees,
 		# so convert that using deg2rad
-		var thrust = THRUSTS[boost_level]
-		acceleration = Vector2(0, -thrust).rotated(deg2rad(rotation_degrees))
+		var thrust = THRUSTS[boost_level] * (-1 if moving_up else 1)
+		thrust *= 1 if moving_up else 0.5
+		acceleration = Vector2(0, thrust).rotated(deg2rad(rotation_degrees))
 
 		# add acceleration to current speed
 		velocity += acceleration
