@@ -18,6 +18,7 @@
 script = ExtResource( 4 )
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+scroll_ignore_camera_zoom = true
 
 [node name="BackgroundLayer" type="ParallaxLayer" parent="ParallaxBackground"]
 position = Vector2( 621, 1341 )

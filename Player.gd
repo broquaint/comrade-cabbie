@@ -42,6 +42,9 @@ const MAX_SPEEDS = [
 	720.0, # LUDICROUS
 ]
 
+const CAM_ACCEL  =  0.0025
+const CAM_DECCEL = -0.0075
+
 var boost_level = BoostLevel.NONE
 
 var net_angular_acceleration = 0.0
@@ -49,6 +52,8 @@ var angular_acceleration = 0.0
 var angular_velocity = 0.0
 
 var velocity : Vector2
+var cam_speed : float
+
 var current_pickup : PickupPoint
 var current_dropoff : DropoffPoint
 var current_state = CabState.CRUISING
@@ -57,6 +62,7 @@ var all_recent_pickups : Dictionary
 
 func initialize():
 	velocity = Vector2.ZERO
+	cam_speed = 0.0
 	rotation_degrees = 90.0
 
 	boost_level = BoostLevel.NONE
@@ -101,7 +107,11 @@ func _process(_delta):
 		$BoostExhaust.emitting = false
 
 	# Still quite gross.
-	emit_signal("movement_update", {velocity=velocity, net_angular_acceleration=net_angular_acceleration, angular_velocity=angular_velocity})
+	emit_signal("movement_update", {velocity=velocity, max_speed=MAX_SPEEDS[boost_level], net_angular_acceleration=net_angular_acceleration, angular_velocity=angular_velocity})
+
+	var cam_inc = CAM_ACCEL if Input.is_action_pressed("move_up") and $LastCollision.is_stopped() else CAM_DECCEL
+	cam_speed = clamp(cam_speed+cam_inc, 0, 0.5)
+	$Camera2D.zoom = Vector2.ONE * (1+(0.5*(cam_speed*cam_speed)))
 
 func _physics_process(delta):
 	angular_acceleration = 0
@@ -170,6 +180,7 @@ func _physics_process(delta):
 	if collision:
 		var bounce_ratio = clamp(velocity.length() / max_speed, 0.0, 0.68)
 		velocity = velocity.bounce(collision.normal) * bounce_ratio
+		$LastCollision.start()
 #		if collision.collider.has_method("hit"):
 #			collision.collider.hit()	
 

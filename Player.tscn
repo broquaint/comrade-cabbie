@@ -73,3 +73,6 @@ bus = "SFX"
 stream = ExtResource( 7 )
 volume_db = -25.0
 bus = "SFX"
+
+[node name="LastCollision" type="Timer" parent="."]
+one_shot = true
