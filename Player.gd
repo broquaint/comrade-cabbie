@@ -43,7 +43,9 @@ const MAX_SPEEDS = [
 ]
 
 const CAM_ACCEL  =  0.0025
-const CAM_DECCEL = -0.0075
+const CAM_DECCEL = -0.0025
+const CAM_MAX_ZOOM = 0.5
+const CAM_MAX_ZOOM_BOOST = 0.75
 
 var boost_level = BoostLevel.NONE
 
@@ -53,6 +55,7 @@ var angular_velocity = 0.0
 
 var velocity : Vector2
 var cam_speed : float
+var max_zoom : float
 
 var current_pickup : PickupPoint
 var current_dropoff : DropoffPoint
@@ -63,6 +66,7 @@ var all_recent_pickups : Dictionary
 func initialize():
 	velocity = Vector2.ZERO
 	cam_speed = 0.0
+	max_zoom = CAM_MAX_ZOOM
 	rotation_degrees = 90.0
 
 	boost_level = BoostLevel.NONE
@@ -110,8 +114,8 @@ func _process(_delta):
 	emit_signal("movement_update", {velocity=velocity, max_speed=MAX_SPEEDS[boost_level], net_angular_acceleration=net_angular_acceleration, angular_velocity=angular_velocity})
 
 	var cam_inc = CAM_ACCEL if Input.is_action_pressed("move_up") and $LastCollision.is_stopped() else CAM_DECCEL
-	cam_speed = clamp(cam_speed+cam_inc, 0, 0.5)
-	$Camera2D.zoom = Vector2.ONE * (1+(0.5*(cam_speed*cam_speed)))
+	cam_speed = clamp(cam_speed+cam_inc, 0, max_zoom)
+	$Camera2D.zoom = Vector2.ONE * (1+(max_zoom*(cam_speed*cam_speed)))
 
 func _physics_process(delta):
 	angular_acceleration = 0
@@ -200,6 +204,13 @@ func now_decelerating():
 			boost_level = BoostLevel.NONE
 	if boost_level != BoostLevel.NONE:
 		$Decelerating.start(0.5)
+	else:
+		$BoostZoom.stop_all()
+		$BoostZoom.interpolate_property(
+			self, 'max_zoom', max_zoom, CAM_MAX_ZOOM, 1.5,
+			Tween.TRANS_LINEAR, Tween.EASE_IN_OUT
+		)
+		$BoostZoom.start()
 
 func boost_entered(_node):
 	# Doesn't need to be a match but this makes it easy for me to reckon with.
@@ -212,6 +223,12 @@ func boost_entered(_node):
 			boost_level = BoostLevel.LUDICROUS
 	$Decelerating.start(1.0)
 	$ShipSound.vroom(boost_level)
+	$BoostZoom.stop_all()
+	$BoostZoom.interpolate_property(
+		self, 'max_zoom', max_zoom, CAM_MAX_ZOOM_BOOST, 1.5,
+		Tween.TRANS_LINEAR, Tween.EASE_IN_OUT
+	)
+	$BoostZoom.start()
 
 func find_nearest_pickup(asteroid) -> Area2D:
 	var pickups = GameState.pickups[asteroid.name]
