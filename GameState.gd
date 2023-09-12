@@ -62,13 +62,13 @@ func load_game_state():
 	save_game.close()
 
 	# Don't store the actual node
-	self.current_asteroid = asteroid_node(state['current_asteroid_name'])
-	self.asteroid_satisfaction = state['asteroid_satisfaction']
+	self.current_asteroid = asteroid_node(state.current_asteroid_name)
+	self.asteroid_satisfaction = state.asteroid_satisfaction
 
-	self.journeys = state['journeys']
-	self.unlocks = state['unlocks']
-	self.unlock_order = state['unlock_order']
-	self.asteroids_done = state['asteroids_done']
+	self.journeys = state.journeys
+	self.unlocks = state.unlocks
+	self.unlock_order = state.unlock_order
+	self.asteroids_done = state.asteroids_done
 
 	for asteroid in asteroids_done:
 		asteroid_node(asteroid + 'Asteroid').lift_barrier()
@@ -129,10 +129,10 @@ func load_settings():
 			fastest_time = 31449601
 		}
 	else:
-		settings['seen_intro']   = config.get_value('settings', 'seen_intro', false)
-		settings['music']        = config.get_value('settings', 'music', true)
-		settings['sfx']          = config.get_value('settings', 'sfx', true)
-		settings['fastest_time'] = config.get_value('settings', 'fastest_time', 31449601)
+		settings.seen_intro   = config.get_value('settings', 'seen_intro', false)
+		settings.music        = config.get_value('settings', 'music', true)
+		settings.sfx          = config.get_value('settings', 'sfx', true)
+		settings.fastest_time = config.get_value('settings', 'fastest_time', 31449601)
 
 func save_setting_value(k, v):
 	var config = ConfigFile.new()
@@ -152,7 +152,7 @@ func set_sfx(mute_state):
 	save_setting_value('sfx', mute_state)
 
 func save_completion_time(new_time):
-	if new_time < settings['fastest_time']:
+	if new_time < settings.fastest_time:
 		save_setting_value('fastest_time', new_time)
 
 func intro_acknowledged():
@@ -213,7 +213,7 @@ func good_journey_count():
 	var unlock_target = unlock_order[0]
 	var good_journeys = 0
 	for js in journeys:
-		if js['score'] <= JourneyScore.TIMELY and js['asteroid'] == unlock_target:
+		if js.score <= JourneyScore.TIMELY and js.asteroid == unlock_target:
 			good_journeys += 1
 	return clamp(good_journeys, 0, UNLOCK_THRESHOLD)
 
@@ -225,23 +225,23 @@ func unlocking_now():
 func handle_unlocks():
 	if unlocking_now():
 		unlock_order.pop_front()
-		if not unlocks['Services']:
-			unlocks['Services'] = true
+		if not unlocks.Services:
+			unlocks.Services = true
 			asteroids_done.append('Home')
 			emit_signal('asteroid_unlock', 'Services')
 			journeys = []
-		elif not unlocks['Study']:
-			unlocks['Study'] = true
+		elif not unlocks.Study:
+			unlocks.Study = true
 			asteroids_done.append('Services')
 			emit_signal('asteroid_unlock', 'Study')
 			journeys = []
-		elif not unlocks['Goods']:
-			unlocks['Goods'] = true
+		elif not unlocks.Goods:
+			unlocks.Goods = true
 			asteroids_done.append('Study')
 			emit_signal('asteroid_unlock', 'Goods')
 			journeys = []
-		elif not unlocks['Home']:
-			unlocks['Home'] = true
+		elif not unlocks.Home:
+			unlocks.Home = true
 			asteroids_done.append('Goods')
 			emit_signal('asteroid_unlock', 'Home')
 			journeys = []

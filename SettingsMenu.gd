@@ -11,9 +11,9 @@ func _ready():
 func enable():
 	show()
 	$Music.grab_focus()
-	if not GameState.settings['music']:
+	if not GameState.settings.music:
 		$Music.pressed = false
-	if not GameState.settings['sfx']:
+	if not GameState.settings.sfx:
 		$SFX.pressed = false
 
 func root():

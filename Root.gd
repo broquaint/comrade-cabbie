@@ -38,9 +38,9 @@ func _ready():
 
 	GameState.load_settings()
 
-	if not GameState.settings['music']:
+	if not GameState.settings.music:
 		AudioServer.set_bus_mute(1, true)
-	if not GameState.settings['sfx']:
+	if not GameState.settings.sfx:
 		AudioServer.set_bus_mute(2, true)
 
 	# No idea why all these streams are looping.
@@ -65,7 +65,7 @@ func start_new_game():
 	play_music()
 	# Haven't tested the edge case of the game running for 1 year.
 	$PlayTime.start(TIMER_LIMIT)
-	if not GameState.settings['seen_intro']:
+	if not GameState.settings.seen_intro:
 		$HUD/IntroPopup.popup()
 
 func load_previous_game():
@@ -75,7 +75,7 @@ func load_previous_game():
 	play_music()
 
 	var state = GameState.load_game_state()
-	$PlayTime.start(state['play_time'])
+	$PlayTime.start(state.play_time)
 
 	$Player.initialize()
 
@@ -90,12 +90,12 @@ func unlocks_complete(_asteroid):
 	var completion_time = TIMER_LIMIT - $PlayTime.time_left
 	$PlayTime.stop()
 	GameState.save_completion_time(completion_time)
-	$HUD/CompletionPopup.journeys_end(completion_time, GameState.settings['fastest_time'])
+	$HUD/CompletionPopup.journeys_end(completion_time, GameState.settings.fastest_time)
 
 func play_music():
 	$SoundTrack.stream.loop = true
 	# Don't adjust volume if music is muted.
-	if GameState.settings['music']:
+	if GameState.settings.music:
 		var fade_in = $SoundTrack/FadeIn
 		fade_in.interpolate_property(
 			$SoundTrack, 'volume_db', -60.0, -25.0, 4,
